@@ -58,5 +58,5 @@ class Review(db.model):
     # Username of the person that is leaving the review
     usernameReviewer = db.Column(db.String(80), nullable=False)
   
-def __repr__(self):
-    return '<Review ID %r>' % self.id
+    def __repr__(self):
+        return '<Review ID %r>' % self.id
