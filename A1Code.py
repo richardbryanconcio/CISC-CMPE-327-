@@ -26,6 +26,8 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+
+    # added columns for user data model
     money = db.Column(db.float, primary_key=True)
     password = db.Column(db.String(120), unique=True, nullable=False)
 
