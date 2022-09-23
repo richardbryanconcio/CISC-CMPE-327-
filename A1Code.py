@@ -1,4 +1,34 @@
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Within the database model - it contains an id, username, and email column
 # Therefore, the model has access to id, username, and email databases
 class User(db.Model):
