@@ -29,7 +29,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
 
     # added columns for user data model
-    money = db.Column(db.float, unique=True, nullable=False)
+    money = db.Column(db.Float, unique=True, nullable=False)
     password = db.Column(db.String(120), unique=True, nullable=False)
 
     def __repr__(self):
