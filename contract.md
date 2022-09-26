@@ -10,9 +10,9 @@ Student Number:
 
 Team Member #2:
 
-Name: Richard Bryan Concio
+Name:
 
-Student Number: 20184738
+Student Number:
 
 Team Member #3:
 
