@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import re
 
 # setting up SQLAlchemy and data models so we can map data models
 # into database tables
@@ -7,12 +8,19 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 db = SQLAlchemy(app)
 
+#regex for password constraints: greater than 6 chararacters, contains uppercase, contains lower case, contains number
+regexpass = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\W_]{6,}$"
+regexadd
 
 # User defines listings of the time it is available and also the price
 # of listings for the day.
 class Listing(db.Model):
     # ID of the user.
     id = db.Column(db.Integer, primary_key=True)
+    #title of the listing
+    title = db.Column(db.String(120), nullable=False)
+    #description of the listing.
+    description = db.Column(db.String(2000), nullable=False)
     address = db.Column(db.String(120), unique=True, nullable=False)
     # ID of the user who created the listing.
     createdById = db.Column(db.Integer, unique=False, nullable=False)
@@ -38,6 +46,7 @@ class Booking(db.Model):
     startDate = db.Column(db.Date, nullable=False)
     # Last day that the booking starts.
     endDate = db.Column(db.Date, nullable=False)
+    price = db.Column(db.Float, nullable=False)
 
     def __repr__(self):
         return '<Booking ID %r>' % self.id
@@ -47,14 +56,17 @@ class Booking(db.Model):
 # Therefore, the model has access to id, username, and email databases
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
     # email address of the user.
     email = db.Column(db.String(120), unique=True, nullable=False)
-    # Money currently available on the user's account
-    money = db.Column(db.Float, unique=False, nullable=False)
     # Currently no constraints for password generation other than uniqueness.
     password = db.Column(db.String(120), unique=True, nullable=False)
-
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    # Currently no constraints for postal code generation other than uniqueness
+    billingaddress = db.Column(db.string(120), unique=True, nullable=False))
+    # Currently no constraints for postal code generation other than uniqueness
+    postalcode = db.Column(db.string(6), unique=True, nullable=False)
+    # Money currently available on the user's account
+    money = db.Column(db.Float, unique=False, nullable=False)
     def __repr__(self):
         return '<User %r>' % self.username
 
