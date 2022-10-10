@@ -60,7 +60,6 @@ class User(db.Model):
 # guest to the listing to leave a review of their stay at the property.
 class Review(db.model):
     id = db.Column(db.Integer, primary_key=True)
-    rating = db.Column(db.Integer, primary_key=True, nullable=False)
     reviewTitle = db.Column(db.string(120), nullable=False)
     reviewText = db.Column(db.string)
     dateReviewed = db.Column(db.string(30), nullable=False)
