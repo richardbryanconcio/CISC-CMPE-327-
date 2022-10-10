@@ -63,7 +63,7 @@ def test_r1_8_9_10_user_register():
     R1-10: Balance should be initialized as 100 at the time of registration. (free $100 dollar signup bonus).
     '''
 
-    user = login('test0@test.com', 123456)
+    user = login('test0@test.com', '123456')
     assert user.postalCode == None 
     assert user.billingAddress == None
     assert user.balance == 100
@@ -77,18 +77,18 @@ def test_r2_1_login():
       u1 in database)
     '''
 
-    user = login('test0@test.com', 123456)
+    user = login('test0@test.com', '123456')
     assert user is not None
     assert user.username == 'u0'
 
-    user = login('test0@test.com', 1234567)
+    user = login('test0@test.com', '1234567')
     assert user is None
 
 def test_r3_1_update():
     '''
     R3-1: A user is only able to update his/her user name, user email, billing address, and postal code.
     '''
-    user = login('test0@test.com', 123456)
+    user = login('test0@test.com', '123456')
     assert update(user.postalCode, 'A1K 2P0') is True
     assert update(user.username, 'test') is True
     assert update(user.billingAddress, '360 dinner rd') is True
@@ -101,7 +101,7 @@ def test_r3_2_3_update():
     R3-2: postal code should be non-empty, alphanumeric-only, and no special characters such as !.
     R3-3: Postal code has to be a valid Canadian postal code.
     '''
-    user = login('test0@test.com', 123456)
+    user = login('test0@test.com', '123456')
     assert update(user.postalCode, '') is False
     assert update(user.postalCode, 'L!L R8R') is False
     assert update(user.postalCode, 'V3Y 0A8') is True
