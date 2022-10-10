@@ -1,6 +1,6 @@
 from qbay import app
 from flask_sqlalchemy import SQLAlchemy
-
+import re
 
 '''
 This file defines data models and related business logics
@@ -13,32 +13,27 @@ db = SQLAlchemy(app)
 # User defines listings of the time it is available and also the price
 # of listings for the day.
 class Listing(db.Model):
-    # ID of the user.
     id = db.Column(db.Integer, primary_key=True)
-    address = db.Column(db.String(120), unique=True, nullable=False)
-    # ID of the user who created the listing.
-    createdById = db.Column(db.Integer, unique=False, nullable=False)
-    pricePerDay = db.Column(db.Float, unique=False, nullable=False)
-    # First available day of the listing.
+    title = db.Column(db.String, unique = True, nullable = False)
+    description = db.Column(db.String)
+    price = db.Column(db.Float, nullable = False)
+    lastModifiedDate = db.Column(db.Date, nullable = False)
+    ownerId = db.Column(db.Integer, nullable = False)
+    # describes from which dates the property is avalible 
     startDate = db.Column(db.Date, nullable=False)
-    # Last available day of the listing.
     endDate = db.Column(db.Date, nullable=False)
 
     def __repr__(self):
-        return '<Listing %r>' % self.address
+        return '<Listing Title %r>' % self.title
 
 
 # Allows users to book existing listings.
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    # ID of the available listings being booked.
     listingId = db.Column(db.Integer, nullable=False)
-    # ID of the user who is booking the listing.
-    bookedById = db.Column(db.Integer, nullable=False)
+    userId = db.Column(db.Integer, nullable=False)
     listingConfirmed = db.Column(db.Boolean, nullable=False)
-    # First day that the booking starts.
     startDate = db.Column(db.Date, nullable=False)
-    # Last day that the booking starts.
     endDate = db.Column(db.Date, nullable=False)
 
     def __repr__(self):
@@ -50,12 +45,12 @@ class Booking(db.Model):
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    # email address of the user.
     email = db.Column(db.String(120), unique=True, nullable=False)
-    # Money currently available on the user's account
-    money = db.Column(db.Float, unique=False, nullable=False)
-    # Currently no constraints for password generation other than uniqueness.
-    password = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+    billingAddress = db.Column(db.String)
+    postalCode = db.Column(db.String)
+    balance = db.Column(db.Float, nullable = False)
+
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -64,19 +59,13 @@ class User(db.Model):
 # Setting up a Review data model to allow verified
 # guest to the listing to leave a review of their stay at the property.
 class Review(db.model):
-    # Unique id of the user is saved as an integer.
     id = db.Column(db.Integer, primary_key=True)
-    # Leaving an integer rating, i.e. 5/5.
     rating = db.Column(db.Integer, primary_key=True, nullable=False)
-    # Short title regarding the review saved as string, ie Glass sauna was
-    # perfect for warming up after swim
-    commentTitle = db.Column(db.string(120), nullable=False)
-    # Detailed review of the stay that a customer experienced saved as a string
-    comment = db.Column(db.string(2000))
-    # Date the review was left, saved as a string.
+    reviewTitle = db.Column(db.string(120), nullable=False)
+    reviewText = db.Column(db.string)
     dateReviewed = db.Column(db.string(30), nullable=False)
-    # Username of the person that is leaving the review
-    usernameReviewer = db.Column(db.String(80), nullable=False)
+    userId = db.Column(db.Integer, nullable = False)
+    listingId = db.Column(db.Integer, nullable = False)
 
     def __repr__(self):
         return '<Review ID %r>' % self.id
@@ -133,3 +122,18 @@ def update(field, new):
       Returns:
         True if the change went through false if operation failed
     '''
+
+def checkpass(password):
+    regexpass = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\W_]{6,}$"
+    if re.fullmatch(regexpass, password):
+        return True
+    else:
+        return False
+
+
+def checkpostal(postal):
+    regexpostal = "^[a-zA-Z][0-9][a-zA-Z] ?[0-9][a-zA-Z][0-9]"
+    if re.fullmatch(regexpostal, postal):
+        return True
+    else:
+        return False
