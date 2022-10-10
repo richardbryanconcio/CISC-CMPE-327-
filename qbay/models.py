@@ -58,7 +58,7 @@ class User(db.Model):
 
 # Setting up a Review data model to allow verified
 # guest to the listing to leave a review of their stay at the property.
-class Review(db.model):
+class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     reviewTitle = db.Column(db.string(120), nullable=False)
     reviewText = db.Column(db.string)
