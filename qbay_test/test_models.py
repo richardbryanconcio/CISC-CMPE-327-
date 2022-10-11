@@ -77,13 +77,50 @@ def test_r2_1_login():
       u1 in database)
     '''
 
+    # Assigns email/pass and checks to see if it's in place of 'u0'
+    # Logins using email and password
     user = login('test0@test.com', '123456')
     assert user is not None
     assert user.username == 'u0'
 
-    user = login('test0@test.com', '1234567')
+    # R2-2: The login function should check if the supplied
+    # inputs meet the same email/password requirements as above,
+    # before checking the database. 
+
+    # Case when it satisfies one upper case, one lower case
+    # , one special char and minimum length 6
+    user = login('test2@test.com)', 'pA$s123')
+    assert user is not None
+
+    # Case when email and password is empty
+    user = login('', '')
     assert user is None
 
+    # Case when email is empty
+    user = login('', '123456')
+    assert user is None
+
+    # Case when password is empty
+    user = login('test1@test.com', '')
+    assert user is None
+
+    # Case when password is less than minimum length
+    user = login('test1@test.com', '12345')
+    assert user is None
+
+    # Case when space as prefix
+    user = login('test3@test.com', ' 123456')
+    assert user is None
+
+    # Case when space as suffix
+    user = login('test4@test.com', '123456 ')
+    assert user is None
+
+    # Case when space not as prefix or suffix, but space inbetween
+    user = login('test@test.com', '123 456')
+    assert user is not None
+    
+    
 def test_r3_1_update():
     '''
     R3-1: A user is only able to update his/her user name, user email, billing address, and postal code.
