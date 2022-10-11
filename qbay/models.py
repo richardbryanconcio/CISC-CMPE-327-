@@ -45,8 +45,8 @@ class Booking(db.Model):
 # Therefore, the model has access to id, username, and email databases
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+    username = db.Column(db.String(80), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
     password = db.Column(db.String(120), nullable=False)
     billingAddress = db.Column(db.String)
     postalCode = db.Column(db.String)
@@ -137,7 +137,7 @@ def createListing(title, description, price, user, startDate, endDate):
         Returns the listingId if succussful, None otherwise
     '''
     # check if title has been used
-    existed = Listing.query.filter(title=title).all()
+    existed = Listing.query.filter_by(title=title).all()
     if len(existed) > 0:
         return None
     
@@ -172,11 +172,13 @@ def createListing(title, description, price, user, startDate, endDate):
         return None
 
     # if all checks pass create the listing 
-    listing = Listing(title=title, description=description, price=price, lastModfiedDate=date.today(), ownerId=user.Id, startDate=startDate, endDate=endDate)  
+    listing = Listing(title=title, description=description, price=price, lastModifiedDate=date.today(), ownerId=user.id, startDate=startDate, endDate=endDate)  
 
     db.session.add(listing)
 
     db.session.commit()
+
+    return listing
 
 def updateListing(field, new, title, user):
     '''

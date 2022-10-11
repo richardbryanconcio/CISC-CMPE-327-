@@ -54,7 +54,7 @@ def test_r1_7_user_register():
     '''
 
     assert register('u0', 'test0@test.com', '123456') is True
-    assert register('u0', 'test1@test.com', '123456') is True
+    assert register('u01', 'test1@test.com', '123456') is True
     assert register('u1', 'test0@test.com', '123456') is False
 
 def test_r1_8_9_10_user_register():
@@ -127,7 +127,10 @@ def test_r4_1_create_listing():
     R4-1: The title of the product has to be alphanumeric-only, 
     and space allowed only if it is not as prefix and suffix.
     '''
-    user = login('test3@test.com', '123456')
+
+    register('create listing test', 'create@listing.com', '12345')
+
+    user = login('create@listing.com', '12345')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test1", "this is a description", 60, user, startDate, endDate) is not None
@@ -139,7 +142,7 @@ def test_r4_2_create_listing():
     '''
     R4-2: The title of the product is no longer than 80 characters.
     '''
-    user = login('test3@test.com', '123456')
+    user = login('create@listing.com', '12345')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test5", "this is a description", 60, user, startDate, endDate) is not None
@@ -152,13 +155,13 @@ def test_r4_3_create_listing():
     R4-3: The description of the product can be arbitrary characters, 
     with a minimum length of 20 characters and a maximum of 2000 characters.
     '''
-    user = login('test3@test.com', '123456')
+    user = login('create@listing.com', '12345')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test7", "this is a description", 60, user, startDate, endDate) is not None
     assert createListing("test8", "description", 60, user, startDate, endDate) is None
     veryLongDescription = ""
-    while len(veryLongDescription) < 2000:
+    while len(veryLongDescription) <= 2000:
         veryLongDescription += "a"
     assert createListing("test9", veryLongDescription, 60, user, startDate, endDate) is None
 
@@ -166,7 +169,7 @@ def test_r4_4_create_listing():
     '''
     R4-4: Description has to be longer than the product's title.
     '''
-    user = login('test3@test.com', '123456')
+    user = login('create@listing.com', '12345')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test10", "this is a description", 60, user, startDate, endDate) is not None
@@ -176,7 +179,7 @@ def test_r4_5_create_listing():
     '''
     R4-5: Price has to be of range [10, 10000].
     '''
-    user = login('test3@test.com', '123456')
+    user = login('create@listing.com', '12345')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test12", "this is a description", 60, user, startDate, endDate) is not None
@@ -188,7 +191,7 @@ def test_r4_8_create_listing():
     '''
     R4-8: A user cannot create products that have the same title.
     '''
-    user = login('test3@test.com', '123456')
+    user = login('create@listing.com', '12345')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test15", "this is a description", 60, user, startDate, endDate) is not None
