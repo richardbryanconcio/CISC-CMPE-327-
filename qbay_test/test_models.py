@@ -212,6 +212,8 @@ def test_r5_1_update_listing():
 
     assert updateListing('title', 'new title', listing, user) is True
     assert listing.title == 'new title'
+    confirm_change = listing.query.filter_by(title='new title').all()
+    assert confirm_change[0].title == 'new title'
     assert updateListing('description', 'a fancy new description', listing, user) is True
     assert listing.description == 'a fancy new description'
     assert updateListing('price', 400, listing, user) is True
