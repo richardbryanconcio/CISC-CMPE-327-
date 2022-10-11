@@ -191,7 +191,69 @@ def updateListing(field, new, listing, user):
       Returns:
         True if the change went through false if operation failed
     '''
-    pass
+    # if listing was not created by the user then don't let them modify the listing
+    if listing.ownerId != user.id:
+        return False
+    # want to put a match-case statement here but ide is flagging me, will try to include later
+    if field == 'title':
+        # new title can not have leading or trailing white spaces
+        if new[0] == ' ' or new[len(new) - 1] == ' ':
+            return False
+        # new title can not be the same as any other titles 
+        existed = Listing.query.filter_by(title=new).all()
+        if len(existed) > 0:
+            return False
+        # new title must be alphanumeric (excluding spaces)
+        tempTitle = new.replace(' ', '')
+        if  not tempTitle.isalnum():
+            return False
+        # new title must be less then 80 characters and not empty
+        if len(new) > 80 or new == '':
+            return False 
+        # length of title can not be longer then description 
+        if len(new) > len(listing.description):
+            return False
+
+        listing.title = new
+        listing.lastModifiedDate = date.today()
+        db.session.commit()
+        return True
+    elif field == 'description':
+        # new description must be between 20-2000 characters, must contain more characters then the title
+        if len(new) < 20 or len(new) > 2000 or len(new) < len(listing.title):
+            return False
+        
+        listing.description = new
+        listing.lastModifiedDate = date.today()
+        db.session.commit()
+        return True
+    elif field == 'price':
+        # price can not be reduced, price can not be above 10000
+        if new > 10000 or new < listing.price:
+            return False
+        
+        listing.price = new
+        listing.lastModifiedDate = date.today()
+        db.session.commit()
+        return True
+    elif field == 'startDate':
+        if new < date.today() or new > listing.endDate:
+            return False
+        
+        listing.startDate = new
+        return True
+    elif field == 'endDate':
+        if new < listing.startDate:
+            return False
+        
+        listing.endDate = new
+        listing.lastModifiedDate = date.today()
+        db.session.commit()
+        return True
+    else:
+        return False
+
+    
 
 def checkpass(password):
     regexpass = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\W_]{6,}$"
