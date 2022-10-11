@@ -50,7 +50,7 @@ class User(db.Model):
     password = db.Column(db.String(120), nullable=False)
     billingAddress = db.Column(db.String)
     postalCode = db.Column(db.String)
-    balance = db.Column(db.Float, nullable = False)
+    balance = db.Column(db.Float, nullable=False)
 
 
     def __repr__(self):
@@ -90,7 +90,7 @@ def register(name, email, password):
         return False
 
     # create a new user
-    user = User(username=name, email=email, password=password)
+    user = User(username=name, email=email, password=password, balance=100)
     # add it to the current database session
     db.session.add(user)
     # actually save the user object
