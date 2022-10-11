@@ -134,7 +134,7 @@ def createListing(title, description, price, user, startDate, endDate):
         startDate (date): starting date of avalibilty for the listing
         endDate (date): last day of avalibility for the listing
       Returns:
-        Returns the listingId if succussful, None otherwise
+        Returns the listing if succussful, None otherwise
     '''
     # check if title has been used
     existed = Listing.query.filter_by(title=title).all()
@@ -180,13 +180,13 @@ def createListing(title, description, price, user, startDate, endDate):
 
     return listing
 
-def updateListing(field, new, title, user):
+def updateListing(field, new, listing, user):
     '''
     Update an existing listing
       Parameters:
         field (String): field to be changed
-        new (string): value to replace field, to be typecasted if field to be changed is not a string
-        title (string): title of the listing to be changed
+        new (any): value to replace field
+        listing (db.model): the listing object to be changed
         user (db.model): user to confirm user is the owner of the listing
       Returns:
         True if the change went through false if operation failed
