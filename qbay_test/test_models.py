@@ -117,7 +117,7 @@ def test_r2_1_login():
 
     # Case when space not as prefix or suffix, but space inbetween
     user = login('test0@test.com', 'pA$s 123')
-    assert user is not None
+    assert user is None
     
     
 def test_r3_1_update():
