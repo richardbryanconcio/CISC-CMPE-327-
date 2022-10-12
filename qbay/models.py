@@ -1,6 +1,7 @@
 from qbay import app
 from flask_sqlalchemy import SQLAlchemy
 import re
+from email_validator import validate_email, EmailNotValidError
 
 '''
 This file defines data models and related business logics
@@ -113,6 +114,7 @@ def login(email, password):
     return valids[0]
 
 def update(field, new):
+    #username, email, password, billingAddress, postalCode
     '''
     Update login information
       Parameters:
@@ -121,6 +123,80 @@ def update(field, new):
       Returns:
         True if the change went through false if operation failed
     '''
+    if field == 'username':
+        if new[0] == ' ' or new[len(new) - 1] == ' ':
+            return False
+        if len(new) <= 0 or len(new) > 80:
+            return False
+
+        temp = new.replace(' ', '')
+        if not temp.isalnum():
+            return False
+
+        existed = User.query.filter_by(username=new).all()
+        if len(existed) > 0:
+            return False
+
+        user.username = new
+        db.session.commit()
+        return True
+
+    elif field == 'email':
+        if new[0] == ' ' or new[len(new) - 1] == ' ':
+            return False
+        if len(new) <= 0 or len(new) > 120:
+            return False
+
+        existed = User.query.filter_by(email=new).all()
+        if len(existed) > 0:
+            return False
+        
+        if not checkemail(new):
+            return False
+
+        user.email = new
+        db.session.commit()
+        return True
+        
+    elif field == 'password':
+        if not checkpass(new):
+            return False
+        
+        if len(new) > 120:
+            return False
+        
+        user.password = new
+        db.session.commit()
+        return True
+    
+    elif field == "billingAddress":
+        if new[0] == ' ' or new[len(new) - 1] == ' ':
+            return False
+        if len(new) <= 0:
+            return False
+        
+        user.billingAddress = new
+        db.session.commit()
+        return True
+    
+    elif field = "postalCode":
+        if new[0] == ' ' or new[len(new) - 1] == ' ':
+            return False
+        if len(new) <= 0 or len(new) > 6:
+            return False
+        
+        if not checkpostal(new):
+            return False
+
+        existed = User.query.filter_by(postalCode=new).all()
+        if len(existed) > 0:
+            return False
+        
+        user.postalCode = new
+        db.session.commit()
+        return True
+    else:
+        return False
 
 def checkpass(password):
     regexpass = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\W_]{6,}$"
@@ -133,6 +209,13 @@ def checkpass(password):
 def checkpostal(postal):
     regexpostal = "^[a-zA-Z][0-9][a-zA-Z] ?[0-9][a-zA-Z][0-9]"
     if re.fullmatch(regexpostal, postal):
+        return True
+    else:
+        return False
+
+def checkemail(email):
+    regexemail = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    if(re.fullmatch(regexemail, email)):
         return True
     else:
         return False

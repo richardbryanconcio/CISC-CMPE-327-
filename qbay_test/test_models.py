@@ -107,4 +107,16 @@ def test_r3_2_3_update():
     assert update(user.postalCode, 'V3Y 0A8') is True
     assert update(user.postalCode, 'D0D I2U') is False
 
+def test_r3_4_update():
+    '''
+    R3-4: User name follows the requirements above. (non-empty, alphanumeric-only, no special characters such as !)
+    '''
+    user = login('test0@test.com',123456)
+    assert update(user.username, '') is False
+    assert update(user.username, ' ') is False
+    assert update(user.username, 'ab99cde!') is False
+    assert update(user.username, "yourmom42") is True
+    assert update(user.username, "360RushBnoStop") is True
+
+
 
