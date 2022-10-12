@@ -124,9 +124,9 @@ def update(field, user, new):
         True if the change went through false if operation failed
     '''
     if field == 'username':
-        if new[0] == ' ' or new[len(new) - 1] == ' ':
-            return False
         if len(new) <= 0 or len(new) > 80:
+            return False
+        if new[0] == ' ' or new[len(new) - 1] == ' ':
             return False
 
         temp = new.replace(' ', '')
@@ -142,9 +142,9 @@ def update(field, user, new):
         return True
 
     elif field == 'email':
-        if new[0] == ' ' or new[len(new) - 1] == ' ':
-            return False
         if len(new) <= 0 or len(new) > 120:
+            return False
+        if new[0] == ' ' or new[len(new) - 1] == ' ':
             return False
 
         existed = User.query.filter_by(email=new).all()
@@ -180,10 +180,11 @@ def update(field, user, new):
         return True
     
     elif field == "postalCode":
+        if len(new) <= 0 or len(new) > 7:
+            return False
         if new[0] == ' ' or new[len(new) - 1] == ' ':
             return False
-        if len(new) <= 0 or len(new) > 6:
-            return False
+        
         
         if not checkpostal(new):
             return False
