@@ -129,19 +129,6 @@ def login(email, password):
     return validatedAccounts[0]
 
 
-    # Includes an 'import re' at the top
-    # This gives all the characters that are checked within email string
-    # Checks whether the email entered is a valid email or not using the regex below
-def emailValidation(email):
-    regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
-    if re.fullmatch(regex, email):
-        print("This is a valid email")
-        return True
-    else:
-        print("This is an invalid email")
-        return False
-
-
 def update(field, new):
     '''
     Update login information
