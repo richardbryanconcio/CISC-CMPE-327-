@@ -1,6 +1,7 @@
 from qbay import app
 from flask_sqlalchemy import SQLAlchemy
 import re
+from email_validator import validate_email, EmailNotValidError
 from datetime import date
 
 '''
@@ -195,7 +196,8 @@ def login(email, password):
         return None
     return valids[0]
 
-def update(field, new):
+def update(field, user, new):
+    #username, email, password, billingAddress, postalCode
     '''
     Update login information
       Parameters:
@@ -204,6 +206,78 @@ def update(field, new):
       Returns:
         True if the change went through false if operation failed
     '''
+    if field == 'username':
+        if len(new) <= 0 or len(new) > 80:
+            return False
+        if new[0] == ' ' or new[len(new) - 1] == ' ':
+            return False
+
+        temp = new.replace(' ', '')
+        if not temp.isalnum():
+            return False
+
+        existed = User.query.filter_by(username=new).all()
+        if len(existed) > 0:
+            return False
+
+        user.username = new
+        db.session.commit()
+        return True
+
+    elif field == 'email':
+        if len(new) <= 0 or len(new) > 120:
+            return False
+        if new[0] == ' ' or new[len(new) - 1] == ' ':
+            return False
+
+        existed = User.query.filter_by(email=new).all()
+        if len(existed) > 0:
+            return False
+        
+        if not checkemail(new):
+            return False
+
+        user.email = new
+        db.session.commit()
+        return True
+        
+    elif field == 'password':
+        if not checkpass(new):
+            return False
+        
+        if len(new) > 120:
+            return False
+        
+        user.password = new
+        db.session.commit()
+        return True
+    
+    elif field == "billingAddress":
+        if new[0] == ' ' or new[len(new) - 1] == ' ':
+            return False
+        if len(new) <= 0:
+            return False
+        
+        user.billingAddress = new
+        db.session.commit()
+        return True
+    
+    elif field == "postalCode":
+        if len(new) <= 0 or len(new) > 7:
+            return False
+        if new[0] == ' ' or new[len(new) - 1] == ' ':
+            return False
+        
+        
+        if not checkpostal(new):
+            return False
+
+        existed = User.query.filter_by(postalCode=new).all()
+        if len(existed) > 0:
+            return False
+        
+        user.postalCode = new
+        
 def createListing(title, description, price, user, startDate, endDate):
     '''
     Create a new listing
@@ -335,10 +409,8 @@ def updateListing(field, new, listing, user):
     else:
         return False
 
-    
-
 def checkpass(password):
-    regexpass = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\W_]{6,}$"
+    regexpass = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\W_]{6,}$"
     if re.fullmatch(regexpass, password):
         return True
     else:
@@ -346,8 +418,16 @@ def checkpass(password):
 
 
 def checkpostal(postal):
-    regexpostal = "^[a-zA-Z][0-9][a-zA-Z] ?[0-9][a-zA-Z][0-9]"
+    regexpostal = r"^[a-zA-Z][0-9][a-zA-Z] ?[0-9][a-zA-Z][0-9]"
     if re.fullmatch(regexpostal, postal):
         return True
     else:
+        return False
+
+def checkemail(email):  
+    try:
+        v = validate_email(email)
+        email = v["email"] 
+        return True
+    except EmailNotValidError as e:
         return False
