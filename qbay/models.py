@@ -90,7 +90,7 @@ def register(name, email, password):
     if len(existed) > 0:
         return None
 
-    if len(email) == 0 or (emailValidation(email) is False):
+    if len(email) == 0 or (checkemail(email) is False):
         return None
 
     if len(password) == 0 or (passwordValidation(password) is False):

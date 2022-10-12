@@ -8,10 +8,10 @@ def test_r1_1_user_register():
     Testing R1-1: Email cannot be empty. password cannot be empty.
     '''
 
-    assert register('u2', '', 'pA$s123') is None
-    assert register('u3', 'test2@test.com', '') is None
-    assert register('u4', '   ', 'pA$s123') is None
-    assert register('u5', 'test3@test.com', 'pA$s123') is not None 
+    assert register('u20', '', 'pA$s123') is None
+    assert register('u30', 'test2@test.com', '') is None
+    assert register('u40', '   ', 'pA$s123') is None
+    assert register('u50', 'test3@test.com', 'pA$s123') is not None 
 
 
 def test_r1_4_user_register():
@@ -20,10 +20,10 @@ def test_r1_4_user_register():
     at least one upper case, at least one lower case, and at least one special character.
     '''
 
-    assert register('u6', 'test6@test.com', 'pA$s123') is None
-    assert register('u7', 'test7@test.com', 'Ab!23456') is not None
-    assert register('u8', 'test8@test.com', 'A!23456') is None
-    assert register('u9', 'test9@test.com', 'a!23456') is None
+    assert register('u60', 'test6@test.com', '123456') is None
+    assert register('u70', 'test7@test.com', 'Ab!23456') is not None
+    assert register('u80', 'test8@test.com', 'A!23456') is None
+    assert register('u90', 'test9@test.com', 'a!23456') is None
     assert register('u10', 'test10@test.com', 'Ab123456') is None
 
 
@@ -56,9 +56,9 @@ def test_r1_7_user_register():
     Testing R1-7: If the email has been used, the operation failed.
     '''
 
-    assert register('u0', 'test0@test.com', 'pA$s123') is not None
-    assert register('u0', 'test1@test.com', 'pA$s123') is not None
-    assert register('u1', 'test0@test.com', 'pA$s123') is None
+    assert register('u100', 'test0@test.com', 'pA$s123') is not None
+    assert register('u00', 'test1@test.com', 'pA$s123') is not None
+    assert register('u100', 'test0@test.com', 'pA$s123') is None
 
 
 def test_r1_8_9_10_user_register():
@@ -68,7 +68,7 @@ def test_r1_8_9_10_user_register():
     R1-10: Balance should be initialized as 100 at the time of registration. (free $100 dollar signup bonus).
     '''
 
-    user = login('test0@test.com', 'Ab!23456')
+    user = login('test0@test.com', 'pA$s123')
     assert user.postalCode == None 
     assert user.billingAddress == None
     assert user.balance == 100
@@ -84,7 +84,7 @@ def test_r2_1_login():
 
     user = login('test0@test.com', 'pA$s123')
     assert user is not None
-    assert user.username == 'u0'
+    assert user.username == 'u100'
 
     # Case when email and password is empty
     user = login('', '')
