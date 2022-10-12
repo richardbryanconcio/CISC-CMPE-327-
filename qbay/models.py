@@ -179,7 +179,7 @@ def update(field, new):
         db.session.commit()
         return True
     
-    elif field = "postalCode":
+    elif field == "postalCode":
         if new[0] == ' ' or new[len(new) - 1] == ' ':
             return False
         if len(new) <= 0 or len(new) > 6:
@@ -199,7 +199,7 @@ def update(field, new):
         return False
 
 def checkpass(password):
-    regexpass = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\W_]{6,}$"
+    regexpass = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\W_]{6,}$"
     if re.fullmatch(regexpass, password):
         return True
     else:
@@ -207,15 +207,16 @@ def checkpass(password):
 
 
 def checkpostal(postal):
-    regexpostal = "^[a-zA-Z][0-9][a-zA-Z] ?[0-9][a-zA-Z][0-9]"
+    regexpostal = r"^[a-zA-Z][0-9][a-zA-Z] ?[0-9][a-zA-Z][0-9]"
     if re.fullmatch(regexpostal, postal):
         return True
     else:
         return False
 
-def checkemail(email):
-    regexemail = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-    if(re.fullmatch(regexemail, email)):
+def checkemail(email):  
+    try:
+        v = validate_email(email)
+        email = v["email"] 
         return True
-    else:
+    except EmailNotValidError as e:
         return False
