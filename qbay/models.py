@@ -257,18 +257,7 @@ def update(field, user, new):
         user.email = new
         db.session.commit()
         return True
-        
-    elif field == 'password':
-        if not checkpass(new):
-            return False
-        
-        if len(new) > 120:
-            return False
-        
-        user.password = new
-        db.session.commit()
-        return True
-    
+            
     elif field == "billingAddress":
         if new[0] == ' ' or new[len(new) - 1] == ' ':
             return False
@@ -294,6 +283,8 @@ def update(field, user, new):
             return False
         
         user.postalCode = new
+        db.session.commit()
+        return True
         
 def createListing(title, description, price, user, startDate, endDate):
     '''

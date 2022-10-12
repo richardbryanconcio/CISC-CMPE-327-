@@ -130,8 +130,7 @@ def test_r3_1_update():
     assert update('username', user, 'test') is True
     assert update('billingAddress', user, '360 dinner rd') is True
     assert update('email', user, 'test20@test.com') is True
-    assert update('billingAddress', user, '360 dinner rd') is False
-    assert update('password', user, '1234567') is False
+    assert update('password', user, 'pA$s123newpass') is False
 
 def test_r3_2_3_update():
     '''
