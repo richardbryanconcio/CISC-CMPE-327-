@@ -79,9 +79,11 @@ def test_r2_1_login():
 
     # Assigns email/pass and checks to see if it's in place of 'u0'
     # Logins using email and password
-    user = login('test0@test.com', '123456')
-    assert user is not None
-    assert user.username == 'u0'
+    
+    # user = login('test0@test.com', '123456')
+    # assert user is not None
+    # assert user.username == 'u0'
+ 
 
     # R2-2: The login function should check if the supplied
     # inputs meet the same email/password requirements as above,
@@ -91,6 +93,7 @@ def test_r2_1_login():
     # , one special char and minimum length 6
     user = login('test0@test.com)', 'pA$s123')
     assert user is not None
+    assert user.username == 'u0'
 
     # Case when email and password is empty
     user = login('', '')
