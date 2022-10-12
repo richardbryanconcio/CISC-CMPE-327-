@@ -69,6 +69,7 @@ def test_r1_8_9_10_user_register():
     '''
 
 
+
     user = login('test0@test.com', 'Ab!23456')
     assert user.postalCode == None 
     assert user.billingAddress == None
@@ -83,17 +84,64 @@ def test_r2_1_login():
       u1 in database)
     '''
 
+    # Assigns email/pass and checks to see if it's in place of 'u0'
+    # Logins using email and password
+
+    # user = login('test0@test.com', '123456')
+    # assert user is not None
+    # assert user.username == 'u0'
+ 
+
+    # R2-2: The login function should check if the supplied
+    # inputs meet the same email/password requirements as above,
+    # before checking the database. 
+
+    # Case when it satisfies one upper case, one lower case
+    # , one special char and minimum length 6
+
     user = login('test0@test.com', 'pA$s123')
     assert user is not None
     assert user.username == 'u0'
 
-    user = login('test0@test.com', 'pA$s12345')
+    # Case when email and password is empty
+    user = login('', '')
     assert user is None
 
+    # Case when email is empty
+    user = login('', 'pA$s123')
+    assert user is None
+
+    # Case when password is empty
+    user = login('test0@test.com', '')
+    assert user is None
+
+    # Case when password is less than minimum length
+    user = login('test0@test.com', 'pA$s1')
+    assert user is None
+
+    # Case when password exceed length of original password
+    user = login('test0@test.com', 'pA$s1234')
+    assert user is None
+
+    # Case when space as prefix
+    user = login('test0@test.com', ' pA$s123')
+    assert user is None
+
+    # Case when space as suffix
+    user = login('test0@test.com', 'pA$s123 ')
+
+    assert user is None
+
+    # Case when space not as prefix or suffix, but space inbetween
+    user = login('test0@test.com', 'pA$s 123')
+    assert user is not None
+    
+    
 def test_r3_1_update():
     '''
     R3-1: A user is only able to update his/her user name, user email, billing address, and postal code.
     '''
+
     user = login('test0@test.com', 'pA$s123')
     assert update('postalCode', user, 'A1K 2P0') is True
     assert update('username', user, 'test') is True
@@ -107,6 +155,7 @@ def test_r3_2_3_update():
     R3-2: postal code should be non-empty, alphanumeric-only, and no special characters such as !.
     R3-3: Postal code has to be a valid Canadian postal code.
     '''
+
     user = login('test0@test.com', 'pA$s123')
     assert update('postalCode',user, '') is False
     assert update('postalCode',user, 'L!L R8R') is False
