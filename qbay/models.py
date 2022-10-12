@@ -101,7 +101,7 @@ def register(name, email, password):
 def login(email, password):
     '''
     Check login information
-      Parameters:
+      Parameters:dsd
         email (string):    user email
         password (string): user password
       Returns:
@@ -123,7 +123,7 @@ def login(email, password):
         return None
 
     # Validating the data of emails and passwords from the database
-    validatedAccounts = User.query.filter_by(email=email, password=password.all())
+    validatedAccounts = User.query.filter_by(email=email, password=password).all()
     if len(validatedAccounts) != 1:
         return None
     return validatedAccounts[0]
@@ -140,7 +140,7 @@ def emailValidation(email):
     else:
         print("This is an invalid email")
         return False
-   
+
 
 def update(field, new):
     '''
