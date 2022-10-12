@@ -1,4 +1,5 @@
-from qbay.models import register, login, update
+from datetime import date, datetime
+from qbay.models import register, login, update, createListing, updateListing
 
 
 
@@ -53,7 +54,7 @@ def test_r1_7_user_register():
     '''
 
     assert register('u0', 'test0@test.com', '123456') is True
-    assert register('u0', 'test1@test.com', '123456') is True
+    assert register('u01', 'test1@test.com', '123456') is True
     assert register('u1', 'test0@test.com', '123456') is False
 
 def test_r1_8_9_10_user_register():
@@ -106,5 +107,181 @@ def test_r3_2_3_update():
     assert update(user.postalCode, 'L!L R8R') is False
     assert update(user.postalCode, 'V3Y 0A8') is True
     assert update(user.postalCode, 'D0D I2U') is False
+
+'''
+    Create a new listing
+      Parameters:
+        title (db collumn): title of the listing, must be no longer then 80 characters 
+        description (string): description of the listings, 
+        must be longer then title, more then 20 characters and no longer then 20000 characters
+        price (float): price of the listing bounded to [10, 10000]
+        user (int): userId of the user who created the listing
+        startDate (date): starting date of avalibilty for the listing
+        endDate (date): last day of avalibility for the listing
+      Returns:
+        Returns the listingId if succussful, None otherwise
+    '''
+
+def test_r4_1_create_listing():
+    '''
+    R4-1: The title of the product has to be alphanumeric-only, 
+    and space allowed only if it is not as prefix and suffix.
+    '''
+    # creating user to be used by all create listing test cases 
+    register('create listing test', 'create@listing.com', '12345')
+
+    user = login('create@listing.com', '12345')
+    startDate = date(2022, 10, 10)
+    endDate = date(2023, 10, 10)
+    assert createListing("test1", "this is a description", 60, user, startDate, endDate) is not None
+    assert createListing("  test2", "this is a description", 60, user, startDate, endDate) is None
+    assert createListing("test3   ", "this is a description", 60, user, startDate, endDate) is None
+    assert createListing("te$t4", "this is a description", 60, user, startDate, endDate) is None
+
+def test_r4_2_create_listing():
+    '''
+    R4-2: The title of the product is no longer than 80 characters.
+    '''
+    user = login('create@listing.com', '12345')
+    startDate = date(2022, 10, 10)
+    endDate = date(2023, 10, 10)
+    assert createListing("test5", "this is a description", 60, user, startDate, endDate) is not None
+    assert createListing("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
+    , "this is a description", 60, user, startDate, endDate) is None
+    
+
+def test_r4_3_create_listing():
+    '''
+    R4-3: The description of the product can be arbitrary characters, 
+    with a minimum length of 20 characters and a maximum of 2000 characters.
+    '''
+    user = login('create@listing.com', '12345')
+    startDate = date(2022, 10, 10)
+    endDate = date(2023, 10, 10)
+    assert createListing("test7", "this is a description", 60, user, startDate, endDate) is not None
+    assert createListing("test8", "description", 60, user, startDate, endDate) is None
+    veryLongDescription = ""
+    while len(veryLongDescription) <= 2000:
+        veryLongDescription += "a"
+    assert createListing("test9", veryLongDescription, 60, user, startDate, endDate) is None
+
+def test_r4_4_create_listing():
+    '''
+    R4-4: Description has to be longer than the product's title.
+    '''
+    user = login('create@listing.com', '12345')
+    startDate = date(2022, 10, 10)
+    endDate = date(2023, 10, 10)
+    assert createListing("test10", "this is a description", 60, user, startDate, endDate) is not None
+    assert createListing("test 11 that is longer than 20 characters", "this is a description", 60, user, startDate, endDate) is None
+
+def test_r4_5_create_listing():
+    '''
+    R4-5: Price has to be of range [10, 10000].
+    '''
+    user = login('create@listing.com', '12345')
+    startDate = date(2022, 10, 10)
+    endDate = date(2023, 10, 10)
+    assert createListing("test12", "this is a description", 60, user, startDate, endDate) is not None
+    assert createListing("test13", "this is a description", 1, user, startDate, endDate) is None
+    assert createListing("test14", "this is a description", 20000, user, startDate, endDate) is None
+
+
+def test_r4_8_create_listing():
+    '''
+    R4-8: A user cannot create products that have the same title.
+    '''
+    user = login('create@listing.com', '12345')
+    startDate = date(2022, 10, 10)
+    endDate = date(2023, 10, 10)
+    assert createListing("test15", "this is a description", 60, user, startDate, endDate) is not None
+    assert createListing("test15", "this is a description", 60, user, startDate, endDate) is None
+
+def test_r5_1_update_listing():
+    '''
+    R5-1: One can update all attributes of the listing, except owner_id and last_modified_date.
+    additionall test to confirm when updateListing returns true the relevant field is changed
+    '''
+
+    user = login('create@listing.com', '12345')
+    startDate = date(2022, 10, 10)
+    endDate = date(2023, 10, 10)
+    newStartDate = date(2022, 11, 11)
+    newEndDate = date(2023, 11, 11)
+    listing = createListing("test16", "this is a description", 60, user, startDate, endDate)
+
+    assert updateListing('title', 'new title', listing, user) is True
+    assert listing.title == 'new title'
+    confirm_change = listing.query.filter_by(title='new title').all()
+    assert confirm_change[0].title == 'new title'
+    assert updateListing('description', 'a fancy new description', listing, user) is True
+    assert listing.description == 'a fancy new description'
+    assert updateListing('price', 400, listing, user) is True
+    assert listing.price == 400
+    assert updateListing('startDate', newStartDate, listing, user) is True
+    assert listing.startDate == newStartDate
+    assert updateListing('endDate', newEndDate, listing, user) is True
+    assert listing.endDate == newEndDate
+    assert updateListing('ownerId', 1, listing, user) is False
+    assert updateListing('id', '1', listing, user) is False
+    assert updateListing('lastModifiedDate', date(2021, 10, 10), listing, user) is False
+
+def test_r5_2_update_listing():
+    '''
+    R5-2: Price can be only increased but cannot be decreased :)
+    '''
+    user = login('create@listing.com', '12345')
+    startDate = date(2022, 10, 10)
+    endDate = date(2023, 10, 10)
+    listing = createListing("test17", "this is a description", 60, user, startDate, endDate)
+    assert updateListing('price', 100, listing, user) is True
+    assert updateListing('price', 60, listing, user) is False
+
+def test_r5_3_update_listing():
+    '''
+    R5-3: last_modified_date should be updated when the update operation is successful.
+    '''
+    user = login('create@listing.com', '12345')
+    startDate = date(2022, 10, 10)
+    endDate = date(2023, 10, 10)
+    listing = createListing("test18", "this is a description", 60, user, startDate, endDate)
+
+    listing.lastModifiedDate = date(2020, 1, 1)
+    assert listing.lastModifiedDate == date(2020, 1, 1)
+    updateListing('price', 100, listing, user)
+    assert listing.lastModifiedDate == date.today()
+
+def test_r5_4_update_listing():
+    '''
+    R5-4: When updating an attribute, one has to make sure that it follows the same requirements as above.
+    '''
+    user = login('create@listing.com', '12345')
+    startDate = date(2022, 10, 10)
+    endDate = date(2023, 10, 10)
+    listing = createListing("test19", "this is a description", 60, user, startDate, endDate)
+
+    # title is alphanumeric only, no leading or trailing spaces
+    assert updateListing('title', '  invalid', listing, user) is False
+    assert updateListing('title', 'invalid   ', listing, user) is False
+    assert updateListing('title', '$inval*id', listing, user) is False
+    # title is no longer then 80 characters
+    newTitle = ''
+    while len(newTitle) <= 90:
+        newTitle += 'a'
+    assert updateListing('title', newTitle, listing, user) is False
+    # descrioption is min 20 characters and no longer then 2000
+    newDescription = ''
+    while len(newDescription) <= 2100:
+        newDescription += 'a'
+    assert updateListing('description', 'small', listing, user) is False
+    assert updateListing('description', newDescription, listing, user) is False
+    # description has to be longer then title
+    # current description is "this is a description"
+    assert updateListing('title', 'title longer than 20 different characters', listing, user) is False
+    # price has to be in range [10, 10000] 
+    # (do not have to test less than 10, can not be less than 10 when created and can not be reduced via updating)
+    assert updateListing('price', 20000, listing, user) is False
+    # no 2 listings can have the same title 
+    assert updateListing('title', 'test18', listing, user) is False
 
 
