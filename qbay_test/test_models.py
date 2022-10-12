@@ -9,10 +9,10 @@ def test_r1_1_user_register():
     Testing R1-1: Email cannot be empty. password cannot be empty.
     '''
 
-    assert register('u2', '', '123456') is False
+    assert register('u2', '', 'Ab!23456') is False
     assert register('u3', 'test2@test.com', '') is False
-    assert register('u4', '   ', '123456') is False
-    assert register('u5', 'test3@test.com', '123456') is True 
+    assert register('u4', '   ', 'Ab!23456') is False
+    assert register('u5', 'test3@test.com', 'Ab!23456') is True 
 
 def test_r1_4_user_register():
     '''
@@ -20,7 +20,7 @@ def test_r1_4_user_register():
     at least one upper case, at least one lower case, and at least one special character.
     '''
 
-    assert register('u6', 'test6@test.com', '123456') is False
+    assert register('u6', 'test6@test.com', 'Ab!23456') is False
     assert register('u7', 'test7@test.com', 'Ab!23456') is True
     assert register('u8', 'test8@test.com', 'A!23456') is False
     assert register('u9', 'test9@test.com', 'a!23456') is False
@@ -32,30 +32,30 @@ def test_r1_5_user_register():
     and space allowed only if it is not as the prefix or suffix.
     '''
 
-    assert register('', 'test11@test.com', '123456') is False
-    assert register('u12', 'test12@test.com', '123456') is True
-    assert register(' u13', 'test13@test.com', '123456') is False
-    assert register('u14 ', 'test14@test.com', '123456') is False
-    assert register('u 15', 'test15@test.com', '123456') is True
+    assert register('', 'test11@test.com', 'Ab!23456') is False
+    assert register('u12', 'test12@test.com', 'Ab!23456') is True
+    assert register(' u13', 'test13@test.com', 'Ab!23456') is False
+    assert register('u14 ', 'test14@test.com', 'Ab!23456') is False
+    assert register('u 15', 'test15@test.com', 'Ab!23456') is True
 
 def test_r1_6_user_register():
     '''
     Testing R1-6: User name has to be longer than 2 characters and less than 20 characters.
     '''
 
-    assert register('x', 'test16@test.com', '123456') is False
-    assert register('u17', 'test17@test.com', '123456') is True
-    assert register('twentycharacters0018', 'test18@test.com', '123456') is False
-    assert register('twentycharacters019', 'test19@test.com', '123456') is True
+    assert register('x', 'test16@test.com', 'Ab!23456') is False
+    assert register('u17', 'test17@test.com', 'Ab!23456') is True
+    assert register('twentycharacters0018', 'test18@test.com', 'Ab!23456') is False
+    assert register('twentycharacters019', 'test19@test.com', 'Ab!23456') is True
 
 def test_r1_7_user_register():
     '''
     Testing R1-7: If the email has been used, the operation failed.
     '''
 
-    assert register('u0', 'test0@test.com', '123456') is True
-    assert register('u01', 'test1@test.com', '123456') is True
-    assert register('u1', 'test0@test.com', '123456') is False
+    assert register('u0', 'test0@test.com', 'Ab!23456') is True
+    assert register('u01', 'test1@test.com', 'Ab!23456') is True
+    assert register('u1', 'test0@test.com', 'Ab!23456') is False
 
 def test_r1_8_9_10_user_register():
     '''
@@ -128,9 +128,9 @@ def test_r4_1_create_listing():
     and space allowed only if it is not as prefix and suffix.
     '''
     # creating user to be used by all create listing test cases 
-    register('create listing test', 'create@listing.com', '12345')
+    register('create listing test', 'create@listing.com', 'Ab!23456')
 
-    user = login('create@listing.com', '12345')
+    user = login('create@listing.com', 'Ab!23456')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test1", "this is a description", 60, user, startDate, endDate) is not None
@@ -142,7 +142,7 @@ def test_r4_2_create_listing():
     '''
     R4-2: The title of the product is no longer than 80 characters.
     '''
-    user = login('create@listing.com', '12345')
+    user = login('create@listing.com', 'Ab!23456')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test5", "this is a description", 60, user, startDate, endDate) is not None
@@ -155,7 +155,7 @@ def test_r4_3_create_listing():
     R4-3: The description of the product can be arbitrary characters, 
     with a minimum length of 20 characters and a maximum of 2000 characters.
     '''
-    user = login('create@listing.com', '12345')
+    user = login('create@listing.com', 'Ab!23456')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test7", "this is a description", 60, user, startDate, endDate) is not None
@@ -169,7 +169,7 @@ def test_r4_4_create_listing():
     '''
     R4-4: Description has to be longer than the product's title.
     '''
-    user = login('create@listing.com', '12345')
+    user = login('create@listing.com', 'Ab!23456')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test10", "this is a description", 60, user, startDate, endDate) is not None
@@ -179,7 +179,7 @@ def test_r4_5_create_listing():
     '''
     R4-5: Price has to be of range [10, 10000].
     '''
-    user = login('create@listing.com', '12345')
+    user = login('create@listing.com', 'Ab!23456')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test12", "this is a description", 60, user, startDate, endDate) is not None
@@ -191,7 +191,7 @@ def test_r4_8_create_listing():
     '''
     R4-8: A user cannot create products that have the same title.
     '''
-    user = login('create@listing.com', '12345')
+    user = login('create@listing.com', 'Ab!23456')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test15", "this is a description", 60, user, startDate, endDate) is not None
@@ -203,7 +203,7 @@ def test_r5_1_update_listing():
     additionall test to confirm when updateListing returns true the relevant field is changed
     '''
 
-    user = login('create@listing.com', '12345')
+    user = login('create@listing.com', 'Ab!23456')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     newStartDate = date(2022, 11, 11)
@@ -230,7 +230,7 @@ def test_r5_2_update_listing():
     '''
     R5-2: Price can be only increased but cannot be decreased :)
     '''
-    user = login('create@listing.com', '12345')
+    user = login('create@listing.com', 'Ab!23456')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     listing = createListing("test17", "this is a description", 60, user, startDate, endDate)
@@ -241,7 +241,7 @@ def test_r5_3_update_listing():
     '''
     R5-3: last_modified_date should be updated when the update operation is successful.
     '''
-    user = login('create@listing.com', '12345')
+    user = login('create@listing.com', 'Ab!23456')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     listing = createListing("test18", "this is a description", 60, user, startDate, endDate)
@@ -255,7 +255,7 @@ def test_r5_4_update_listing():
     '''
     R5-4: When updating an attribute, one has to make sure that it follows the same requirements as above.
     '''
-    user = login('create@listing.com', '12345')
+    user = login('create@listing.com', 'Ab!23456')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     listing = createListing("test19", "this is a description", 60, user, startDate, endDate)
