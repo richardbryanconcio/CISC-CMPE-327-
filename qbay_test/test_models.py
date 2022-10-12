@@ -89,7 +89,7 @@ def test_r2_1_login():
 
     # Case when it satisfies one upper case, one lower case
     # , one special char and minimum length 6
-    user = login('test2@test.com)', 'pA$s123')
+    user = login('test0@test.com)', 'pA$s123')
     assert user is not None
 
     # Case when email and password is empty
@@ -101,23 +101,27 @@ def test_r2_1_login():
     assert user is None
 
     # Case when password is empty
-    user = login('test1@test.com', '')
+    user = login('test0@test.com', '')
     assert user is None
 
     # Case when password is less than minimum length
-    user = login('test1@test.com', '12345')
+    user = login('test0@test.com', '12345')
+    assert user is None
+
+    # Case when password exceed length of original password
+    user = login('test0@test.com', '1234567')
     assert user is None
 
     # Case when space as prefix
-    user = login('test3@test.com', ' 123456')
+    user = login('test0@test.com', ' 123456')
     assert user is None
 
     # Case when space as suffix
-    user = login('test4@test.com', '123456 ')
+    user = login('test0@test.com', '123456 ')
     assert user is None
 
     # Case when space not as prefix or suffix, but space inbetween
-    user = login('test@test.com', '123 456')
+    user = login('test0@test.com', '123 456')
     assert user is not None
     
     
