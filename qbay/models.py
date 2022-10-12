@@ -94,7 +94,10 @@ def register(name, email, password):
     # add it to the current database session
     db.session.add(user)
     # actually save the user object
-    db.session.commit()
+    try:
+        db.session.commit()
+    except:
+        db.session.rollback()
 
     return True
 
@@ -138,7 +141,10 @@ def update(field, new):
             return False
 
         user.username = new
-        db.session.commit()
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
         return True
 
     elif field == 'email':
@@ -155,7 +161,10 @@ def update(field, new):
             return False
 
         user.email = new
-        db.session.commit()
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
         return True
         
     elif field == 'password':
@@ -166,7 +175,10 @@ def update(field, new):
             return False
         
         user.password = new
-        db.session.commit()
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
         return True
     
     elif field == "billingAddress":
@@ -176,7 +188,10 @@ def update(field, new):
             return False
         
         user.billingAddress = new
-        db.session.commit()
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
         return True
     
     elif field == "postalCode":
@@ -193,7 +208,10 @@ def update(field, new):
             return False
         
         user.postalCode = new
-        db.session.commit()
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
         return True
     else:
         return False
