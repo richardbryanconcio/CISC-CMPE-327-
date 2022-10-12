@@ -257,7 +257,7 @@ def update(field, user, new):
         user.email = new
         db.session.commit()
         return True
-            
+
     elif field == "billingAddress":
         if new[0] == ' ' or new[len(new) - 1] == ' ':
             return False
@@ -285,6 +285,8 @@ def update(field, user, new):
         user.postalCode = new
         db.session.commit()
         return True
+    
+    return False
         
 def createListing(title, description, price, user, startDate, endDate):
     '''

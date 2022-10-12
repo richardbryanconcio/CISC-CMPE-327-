@@ -131,6 +131,7 @@ def test_r3_1_update():
     assert update('billingAddress', user, '360 dinner rd') is True
     assert update('email', user, 'test20@test.com') is True
     assert update('password', user, 'pA$s123newpass') is False
+    
 
 def test_r3_2_3_update():
     '''
@@ -138,7 +139,7 @@ def test_r3_2_3_update():
     R3-3: Postal code has to be a valid Canadian postal code.
     '''
 
-    user = login('test0@test.com', 'pA$s123')
+    user = login('test20@test.com', 'pA$s123')
     assert update('postalCode',user, '') is False
     assert update('postalCode',user, 'L!L R8R') is False
     assert update('postalCode',user, 'V3Y 0A8') is True
@@ -148,7 +149,7 @@ def test_r3_4_update():
     '''
     R3-4: User name follows the requirements above. (non-empty, alphanumeric-only, no special characters such as !)
     '''
-    user = login('test0@test.com', 'pA$s123')
+    user = login('test20@test.com', 'pA$s123')
     assert update('username',user, '') is False
     assert update('username',user, ' ') is False
     assert update('username',user, 'ab99cde!') is False
