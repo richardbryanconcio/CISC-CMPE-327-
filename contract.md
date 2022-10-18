@@ -10,7 +10,7 @@ Student Number: 20223184
 
 Team Member #2:
 
-Name:
+Name: Richard Bryan Concio
 
 Student Number: 20184738 
 
