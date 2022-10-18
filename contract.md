@@ -16,9 +16,9 @@ Student Number: 20184738
 
 Team Member #3:
 
-Name:
+Name: Anjali Patel
 
-Student Number:
+Student Number: 20247678
 
 Team Member #4:
 
