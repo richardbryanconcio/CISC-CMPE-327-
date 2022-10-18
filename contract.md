@@ -20,8 +20,8 @@ Name: Anjali Patel
 
 Student Number: 20247678
 
-Team Member #4:
+Team Member #4: 
 
-Name:
+Name: Isaac Schneider
 
-Student Number:
+Student Number: 20235446
