@@ -4,9 +4,9 @@ Company Name:
 
 Team Member #1:
 
-Name:
+Name: Anton Gudonis
 
-Student Number:
+Student Number: 20223184
 
 Team Member #2:
 
