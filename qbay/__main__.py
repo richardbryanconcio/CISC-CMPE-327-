@@ -1,5 +1,6 @@
-from qbay import *
+from qbay import app
 from qbay.models import *
+from qbay.controllers import *
 
 """
 This file runs the server at a given port
