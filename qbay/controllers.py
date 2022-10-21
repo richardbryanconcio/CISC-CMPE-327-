@@ -122,9 +122,20 @@ def updateUsername_post(userId):
     newUsername = request.form.get('username')
     
     if username:
-        update('username',user,newusername)
+        success = update('username',user,newusername)
+        if not success:
+            errorMessage.append("username is invalid")
+        else:
+            successMessage.append("username has been changed")
 
-    return redirect('/updateUserProfile/' + str(user.id))
+    if errorMessage:
+        msg = ', '.join(x for x in errorMessage if x)
+        if successMessage:
+            msg = msg + ", " + ', '.join(x for x in successMessage if x)
+        return render_template('updateUsername.html',
+                               message=msg)
+    else:
+        return redirect('/updateUserProfile/' + str(user.id))
 
 @app.route('/updateEmail', methods=['GET'])
 def updateEmail_get():
@@ -138,9 +149,20 @@ def updateEmail_post(userId):
     newEmail = request.form.get('email')
     
     if email:
-        update('email',user,newEmail)
-
-    return redirect('/updateUserProfile/' + str(user.id))
+        success = update('email',user,newEmail)
+        if not success:
+            errorMessage.append("email is invalid")
+        else:
+            successMessage.append("email has been changed")
+    
+    if errorMessage:
+        msg = ', '.join(x for x in errorMessage if x)
+        if successMessage:
+            msg = msg + ", " + ', '.join(x for x in successMessage if x)
+        return render_template('updateBillingPostal.html',
+                               message=msg)
+    else:
+        return redirect('/updateUserProfile/' + str(user.id))
 
 @app.route('/updatePassword', methods=['GET'])
 def updatePassword_get():
@@ -154,9 +176,20 @@ def updatePassword_post(userId):
     newPass = request.form.get('password')
     
     if password:
-        update('password',user,newPass)
+        success = update('password',user,newPass)
+        if not success:
+            errorMessage.append("password is invalid")
+        else:
+            successMessage.append("password has been changed")
 
-    return redirect('/updateUserProfile/' + str(user.id))
+    if errorMessage:
+        msg = ', '.join(x for x in errorMessage if x)
+        if successMessage:
+            msg = msg + ", " + ', '.join(x for x in successMessage if x)
+        return render_template('updatePassword.html',
+                               message=msg)
+    else:
+        return redirect('/updateUserProfile/' + str(user.id))
 
 @app.route('/updateBillingPostal', methods=['GET'])
 def updateBillingPostal_get():
@@ -170,9 +203,27 @@ def updateEmail_post(userId):
     newPostal = request.form.get('postalCode')
     newAddress = request.form.get('address')
     
-    if postalCode:
-        update('postalCode',user,newPostal)
-    if address:
-        update('billingAddress',user,newAddress)
+    errorMessage = []
+    successMessage = []
 
-    return redirect('/updateUserProfile/' + str(user.id))
+    if postalCode:
+        success = update('postalCode',user,newPostal)
+        if not success:
+            errorMessage.append("postalCode is invalid")
+        else:
+            successMessage.append("postalCode has been changed")
+    if address:
+        success = update('billingAddress',user,newAddress)
+        if not success:
+            errorMessage.append("billingAddress is invalid")
+        else:
+            successMessage.append("billingAddress has been changed")
+
+    if errorMessage:
+        msg = ', '.join(x for x in errorMessage if x)
+        if successMessage:
+            msg = msg + ", " + ', '.join(x for x in successMessage if x)
+        return render_template('updateBillingPostal.html',
+                               message=msg)
+    else:
+        return redirect('/updateUserProfile/' + str(user.id))

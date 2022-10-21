@@ -1,40 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Update User Profile</title>
-    <link rel="stylesheet" href="./style.css">
-    <link rel="icon" href="./favicon.ico" type="image/x-icon">
-    <style>
-        .button {
-          border: none;
-          color: white;
-          padding: 15px 32px;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          font-size: 16px;
-          margin: 0 auto;
-          cursor: pointer;
-        }
-    </style>
-</head>
-
+{% extends 'base.html' %}
+{% block content %}
 <body>
     <main>
         <h4 id='username'>{{user.username}}</h4>
         <form method="post">
             <div class="form-group">
-                <button class="button"><a href="/templates/updateUsername.html">Update Username</a></button><br><br>
+                <button class="button"><a href="/updateUsername.html">Update Username</a></button><br><br>
 
-                <button class="button"><a href="/templates/updateEmail.html">Update Email</a></button><br><br>
+                <button class="button"><a href="/updateEmail.html">Update Email</a></button><br><br>
 
-                <button class="button"><a href="/templates/updatePassword.html">Update Password</a></button><br><br>
+                <button class="button"><a href="/updatePassword.html">Update Password</a></button><br><br>
                 
-                <button class="button"><a href="/templates/updateBillingPostal.html">Update Billing Address & Postal Code</a></button><br><br>
+                <button class="button"><a href="/updateBillingPostal.html">Update Billing Address & Postal Code</a></button><br><br>
                 
                 <button><a href="/">back</a></button>
             </div>
@@ -42,5 +19,5 @@
     </main>
     <script src="index.js"></script>
 </body>
-
+{% endblock %}
 </html>
