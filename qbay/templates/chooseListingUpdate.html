@@ -3,30 +3,15 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="description" content="Page Description">
-		<title>Pocket Rentals</title>
+		<title>Choose a listing to update</title>
 		<link rel="stylesheet" href="/style.css">
 		<script src="/script.js"></script>
 	</head>
 	<body>
-		<header>
-			<h1><a href="/">Pocket Rentals</a></h1>
-			<nav>
-				<ul>
-					<li><a href="register">Register</a></li>
-					<li><a href="login">Login</a></li>
-					<li><a href="update">Update Profile</a></li>
-                    <li><a href="createListing">Create Listing</a></li>
-                    <li><a href="chooseListingUpdate">Update Listing</a></li>
-				</ul>
-			</nav>
-		</header>
 		<article>
-			<h2><a href="#">Listings</a></h2>
-			<p><table dir="ltr" width="500" border="1" 
-                summary="purpose/structure for speech output">
-        <caption>Click on the title of the related listing to access the listing page
-        </caption>
         <colgroup width="50%" />
+        <p><table dir="ltr" width="500" border="1" 
+            summary="purpose/structure for speech output">
         <colgroup id="colgroup" class="colgroup" align="center" 
                 valign="middle" title="title" width="1*" 
                 span="2" style="background:#ddd;" />
@@ -41,7 +26,7 @@
         <tfoot id="products">
             {% for product in products %}
             <tr>
-                <td><a href=listing/{{ product.id }}>{{ product.title }}</a></td>
+                <td><a href=updateListing/{{ product.id }}>{{ product.title }}</a></td>
                 <td>${{ product.price }}</td>
                 <td>{{ product.startDate }}</td>
                 <td>{{ product.endDate }}</td>

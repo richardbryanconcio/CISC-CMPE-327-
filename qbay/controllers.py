@@ -16,9 +16,9 @@ def home_get():
 @app.route('/listing/<listingId>')
 def listing_get(listingId):
     
-    listing = Listing.query.filter_by(id=listingId)
+    listing = Listing.query.filter_by(id=listingId).first()
 
-    return render_template('listing.html', listing=listing[0])
+    return render_template('listing.html', listing=listing)
 
 @app.route('/createListing', methods=['GET'])
 def createListing_get():
@@ -26,7 +26,7 @@ def createListing_get():
     return render_template('createListing.html')
 
 @app.route('/createListing', methods=['POST'])
-def register_post():
+def createListing_post():
     title = request.form.get('title')
     description = request.form.get('description')
     price = int(request.form.get('price'))
@@ -42,3 +42,15 @@ def register_post():
 
 
     return redirect('/')
+
+@app.route('/chooseListingUpdate', methods=['GET'])
+def chooseListingUpdate_get():
+
+    # temporary user placeholder while waiting for login/autheticator function
+    # once implemented user will be passed through wrapper function
+    users = User.query.all()
+    user = users[0]
+
+    products = Listing.query.filter_by(ownerId=user.id).all()
+
+    return render_template('chooseListingUpdate.html', products=products)
