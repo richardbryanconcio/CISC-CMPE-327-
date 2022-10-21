@@ -1,29 +1,33 @@
 from flask import render_template, request, session, redirect
-from qbay.models import login, register, update, User, createListing, updateListing, Listing
+from qbay.models import (login, register, update, User,
+                         createListing, updateListing, Listing)
 
 from datetime import date, datetime
 
-from qbay import app 
+from qbay import app
+
 
 @app.route('/')
 def home_get():
     # templates are stored in the templates folder
     products = Listing.query.all()
-    
+
     return render_template('home.html', products=products)
 
 
 @app.route('/listing/<listingId>')
 def listing_get(listingId):
-    
+
     listing = Listing.query.filter_by(id=listingId).first()
 
     return render_template('listing.html', listing=listing)
+
 
 @app.route('/createListing', methods=['GET'])
 def createListing_get():
 
     return render_template('createListing.html')
+
 
 @app.route('/createListing', methods=['POST'])
 def createListing_post():
@@ -38,10 +42,11 @@ def createListing_post():
     users = User.query.all()
     user = users[0]
 
-    success = createListing(title, description, price, user, startDate, endDate)
-
+    success = createListing(title, description, price,
+                            user, startDate, endDate)
 
     return redirect('/')
+
 
 @app.route('/chooseListingUpdate', methods=['GET'])
 def chooseListingUpdate_get():
@@ -54,6 +59,7 @@ def chooseListingUpdate_get():
     products = Listing.query.filter_by(ownerId=user.id).all()
 
     return render_template('chooseListingUpdate.html', products=products)
+
 
 @app.route('/updateListing/<listingId>', methods=['POST'])
 def updateListing_post(listingId):
@@ -83,10 +89,8 @@ def updateListing_post(listingId):
         endDate = datetime.strptime(endDate, '%Y-%m-%d')
         updateListing('endDate', endDate, listing, user)
 
+    return redirect('/listing/' + str(listing.id))
 
-
-
-    return redirect('/')
 
 @app.route('/updateListing/<listingId>', methods=['GET'])
 def updateListing_get(listingId):
@@ -98,4 +102,5 @@ def updateListing_get(listingId):
 
     products = Listing.query.filter_by(ownerId=user.id).all()
 
-    return render_template('updateListing.html', products=products)
+    return render_template('updateListing.html',
+                           message="please input which fields to change")
