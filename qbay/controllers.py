@@ -13,10 +13,10 @@ def home_get():
     return render_template('home.html', products=products)
 
 
-@app.route('/listing<listingId>')
+@app.route('/listing/<listingId>')
 def listing_get(listingId):
     
-    products = Listing.query.filter_by(id=listingId)
+    listing = Listing.query.filter_by(id=listingId)
 
-    return render_template('home.html', products=products)
+    return render_template('listing.html', listing=listing[0])
 
