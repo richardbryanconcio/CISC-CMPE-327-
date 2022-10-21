@@ -2,7 +2,7 @@ from qbay import app
 from flask_sqlalchemy import SQLAlchemy
 import re
 from email_validator import validate_email, EmailNotValidError
-from datetime import date
+from datetime import date, datetime
 
 '''
 This file defines data models and related business logics
@@ -346,12 +346,16 @@ def updateListing(field, new, listing):
         db.session.commit()
         return True
     elif field == 'startDate':
+        # convert datetime to date 
+        new = datetime.date(new)
         if new < date.today() or new > listing.endDate:
             return False
 
         listing.startDate = new
         return True
     elif field == 'endDate':
+        # convert datetime to date 
+        new = datetime.date(new)
         if new < listing.startDate:
             return False
 
