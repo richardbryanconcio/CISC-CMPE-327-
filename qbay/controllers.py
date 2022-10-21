@@ -54,3 +54,48 @@ def chooseListingUpdate_get():
     products = Listing.query.filter_by(ownerId=user.id).all()
 
     return render_template('chooseListingUpdate.html', products=products)
+
+@app.route('/updateListing/<listingId>', methods=['POST'])
+def updateListing_post(listingId):
+    listing = Listing.query.filter_by(id=listingId).first()
+    # temporary user placeholder while waiting for login/autheticator function
+    # once implemented user will be passed through wrapper function
+    users = User.query.all()
+    user = users[0]
+
+    title = request.form.get('title')
+    description = request.form.get('description')
+    price = request.form.get('price')
+    startDate = request.form.get('startDate')
+    endDate = request.form.get('endDate')
+
+    if title:
+        updateListing('title', title, listing, user)
+    if description:
+        updateListing('description', description, listing, user)
+    if price:
+        price = int(price)
+        updateListing('price', price, listing, user)
+    if startDate:
+        startDate = datetime.strptime(startDate, '%Y-%m-%d')
+        updateListing('startDate', startDate, listing, user)
+    if endDate:
+        endDate = datetime.strptime(endDate, '%Y-%m-%d')
+        updateListing('endDate', endDate, listing, user)
+
+
+
+
+    return redirect('/')
+
+@app.route('/updateListing/<listingId>', methods=['GET'])
+def updateListing_get(listingId):
+
+    # temporary user placeholder while waiting for login/autheticator function
+    # once implemented user will be passed through wrapper function
+    users = User.query.all()
+    user = users[0]
+
+    products = Listing.query.filter_by(ownerId=user.id).all()
+
+    return render_template('updateListing.html', products=products)
