@@ -290,7 +290,7 @@ def createListing(title, description, price, user, startDate, endDate):
     return listing
 
 
-def updateListing(field, new, listing, user):
+def updateListing(field, new, listing):
     '''
     Update an existing listing
       Parameters:
@@ -301,9 +301,6 @@ def updateListing(field, new, listing, user):
       Returns:
         True if the change went through false if operation failed
     '''
-    # if listing was not created by user, don't modify listing
-    if listing.ownerId != user.id:
-        return False
     # want to put a match-case statement here but ide is flagging me,
     # will try to include later
     if field == 'title':

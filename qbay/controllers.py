@@ -70,8 +70,6 @@ def updateListing_post(listingId):
     listing = Listing.query.filter_by(id=listingId).first()
     # temporary user placeholder while waiting for login/autheticator function
     # once implemented user will be passed through wrapper function
-    users = User.query.all()
-    user = users[0]
 
     title = request.form.get('title')
     description = request.form.get('description')
@@ -83,34 +81,34 @@ def updateListing_post(listingId):
     successMessage = []
 
     if title:
-        success = updateListing('title', title, listing, user)
+        success = updateListing('title', title, listing)
         if not success:
             errorMessage.append("title is invalid")
         else:
             successMessage.append("title has been changed")
     if description:
-        success = updateListing('description', description, listing, user)
+        success = updateListing('description', description, listing)
         if not success:
             errorMessage.append("description is invalid")
         else:
             successMessage.append("description has been changed")
     if price:
         price = int(price)
-        success = updateListing('price', price, listing, user)
+        success = updateListing('price', price, listing)
         if not success:
             errorMessage.append("price is invalid")
         else:
             successMessage.append("price has been changed")
     if startDate:
         startDate = datetime.strptime(startDate, '%Y-%m-%d')
-        success = updateListing('startDate', startDate, listing, user)
+        success = updateListing('startDate', startDate, listing)
         if not success:
             errorMessage.append("startDate is invalid")
         else:
             successMessage.append("startDate has been changed")
     if endDate:
         endDate = datetime.strptime(endDate, '%Y-%m-%d')
-        success = updateListing('endDate', endDate, listing, user)
+        success = updateListing('endDate', endDate, listing)
         if not success:
             errorMessage.append("endDate is invalid")
         else:
