@@ -45,7 +45,11 @@ def createListing_post():
     success = createListing(title, description, price,
                             user, startDate, endDate)
 
-    return redirect('/')
+    if not success:
+        errorMessage = "creating listing failed, please try again"
+        return render_template('createListing.html', message=errorMessage)
+    else:
+        return redirect('/')
 
 
 @app.route('/chooseListingUpdate', methods=['GET'])
@@ -115,13 +119,13 @@ def updateListing_post(listingId):
     if errorMessage:
         msg = ', '.join(x for x in errorMessage if x)
         if successMessage:
-            msg = msg +  ", " + ', '.join(x for x in successMessage if x)
+            msg = msg + ", " + ', '.join(x for x in successMessage if x)
         return render_template('updateListing.html',
-                           message=msg)
+                               message=msg)
     else:
         return redirect('/listing/' + str(listing.id))
 
-    
+
 @app.route('/updateListing/<listingId>', methods=['GET'])
 def updateListing_get(listingId):
 
