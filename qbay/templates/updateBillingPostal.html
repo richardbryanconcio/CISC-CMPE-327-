@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Update Listing</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <main>
+        <h4 id='message'>{{user.username}}</h4>
+        <form method="post">
+            <div class="form-group">
+                <label for="currentAddress">Current Billing Address: {{user.billingAddress}}</label><br>
+                <br>
+                <label for="address">Enter New Billing Address:</label><br>
+                <input class="form-control" name="address" id="address">
+                <br><br>
+                <label for="currentPostal">Current Postal Code: {{user.postalCode}}</label><br>
+                <br>
+                <label for="postalCode">Enter New Postal Code:</label><br>
+                <input class="form-control" name="postalCode" id="postalCode">
+
+                <input class="btn btn-primary" type="submit" value="Submit"><br>
+                <button><a href="/">back</a></button>
+            </div>
+        </form>
+    </main>
+    <script src="index.js"></script>
+</body>
+
+</html>
