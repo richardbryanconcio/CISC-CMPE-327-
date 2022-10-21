@@ -75,32 +75,58 @@ def updateListing_post(listingId):
     startDate = request.form.get('startDate')
     endDate = request.form.get('endDate')
 
+    errorMessage = []
+    successMessage = []
+
     if title:
-        updateListing('title', title, listing, user)
+        success = updateListing('title', title, listing, user)
+        if not success:
+            errorMessage.append("title is invalid")
+        else:
+            successMessage.append("title has been changed")
     if description:
-        updateListing('description', description, listing, user)
+        success = updateListing('description', description, listing, user)
+        if not success:
+            errorMessage.append("description is invalid")
+        else:
+            successMessage.append("description has been changed")
     if price:
         price = int(price)
-        updateListing('price', price, listing, user)
+        success = updateListing('price', price, listing, user)
+        if not success:
+            errorMessage.append("price is invalid")
+        else:
+            successMessage.append("price has been changed")
     if startDate:
         startDate = datetime.strptime(startDate, '%Y-%m-%d')
-        updateListing('startDate', startDate, listing, user)
+        success = updateListing('startDate', startDate, listing, user)
+        if not success:
+            errorMessage.append("startDate is invalid")
+        else:
+            successMessage.append("startDate has been changed")
     if endDate:
         endDate = datetime.strptime(endDate, '%Y-%m-%d')
-        updateListing('endDate', endDate, listing, user)
+        success = updateListing('endDate', endDate, listing, user)
+        if not success:
+            errorMessage.append("endDate is invalid")
+        else:
+            successMessage.append("endDate has been changed")
 
-    return redirect('/listing/' + str(listing.id))
+    if errorMessage:
+        msg = ', '.join(x for x in errorMessage if x)
+        if successMessage:
+            msg = msg +  ", " + ', '.join(x for x in successMessage if x)
+        return render_template('updateListing.html',
+                           message=msg)
+    else:
+        return redirect('/listing/' + str(listing.id))
 
-
+    
 @app.route('/updateListing/<listingId>', methods=['GET'])
 def updateListing_get(listingId):
 
     # temporary user placeholder while waiting for login/autheticator function
     # once implemented user will be passed through wrapper function
-    users = User.query.all()
-    user = users[0]
-
-    products = Listing.query.filter_by(ownerId=user.id).all()
 
     return render_template('updateListing.html',
                            message="please input which fields to change")
