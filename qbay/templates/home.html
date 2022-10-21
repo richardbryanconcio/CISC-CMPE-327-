@@ -24,8 +24,7 @@
 			<h2><a href="#">Listings</a></h2>
 			<p><table dir="ltr" width="500" border="1" 
                 summary="purpose/structure for speech output">
-        <caption>Here we assign header information to cells 
-                by setting the scope attribute.
+        <caption>Click on the title of the related listing to access the listing page
         </caption>
         <colgroup width="50%" />
         <colgroup id="colgroup" class="colgroup" align="center" 
@@ -39,27 +38,15 @@
                 <th scope="col">end date</th>
             </tr>
         </thead>
-        <tfoot>
+        <tfoot id="products">
+            {% for product in products %}
             <tr>
-                <td>Darth Vader</td>
-                <td>Dark</td>
-                <td>Sith</td>
-                <td>Sith</td>
+                <td><a href=listing{{ product.id }}>{{ product.title }}</a></td>
+                <td>${{ product.price }}</td>
+                <td>{{ product.startDate }}</td>
+                <td>{{ product.endDate }}</td>
             </tr>
-        </tfoot>
-        <tbody>
-            <tr>
-                <td>Obi Wan Kenobi</td>
-                <td>Light</td>
-                <td>Jedi</td>
-                <td>Sith</td>
-            </tr>
-            <tr>
-                <td>Greedo</td>
-                <td>South</td>
-                <td>Sith</td>
-                <td>Sith</td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table></p>
 		</article>
