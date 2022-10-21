@@ -4,6 +4,11 @@ import re
 from email_validator import validate_email, EmailNotValidError
 from datetime import date
 
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms.validators import DataRequired, EqualTo, Length
+
 '''
 This file defines data models and related business logics
 '''
@@ -44,9 +49,9 @@ class Booking(db.Model):
 
 # Within the database model - it contains an id, username, and email column
 # Therefore, the model has access to id, username, and email databases
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), nullable=False)
+    username = db.Column(db.String(80), nullable=False, unique=True)
     email = db.Column(db.String(120), nullable=False)
     password = db.Column(db.String(120), nullable=False)
     billingAddress = db.Column(db.String)
@@ -455,3 +460,17 @@ def passwordValidation(password):
         else:
             print("password does not meet the required complexity")
             return False
+# Flask_Login Stuff
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# Create Login Form
+class LoginForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Submit")
