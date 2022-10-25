@@ -4,10 +4,7 @@ import re
 from email_validator import validate_email, EmailNotValidError
 from datetime import date
 
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import DataRequired, EqualTo, Length
+from flask_login import UserMixin
 
 '''
 This file defines data models and related business logics
@@ -460,17 +457,3 @@ def passwordValidation(password):
         else:
             print("password does not meet the required complexity")
             return False
-# Flask_Login Stuff
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-# Create Login Form
-class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired()])
-    password = PasswordField("Password", validators=[DataRequired()])
-    submit = SubmitField("Submit")
