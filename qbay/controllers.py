@@ -1,9 +1,8 @@
 from flask import (render_template, request, session,
-                    redirect, Flask, flash)
-                    # url_for)
+                   redirect, Flask, flash)
 from flask_login import LoginManager
 from qbay.models import (login, register, update, User,
-                        createListing, updateListing, Listing)
+                         createListing, updateListing, Listing)
 
 from datetime import date, datetime
 
@@ -51,8 +50,8 @@ def authenticate(inner_function):
 
 # Create Login Form
 class LoginForm(FlaskForm):
-    email = StringField("Email", validators = [DataRequired()])
-    password = PasswordField("Password", validators = [DataRequired()])
+    email = StringField("Email", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Submit")
 
 
@@ -61,7 +60,8 @@ class LoginForm(FlaskForm):
 @app.route('/login', methods=['GET'])
 def login_get():
     # return back to the login template
-    return render_template('login.html', message='Enter your email and password')
+    return render_template('login.html', 
+                           message='Enter your email and password')
 
 
 # POST - sending data to a server to create/update a resource
@@ -72,30 +72,26 @@ def login_post():
         password = request.form.get('password')
         errorMsgFlash = None
 
-        session['email'] = email
-        session['password'] = password
         success = login(email, password)
+        if success:
+            session['logged_in'] = success
+            return redirect('/')
+        
         if not success:
             errorMsgFlash = "Login failed. Please try again."
-            if errorMsgFlash:
-                return render_template("login.html", message=errorMsgFlash)
             return redirect('/login')
-        return redirect('/dashboard')
-
-
-# Create Dashboard Page
-@app.route('/dashboard', methods=['GET'])
-def dashboard_get():
-    return render_template('dashboard.html', message='Successful Login')
-
-
-# LOGOUT
-@app.route('/logout')
-def logout():
-    session["name"] = None
-    if 'logged_in' in session:
-        session.pop('logged_in', None)
     return redirect('/')
+
+
+def logout():
+    logoutMsg = None
+    if 'logged_in' not in session:
+        logoutMsg = "You are not currently logged in."
+        return redirect('/login', message=logoutMsg)
+    else:
+        session.pop('logged_in', None)
+        logoutMsg = "Successfully logged out!"
+        return redirect('/', message=logoutMsg)
 
 
 # Flask_Login Codes
@@ -104,3 +100,6 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
