@@ -1,4 +1,5 @@
-from flask import render_template, request, session, redirect, Flask, flash, url_for
+from flask import (render_template, request, session,
+                    redirect, Flask, flash, url_for)
 from flask_login import login_required, login_user, LoginManager, logout_user
 from qbay.models import (login, register, update, User,
                          createListing, updateListing, Listing, checkpass, LoginForm)
