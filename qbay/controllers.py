@@ -6,7 +6,7 @@ from qbay.models import (login, register, update, User,
 from qbay import app 
 
 # Create Logout Page
-@app.route('/logout',  methods=['GET', 'POST'])
+@app.route('/logout', methods=['GET', 'POST'])
 # Requires the user to be logged in
 @login_required
 
@@ -34,7 +34,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         # Parce through the data and see if there is a username
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter_by(username = form.username.data).first()
         if user:
             # Check the hash - should work with register where it takes data from saved info
             if checkpass(user.password, form.password.data):
@@ -45,8 +45,8 @@ def login():
                 flash("Wrong Email or Password. Please try again.")
         else:
             flash("Email or Account does not exist. Please try again.")
-    return render_template('login.html', form=form,
-        message='Please enter your email and password')
+    return render_template('login.html', form = form,
+        message = 'Please enter your email and password')
 
 
 # Flask_Login Codes
@@ -64,6 +64,6 @@ def load_user(user_id):
 
 # Create Login Form
 class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired()])
-    password = PasswordField("Password", validators=[DataRequired()])
+    email = StringField("Email", validators = [DataRequired()])
+    password = PasswordField("Password", validators = [DataRequired()])
     submit = SubmitField("Submit")
