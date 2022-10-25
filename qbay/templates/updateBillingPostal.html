@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<body>
+    <main>
+        <h4 id='message'>{{user.username}}</h4>
+        <form method="post">
+            <div class="form-group">
+                <label for="currentAddress">Current Billing Address: {{user.billingAddress}}</label><br>
+                <br>
+                <label for="address">Enter New Billing Address:</label><br>
+                <input class="form-control" name="address" id="address">
+                <br><br>
+                <label for="currentPostal">Current Postal Code: {{user.postalCode}}</label><br>
+                <br>
+                <label for="postalCode">Enter New Postal Code:</label><br>
+                <input class="form-control" name="postalCode" id="postalCode">
+
+                <input class="btn btn-primary" type="submit" value="Submit"><br>
+                <button><a href="/">back</a></button>
+            </div>
+        </form>
+    </main>
+    <script src="index.js"></script>
+</body>
+{% endblock %}
