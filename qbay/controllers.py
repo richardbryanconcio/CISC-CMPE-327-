@@ -9,17 +9,23 @@ from qbay import app
 @app.route('/logout',  methods=['GET', 'POST'])
 # Requires the user to be logged in
 @login_required
+
+
 def logout():
     logout_user()
     flash("You have been logged out of the account.")
     return redirect(url_for('login'))
 
+
 # Creating Login/Logout Dashboard Page
 @app.route('/dashboard', methods=['GET', 'POST'])
 # Requires the user to be logged in
 @login_required
+
+
 def dashboard():
     return render_template('dashboard.html')
+
 
 # Create Login Page
 @app.route('/login', methods=['GET', 'POST'])
@@ -39,15 +45,22 @@ def login():
                 flash("Wrong Email or Password. Please try again.")
         else:
             flash("Email or Account does not exist. Please try again.")
-    return render_template('login.html', form=form, message='Please enter your email and password')
-# Flask_Login Stuff
+    return render_template('login.html', form=form,
+        message='Please enter your email and password')
+
+
+# Flask_Login Codes
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
 @login_manager.user_loader
+
+
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 # Create Login Form
 class LoginForm(FlaskForm):
