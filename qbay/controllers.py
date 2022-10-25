@@ -6,123 +6,23 @@ from datetime import date, datetime
 
 from qbay import app
 
-
-@app.route('/')
-def home_get():
-    # templates are stored in the templates folder
-    products = Listing.query.all()
-
-    return render_template('home.html', products=products)
-
-
-@app.route('/listing/<listingId>')
-def listing_get(listingId):
-
-    listing = Listing.query.filter_by(id=listingId).first()
-
-    return render_template('listing.html', listing=listing)
-
-
-@app.route('/createListing', methods=['GET'])
-def createListing_get():
-
-    return render_template('createListing.html')
-
-
-@app.route('/createListing', methods=['POST'])
-def createListing_post():
-    title = request.form.get('title')
-    description = request.form.get('description')
-    price = int(request.form.get('price'))
-    startDate = datetime.strptime(request.form.get('startDate'), '%Y-%m-%d')
-    endDate = datetime.strptime(request.form.get('endDate'), '%Y-%m-%d')
-
-    # temporary user placeholder while waiting for login/autheticator function
-    # once implemented user will be passed through wrapper function
-    users = User.query.all()
-    user = users[0]
-
-    success = createListing(title, description, price,
-                            user, startDate, endDate)
-
-    return redirect('/')
-
-
-@app.route('/chooseListingUpdate', methods=['GET'])
-def chooseListingUpdate_get():
-
-    # temporary user placeholder while waiting for login/autheticator function
-    # once implemented user will be passed through wrapper function
-    users = User.query.all()
-    user = users[0]
-
-    products = Listing.query.filter_by(ownerId=user.id).all()
-
-    return render_template('chooseListingUpdate.html', products=products)
-
-
-@app.route('/updateListing/<listingId>', methods=['POST'])
-def updateListing_post(listingId):
-    listing = Listing.query.filter_by(id=listingId).first()
-    # temporary user placeholder while waiting for login/autheticator function
-    # once implemented user will be passed through wrapper function
-    users = User.query.all()
-    user = users[0]
-
-    title = request.form.get('title')
-    description = request.form.get('description')
-    price = request.form.get('price')
-    startDate = request.form.get('startDate')
-    endDate = request.form.get('endDate')
-
-    if title:
-        updateListing('title', title, listing, user)
-    if description:
-        updateListing('description', description, listing, user)
-    if price:
-        price = int(price)
-        updateListing('price', price, listing, user)
-    if startDate:
-        startDate = datetime.strptime(startDate, '%Y-%m-%d')
-        updateListing('startDate', startDate, listing, user)
-    if endDate:
-        endDate = datetime.strptime(endDate, '%Y-%m-%d')
-        updateListing('endDate', endDate, listing, user)
-
-    return redirect('/listing/' + str(listing.id))
-
-
-@app.route('/updateListing/<listingId>', methods=['GET'])
-def updateListing_get(listingId):
-
-    # temporary user placeholder while waiting for login/autheticator function
-    # once implemented user will be passed through wrapper function
-    users = User.query.all()
-    user = users[0]
-
-    products = Listing.query.filter_by(ownerId=user.id).all()
-
-    return render_template('updateListing.html',
-                           message="please input which fields to change")
-
 @app.route('/updateUserProfile/<userId>')
 def updateUserProfile_get(userId):
-    user = User.query.filter_by(id=userId).first()
+    user = authenticate(User.query.filter_by(id=userId).first())
     return render_template('updateUserProfile.html', username=user.username)
 
 @app.route('/updateUsername', methods=['GET'])
 def updateUsername_get():
-
     return render_template('updateUsername.html')
 
 
 @app.route('/updateUsername/<userId>', methods=['POST'])
 def updateUsername_post(userId):
-    #Need to get current user
+    user = authenticate(User.query.filter_by(id=userId).first())
     newUsername = request.form.get('username')
     
-    if username:
-        success = update('username',user,newusername)
+    if newUsername and usernameValidation(newUsername):
+        success = update('username',user,newUsername)
         if not success:
             errorMessage.append("username is invalid")
         else:
@@ -145,10 +45,10 @@ def updateEmail_get():
 
 @app.route('/updateEmail/<userId>', methods=['POST'])
 def updateEmail_post(userId):
-    #Need to get current user
+    user = authenticate(User.query.filter_by(id=userId).first())
     newEmail = request.form.get('email')
     
-    if email:
+    if newEmail and emailValidation(newEmail):
         success = update('email',user,newEmail)
         if not success:
             errorMessage.append("email is invalid")
@@ -172,16 +72,19 @@ def updatePassword_get():
 
 @app.route('/updatePassword/<userId>', methods=['POST'])
 def updatePassword_post(userId):
-    #Need to get current user
+    user = authenticate(User.query.filter_by(id=userId).first())
     newPass = request.form.get('password')
+    confNewPass = request.form.get('confPassword')
     
-    if password:
-        success = update('password',user,newPass)
-        if not success:
-            errorMessage.append("password is invalid")
-        else:
-            successMessage.append("password has been changed")
-
+    if password and confPassword:
+        if passwordValidation(newPass) and newPass == confNewPass
+            success = update('password',user,newPass)
+            if not success:
+                errorMessage.append("password is invalid")
+            else:
+                successMessage.append("password has been changed")
+    else:
+        errorMessage.append("both fields required")
     if errorMessage:
         msg = ', '.join(x for x in errorMessage if x)
         if successMessage:
@@ -198,21 +101,21 @@ def updateBillingPostal_get():
 
 
 @app.route('/updateBillingPostal/<userId>', methods=['POST'])
-def updateEmail_post(userId):
-    #Need to get current user
+def updatePostBilling_post(userId):
+    user = authenticate(User.query.filter_by(id=userId).first())
     newPostal = request.form.get('postalCode')
     newAddress = request.form.get('address')
     
     errorMessage = []
     successMessage = []
 
-    if postalCode:
+    if newPostal and checkpostal(newPostal):
         success = update('postalCode',user,newPostal)
         if not success:
             errorMessage.append("postalCode is invalid")
         else:
             successMessage.append("postalCode has been changed")
-    if address:
+    if newAddress:
         success = update('billingAddress',user,newAddress)
         if not success:
             errorMessage.append("billingAddress is invalid")
