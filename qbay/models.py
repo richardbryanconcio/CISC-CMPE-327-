@@ -16,11 +16,11 @@ db = SQLAlchemy(app)
 # of listings for the day.
 class Listing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), unique = True, nullable = False)
+    title = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(2000))
-    price = db.Column(db.Float, nullable = False)
-    lastModifiedDate = db.Column(db.Date, nullable = False)
-    ownerId = db.Column(db.Integer, nullable = False)
+    price = db.Column(db.Float, nullable=False)
+    lastModifiedDate = db.Column(db.Date, nullable=False)
+    ownerId = db.Column(db.Integer, nullable=False)
     # describes from which dates the property is avalible 
     startDate = db.Column(db.Date, nullable=False)
     endDate = db.Column(db.Date, nullable=False)
@@ -53,7 +53,6 @@ class User(db.Model):
     postalCode = db.Column(db.String)
     balance = db.Column(db.Float, nullable=False)
 
-
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -65,11 +64,12 @@ class Review(db.Model):
     reviewTitle = db.Column(db.String(120), nullable=False)
     reviewText = db.Column(db.String)
     dateReviewed = db.Column(db.String(30), nullable=False)
-    userId = db.Column(db.Integer, nullable = False)
-    listingId = db.Column(db.Integer, nullable = False)
+    userId = db.Column(db.Integer, nullable=False)
+    listingId = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return '<Review ID %r>' % self.id
+
 
 # create all tables
 db.create_all()
@@ -196,8 +196,9 @@ def login(email, password):
         return None
     return valids[0]
 
+
 def update(field, user, new):
-    #username, email, password, billingAddress, postalCode
+    # username, email, password, billingAddress, postalCode
     '''
     Update login information
       Parameters:
@@ -268,7 +269,6 @@ def update(field, user, new):
         if new[0] == ' ' or new[len(new) - 1] == ' ':
             return False
         
-        
         if not checkpostal(new):
             return False
 
@@ -277,16 +277,21 @@ def update(field, user, new):
             return False
         
         user.postalCode = new
-        
+        db.session.commit()
+        return True
+
+
 def createListing(title, description, price, user, startDate, endDate):
     '''
     Create a new listing
       Parameters:
-        title (string): title of the listing, must be no longer then 80 characters 
-        description (string): description of the listings, 
-        must be longer then title, more then 20 characters and no longer then 20000 characters
-        price (float): price of the listing bounded to [10, 10000]
-        user (int): userId of the user who created the listing
+        title (string): title of the listing, must be no longer then 80  
+        characters 
+        description (string): description of the listings, must be   
+        longer then title, more then 20 characters and no longer then 
+        20000 characters 
+        price (float): price of the listing bounded to [10, 10000] 
+        user (int): userId of the user who created the listing 
         startDate (date): starting date of avalibilty for the listing
         endDate (date): last day of avalibility for the listing
       Returns:
@@ -298,13 +303,14 @@ def createListing(title, description, price, user, startDate, endDate):
         return None
     
     # check if title has leading or trailing white space
-    # option avalible trim title in the future instead of not creating the listing
+    # option avalible trim title in the future instead of not 
+    # creating the listing
     if title[0] == ' ' or title[len(title) - 1] == ' ':
         return None
 
     # check if title is alphanumeric excluding spaces 
     tempTitle = title.replace(' ', '')
-    if  not tempTitle.isalnum():
+    if not tempTitle.isalnum():
         return None
 
     # check if title is proper length
@@ -328,13 +334,16 @@ def createListing(title, description, price, user, startDate, endDate):
         return None
 
     # if all checks pass create the listing 
-    listing = Listing(title=title, description=description, price=price, lastModifiedDate=date.today(), ownerId=user.id, startDate=startDate, endDate=endDate)  
+    listing = Listing(title=title, description=description, price=price, 
+                      lastModifiedDate=date.today(), ownerId=user.id, 
+                      startDate=startDate, endDate=endDate)  
 
     db.session.add(listing)
 
     db.session.commit()
 
     return listing
+
 
 def updateListing(field, new, listing, user):
     '''
@@ -347,10 +356,11 @@ def updateListing(field, new, listing, user):
       Returns:
         True if the change went through false if operation failed
     '''
-    # if listing was not created by the user then don't let them modify the listing
+    # if listing not created by user don't let them modify listing
     if listing.ownerId != user.id:
         return False
-    # want to put a match-case statement here but ide is flagging me, will try to include later
+    # want to put a match-case statement here but ide is flagging me
+    # will try to include later
     if field == 'title':
         # new title can not have leading or trailing white spaces
         if new[0] == ' ' or new[len(new) - 1] == ' ':
@@ -361,7 +371,7 @@ def updateListing(field, new, listing, user):
             return False
         # new title must be alphanumeric (excluding spaces)
         tempTitle = new.replace(' ', '')
-        if  not tempTitle.isalnum():
+        if not tempTitle.isalnum():
             return False
         # new title must be less then 80 characters and not empty
         if len(new) > 80 or new == '':
@@ -375,7 +385,8 @@ def updateListing(field, new, listing, user):
         db.session.commit()
         return True
     elif field == 'description':
-        # new description must be between 20-2000 characters, must contain more characters then the title
+        # new description must be between 20-2000 characters
+        # must contain more characters then the title
         if len(new) < 20 or len(new) > 2000 or len(new) < len(listing.title):
             return False
         
@@ -409,6 +420,7 @@ def updateListing(field, new, listing, user):
     else:
         return False
 
+
 def checkpass(password):
     regexpass = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\W_]{6,}$"
     if re.fullmatch(regexpass, password):
@@ -423,6 +435,7 @@ def checkpostal(postal):
         return True
     else:
         return False
+
 
 def checkemail(email):  
     try:

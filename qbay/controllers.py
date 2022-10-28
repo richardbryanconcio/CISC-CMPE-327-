@@ -3,13 +3,15 @@ from qbay.models import (login, register, update, User,
                          createListing, updateListing, Listing)
 
 from datetime import date, datetime
-
 from qbay import app
 
+
 @app.route('/updateUserProfile/<userId>')
+@authenticate
 def updateUserProfile_get(userId):
-    user = authenticate(User.query.filter_by(id=userId).first())
+    user = User.query.filter_by(id=userId).first()
     return render_template('updateUserProfile.html', username=user.username)
+
 
 @app.route('/updateUsername', methods=['GET'])
 def updateUsername_get():
@@ -17,52 +19,45 @@ def updateUsername_get():
 
 
 @app.route('/updateUsername/<userId>', methods=['POST'])
+@authenticate
 def updateUsername_post(userId):
-    user = authenticate(User.query.filter_by(id=userId).first())
+    user = User.query.filter_by(id=userId).first()
     newUsername = request.form.get('username')
-    
-    if newUsername and usernameValidation(newUsername):
-        success = update('username',user,newUsername)
-        if not success:
-            errorMessage.append("username is invalid")
-        else:
-            successMessage.append("username has been changed")
+    msg = []
 
-    if errorMessage:
-        msg = ', '.join(x for x in errorMessage if x)
-        if successMessage:
-            msg = msg + ", " + ', '.join(x for x in successMessage if x)
-        return render_template('updateUsername.html',
-                               message=msg)
+    success = update('username', user, newUsername)
+    if not success:
+        msg.append("username is invalid")
     else:
-        return redirect('/updateUserProfile/' + str(user.id))
+        msg.append("username has been changed")
+
+    if msg:
+        return render_template("updateUserProfile.html", message=msg)
+
 
 @app.route('/updateEmail', methods=['GET'])
 def updateEmail_get():
 
-    return render_template('updateUsername.html')
+    return render_template('updateEmail.html')
 
 
 @app.route('/updateEmail/<userId>', methods=['POST'])
+@authenticate
 def updateEmail_post(userId):
-    user = authenticate(User.query.filter_by(id=userId).first())
+    user = User.query.filter_by(id=userId).first()
     newEmail = request.form.get('email')
     
-    if newEmail and emailValidation(newEmail):
-        success = update('email',user,newEmail)
-        if not success:
-            errorMessage.append("email is invalid")
-        else:
-            successMessage.append("email has been changed")
-    
-    if errorMessage:
-        msg = ', '.join(x for x in errorMessage if x)
-        if successMessage:
-            msg = msg + ", " + ', '.join(x for x in successMessage if x)
-        return render_template('updateBillingPostal.html',
-                               message=msg)
+    msg = []
+
+    success = update('email', user, newEmail)
+    if not success:
+        msg.append("email is invalid")
     else:
-        return redirect('/updateUserProfile/' + str(user.id))
+        msg.append("email has been changed")
+
+    if msg:
+        return render_template("updateUserProfile.html", message=msg)
+
 
 @app.route('/updatePassword', methods=['GET'])
 def updatePassword_get():
@@ -71,62 +66,53 @@ def updatePassword_get():
 
 
 @app.route('/updatePassword/<userId>', methods=['POST'])
+@authenticate
 def updatePassword_post(userId):
-    user = authenticate(User.query.filter_by(id=userId).first())
+    user = User.query.filter_by(id=userId).first()
     newPass = request.form.get('password')
     confNewPass = request.form.get('confPassword')
     
-    if password and confPassword:
-        if passwordValidation(newPass) and newPass == confNewPass
-            success = update('password',user,newPass)
-            if not success:
-                errorMessage.append("password is invalid")
-            else:
-                successMessage.append("password has been changed")
+    msg = []
+    
+    success = update('password', user, newPass)
+    if not success:
+        msg.append("password is invalid")
     else:
-        errorMessage.append("both fields required")
-    if errorMessage:
-        msg = ', '.join(x for x in errorMessage if x)
-        if successMessage:
-            msg = msg + ", " + ', '.join(x for x in successMessage if x)
-        return render_template('updatePassword.html',
-                               message=msg)
-    else:
-        return redirect('/updateUserProfile/' + str(user.id))
+        msg.append("password has been changed")
 
-@app.route('/updateBillingPostal', methods=['GET'])
+    if msg:
+        return render_template("updateUserProfile.html", message=msg)
+
+
+@app.route('/updateBillingAddress', methods=['GET'])
 def updateBillingPostal_get():
 
     return render_template('updateBillingPostal.html')
 
 
-@app.route('/updateBillingPostal/<userId>', methods=['POST'])
-def updatePostBilling_post(userId):
-    user = authenticate(User.query.filter_by(id=userId).first())
+@app.route('/updateBillingAddress/<userId>', methods=['POST'])
+@authenticate
+def updateBillingAddress(userId):
+    user = User.query.filter_by(id=userId).first()
     newPostal = request.form.get('postalCode')
     newAddress = request.form.get('address')
     
-    errorMessage = []
-    successMessage = []
-
-    if newPostal and checkpostal(newPostal):
-        success = update('postalCode',user,newPostal)
+    msg = []
+    if newPostal:
+        success = update('postalCode', user, newPostal)
         if not success:
-            errorMessage.append("postalCode is invalid")
+            msg.append("postal code is invalid")
         else:
-            successMessage.append("postalCode has been changed")
+            msg.append("postal code has been changed")
+
+        if msg:
+            return render_template("updateUserProfile.html", message=msg)
     if newAddress:
-        success = update('billingAddress',user,newAddress)
+        success = update('billingAddress', user, newPostal)
         if not success:
-            errorMessage.append("billingAddress is invalid")
+            msg.append("billing address is invalid")
         else:
-            successMessage.append("billingAddress has been changed")
+            msg.append("billing address has been changed")
 
-    if errorMessage:
-        msg = ', '.join(x for x in errorMessage if x)
-        if successMessage:
-            msg = msg + ", " + ', '.join(x for x in successMessage if x)
-        return render_template('updateBillingPostal.html',
-                               message=msg)
-    else:
-        return redirect('/updateUserProfile/' + str(user.id))
+        if msg:
+            return render_template("updateUserProfile.html", message=msg)
