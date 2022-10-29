@@ -154,7 +154,6 @@ def login(email, password):
     return validatedAccounts[0]
 
 
-
 def update(field, user, new):
     '''
     Update login information

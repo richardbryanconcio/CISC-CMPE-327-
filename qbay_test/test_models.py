@@ -146,11 +146,11 @@ def test_r3_2_3_update():
     '''
     register('update test', 'update@user.com', 'Ab!23456')
     user = login('update@user.com', 'Ab!23456')
-    assert update('postalCode',user, '') is False
-    assert update('postalCode',user, 'L!L R8R') is False
-    assert update('postalCode',user, 'D0D I2U') is False
-    assert update('postalCode',user, 'B8S 1K6') is True
-    
+    assert update('postalCode', user, '') is False
+    assert update('postalCode', user, 'L!L R8R') is False
+    assert update('postalCode', user, 'D0D I2U') is False
+    assert update('postalCode', user, 'B8S 1K6') is True
+
 
 def test_r3_4_update():
     '''
@@ -159,11 +159,11 @@ def test_r3_4_update():
     '''
     register('update test', 'update@user.com', 'Ab!23456')
     user = login('update@user.com', 'Ab!23456')
-    assert update('username',user, '') is False
-    assert update('username',user, ' ') is False
-    assert update('username',user, 'ab99cde!') is False
-    assert update('username',user, 'yourmom42') is True
-    assert update('username',user, '360RushBnoStop') is True
+    assert update('username', user, '') is False
+    assert update('username', user, ' ') is False
+    assert update('username', user, 'ab99cde!') is False
+    assert update('username', user, 'yourmom42') is True
+    assert update('username', user, '360RushBnoStop') is True
 
 
 '''
