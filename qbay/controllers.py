@@ -233,7 +233,7 @@ def login_post():
 
         success = login(email, password)
         if success:
-            session['logged_in'] = success
+            session['logged_in'] = success.id
             return redirect('/')
         
         if not success:
@@ -265,7 +265,6 @@ def load_user(user_id):
 
 
 @app.route('/updateUserProfile/<userId>')
-@authenticate
 def updateUserProfile_get(userId):
     user = User.query.filter_by(id=userId).first()
     return render_template('updateUserProfile.html', username=user.username)
@@ -277,7 +276,6 @@ def updateUsername_get():
 
 
 @app.route('/updateUsername/<userId>', methods=['POST'])
-@authenticate
 def updateUsername_post(userId):
     user = User.query.filter_by(id=userId).first()
     newUsername = request.form.get('username')
@@ -300,7 +298,6 @@ def updateEmail_get():
 
 
 @app.route('/updateEmail/<userId>', methods=['POST'])
-@authenticate
 def updateEmail_post(userId):
     user = User.query.filter_by(id=userId).first()
     newEmail = request.form.get('email')
@@ -324,7 +321,6 @@ def updatePassword_get():
 
 
 @app.route('/updatePassword/<userId>', methods=['POST'])
-@authenticate
 def updatePassword_post(userId):
     user = User.query.filter_by(id=userId).first()
     newPass = request.form.get('password')
@@ -349,7 +345,6 @@ def updateBillingPostal_get():
 
 
 @app.route('/updateBillingAddress/<userId>', methods=['POST'])
-@authenticate
 def updateBillingAddress(userId):
     user = User.query.filter_by(id=userId).first()
     newPostal = request.form.get('postalCode')
