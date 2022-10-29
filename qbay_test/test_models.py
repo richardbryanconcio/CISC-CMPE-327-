@@ -290,28 +290,29 @@ def test_r5_1_update_listing():
     user = login('create@listing.com', 'Ab!23456')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
-    newStartDate = date(2022, 11, 11)
-    newEndDate = date(2023, 11, 11)
+    # updating dates is a string in the format of '%Y-%m-%d'
+    newStartDate = datetime(2022, 11, 11)
+    newEndDate = datetime(2023, 11, 11)
     listing = createListing(
         "test16", "this is a description", 60, user, startDate, endDate)
 
-    assert updateListing('title', 'new title', listing, user) is True
+    assert updateListing('title', 'new title', listing) is True
     assert listing.title == 'new title'
     confirm_change = listing.query.filter_by(title='new title').all()
     assert confirm_change[0].title == 'new title'
     assert updateListing(
-        'description', 'a fancy new description', listing, user) is True
+        'description', 'a fancy new description', listing) is True
     assert listing.description == 'a fancy new description'
-    assert updateListing('price', 400, listing, user) is True
+    assert updateListing('price', 400, listing) is True
     assert listing.price == 400
-    assert updateListing('startDate', newStartDate, listing, user) is True
-    assert listing.startDate == newStartDate
-    assert updateListing('endDate', newEndDate, listing, user) is True
-    assert listing.endDate == newEndDate
-    assert updateListing('ownerId', 1, listing, user) is False
-    assert updateListing('id', '1', listing, user) is False
+    assert updateListing('startDate', newStartDate, listing) is True
+    assert listing.startDate == date(2022, 11, 11)
+    assert updateListing('endDate', newEndDate, listing) is True
+    assert listing.endDate == date(2023, 11, 11)
+    assert updateListing('ownerId', 1, listing) is False
+    assert updateListing('id', '1', listing) is False
     assert updateListing('lastModifiedDate', date(
-        2021, 10, 10), listing, user) is False
+        2021, 10, 10), listing) is False
 
 
 def test_r5_2_update_listing():
@@ -323,8 +324,8 @@ def test_r5_2_update_listing():
     endDate = date(2023, 10, 10)
     listing = createListing(
         "test17", "this is a description", 60, user, startDate, endDate)
-    assert updateListing('price', 100, listing, user) is True
-    assert updateListing('price', 60, listing, user) is False
+    assert updateListing('price', 100, listing) is True
+    assert updateListing('price', 60, listing) is False
 
 
 def test_r5_3_update_listing():
@@ -340,7 +341,7 @@ def test_r5_3_update_listing():
 
     listing.lastModifiedDate = date(2020, 1, 1)
     assert listing.lastModifiedDate == date(2020, 1, 1)
-    updateListing('price', 100, listing, user)
+    updateListing('price', 100, listing)
     assert listing.lastModifiedDate == date.today()
 
 
@@ -356,28 +357,28 @@ def test_r5_4_update_listing():
         "test19", "this is a description", 60, user, startDate, endDate)
 
     # title is alphanumeric only, no leading or trailing spaces
-    assert updateListing('title', '  invalid', listing, user) is False
-    assert updateListing('title', 'invalid   ', listing, user) is False
-    assert updateListing('title', '$inval*id', listing, user) is False
+    assert updateListing('title', '  invalid', listing) is False
+    assert updateListing('title', 'invalid   ', listing) is False
+    assert updateListing('title', '$inval*id', listing) is False
     # title is no longer then 80 characters
     newTitle = ''
     while len(newTitle) <= 90:
         newTitle += 'a'
-    assert updateListing('title', newTitle, listing, user) is False
+    assert updateListing('title', newTitle, listing) is False
     # descrioption is min 20 characters and no longer then 2000
     newDescription = ''
     while len(newDescription) <= 2100:
         newDescription += 'a'
-    assert updateListing('description', 'small', listing, user) is False
-    assert updateListing('description', newDescription, listing, user) is False
+    assert updateListing('description', 'small', listing) is False
+    assert updateListing('description', newDescription, listing) is False
     # description has to be longer then title
     # current description is "this is a description"
     assert updateListing(
         'title', 'title longer than 20 different characters',
-        listing, user) is False
+        listing) is False
     # price has to be in range [10, 10000]
     # (do not have to test less than 10
     # can not be less than 10 when created and can not be reduced via updating)
-    assert updateListing('price', 20000, listing, user) is False
+    assert updateListing('price', 20000, listing) is False
     # no 2 listings can have the same title
-    assert updateListing('title', 'test18', listing, user) is False
+    assert updateListing('title', 'test18', listing) is False

@@ -1,7 +1,10 @@
 from qbay import app
 from flask_sqlalchemy import SQLAlchemy
 import re
-from datetime import date
+from email_validator import validate_email, EmailNotValidError
+from datetime import date, datetime
+
+from flask_login import UserMixin
 
 '''
 This file defines data models and related business logics
@@ -43,9 +46,9 @@ class Booking(db.Model):
 
 # Within the database model - it contains an id, username, and email column
 # Therefore, the model has access to id, username, and email databases
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), nullable=False)
+    username = db.Column(db.String(80), nullable=False, unique=True)
     email = db.Column(db.String(120), nullable=False)
     password = db.Column(db.String(120), nullable=False)
     billingAddress = db.Column(db.String)
@@ -198,7 +201,8 @@ def createListing(title, description, price, user, startDate, endDate):
 
     return listing
 
-def updateListing(field, new, listing, user):
+
+def updateListing(field, new, listing):
     '''
     Update an existing listing
       Parameters:
@@ -209,10 +213,8 @@ def updateListing(field, new, listing, user):
       Returns:
         True if the change went through false if operation failed
     '''
-    # if listing was not created by the user then don't let them modify the listing
-    if listing.ownerId != user.id:
-        return False
-    # want to put a match-case statement here but ide is flagging me, will try to include later
+    # want to put a match-case statement here but ide is flagging me,
+    # will try to include later
     if field == 'title':
         # new title can not have leading or trailing white spaces
         if new[0] == ' ' or new[len(new) - 1] == ' ':
@@ -255,12 +257,16 @@ def updateListing(field, new, listing, user):
         db.session.commit()
         return True
     elif field == 'startDate':
+        # convert datetime to date 
+        new = datetime.date(new)
         if new < date.today() or new > listing.endDate:
             return False
 
         listing.startDate = new
         return True
     elif field == 'endDate':
+        # convert datetime to date 
+        new = datetime.date(new)
         if new < listing.startDate:
             return False
 
@@ -287,3 +293,78 @@ def checkpostal(postal):
         return True
     else:
         return False
+
+
+def checkemail(email):
+    try:
+        v = validate_email(email)
+        email = v["email"]
+        return True
+    except EmailNotValidError as e:
+        return False
+
+# R1-5: User name has to be non-empty, alphanumeric-only, and space
+# allowed only if it is not as the prefix or suffix.
+# R1-6: User name has to be longer than 2 characters and
+# less than 20 characters.
+
+
+def usernameValidation(username: str):
+    if len(username) <= 2:
+        print("username is too short. \
+        It cannot be empty and has to be longer than 2 character")
+        return False
+    if len(username) >= 20:
+        print("username cannot be longer than 20 characters")
+        return False
+    if username[0] == " " or username[-1] == " ":
+        print("username prefeix or suffix cannot be space")
+        return False
+    if not all(i.isalnum() or i.isspace() for i in username):
+        print("User name can only be alphanumeric with space \
+            allowed(but not at the start or end of a username)")
+        return False
+    else:
+        return True
+
+# R1-3: The email has to follow addr-spec defined in RFC 5322
+# (see https://en.wikipedia.org/wiki/Email_address for a human-friendly
+# explanation). You can use external libraries/imports.
+# Check if input email is valid based on the given regular expression.
+
+
+def emailValidation(email):
+    regex = re.compile(r'([A-Za-z0-9]+[.-_+])*[A-Za-z0-9]+@'
+                       r'[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+    if re.fullmatch(regex, email):
+        print("This is a valid email")
+        return True
+    else:
+        print("This is an invalid email")
+        return False
+
+
+# R1-4: Password has to meet the required complexity: minimum length 6,
+# at least one upper case, at least one lower case,
+# and at least one special character.
+def passwordValidation(password):
+    upper, lower, special = 0, 0, 0
+    specialChar = ".!@#$%&*"
+    if (len(password) < 6):
+        print("Password is too short")
+        return False
+    if (len(password) >= 6):
+        for i in password:
+            # Counting uppercase letter
+            if (i.isupper()):
+                upper += 1
+            if (i.islower()):
+                lower += 1
+            if (i in specialChar):
+                special += 1
+        if (upper >= 1 and lower >= 1 and special >= 1):
+            print("Valid Password")
+            return True
+        else:
+            print("password does not meet the required complexity")
+            return False

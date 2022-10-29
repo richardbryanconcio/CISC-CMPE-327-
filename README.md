@@ -15,7 +15,9 @@ A2 (backend dev) Folder structure:
 ├── qbay                 ======> Application source code
 │   ├── __init__.py      ======> Required for a python module (can be empty)
 │   ├── __main__.py      ======> Program entry point
-│   └── models.py        ======> Data models
+│   ├── models.py        ======> Data models
+|   ├── controllers.py   ======> front end controllers
+|   └── templates        ======> templates for webpages
 ├── qbay_test            ======> Testing code
 │   ├── __init__.py      ======> Required for a python module (can be empty)
 │   ├── conftest.py      ======> Code to run before/after all the testing
