@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+    <main>
+        <h4 id='username'>{{message}}</h4>
+        <form method="post">
+            <div class="form-group">
+                <button class="button"><a href="/updateUsername.html">Update Username</a></button><br><br>
+
+                <button class="button"><a href="/updateEmail.html">Update Email</a></button><br><br>
+
+                <button class="button"><a href="/updatePassword.html">Update Password</a></button><br><br>
+                
+                <button class="button"><a href="/updateBillingPostal.html">Update Billing Address & Postal Code</a></button><br><br>
+                
+                <button><a href="/">back</a></button>
+            </div>
+        </form>
+    </main>
+    <script src="index.js"></script>
+</body>
+{% endblock %}
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Update User Profile</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <main>
+        <h4 id='message'>{{message}}</h4>
+        <form method="post">
+            <div class="form-group">
+                <label for="username">username</label><br>
+                <input class="form-control" name="username" id="username"><br>
+
+                <label for="email">email</label><br>
+                <input class="form-control" type="email" name="email" id="email"><br>
+
+                <label for="password">password</label><br>
+                <input class="form-control" type="password" name="password" id="password"><br>
+                
+                <label for="billingAddress">billingAddress</label><br>
+                <input class="form-control" type="text" name="billingAddress" id="billingAddress"><br>
+
+                <label for="postalCode">postalCode</label><br>
+                <input class="form-control" type="text" name="postalCode" id="postalCode"><br>
+
+                <input class="btn btn-primary" type="submit" value="Update">
+                <button><a href="/updateUser">back</a></button>
+            </div>
+        </form>
+    </main>
+    <script src="index.js"></script>
+</body>
+
+</html>
