@@ -2,7 +2,7 @@ from qbay import app
 from flask_sqlalchemy import SQLAlchemy
 import re
 from email_validator import validate_email, EmailNotValidError
-from datetime import date
+from datetime import date, datetime
 
 '''
 This file defines data models and related business logics
@@ -290,7 +290,7 @@ def createListing(title, description, price, user, startDate, endDate):
     return listing
 
 
-def updateListing(field, new, listing, user):
+def updateListing(field, new, listing):
     '''
     Update an existing listing
       Parameters:
@@ -301,9 +301,6 @@ def updateListing(field, new, listing, user):
       Returns:
         True if the change went through false if operation failed
     '''
-    # if listing was not created by user, don't modify listing
-    if listing.ownerId != user.id:
-        return False
     # want to put a match-case statement here but ide is flagging me,
     # will try to include later
     if field == 'title':
@@ -349,12 +346,16 @@ def updateListing(field, new, listing, user):
         db.session.commit()
         return True
     elif field == 'startDate':
+        # convert datetime to date 
+        new = datetime.date(new)
         if new < date.today() or new > listing.endDate:
             return False
 
         listing.startDate = new
         return True
     elif field == 'endDate':
+        # convert datetime to date 
+        new = datetime.date(new)
         if new < listing.startDate:
             return False
 
