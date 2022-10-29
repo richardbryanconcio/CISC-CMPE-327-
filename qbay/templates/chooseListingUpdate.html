@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="Page Description">
+		<title>Choose a listing to update</title>
+		<link rel="stylesheet" href="/style.css">
+		<script src="/script.js"></script>
+	</head>
+	<body>
+		<article>
+        <colgroup width="50%" />
+        <p><table dir="ltr" width="500" border="1" 
+            summary="purpose/structure for speech output">
+        <colgroup id="colgroup" class="colgroup" align="center" 
+                valign="middle" title="title" width="1*" 
+                span="2" style="background:#ddd;" />
+        <thead>
+            <tr>
+                <th scope="col">title</th>
+                <th scope="col">price</th>
+                <th scope="col">start date</th>
+                <th scope="col">end date</th>
+            </tr>
+        </thead>
+        <tfoot id="products">
+            {% for product in products %}
+            <tr>
+                <td><a href=updateListing/{{ product.id }}>{{ product.title }}</a></td>
+                <td>${{ product.price }}</td>
+                <td>{{ product.startDate }}</td>
+                <td>{{ product.endDate }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table></p>
+		</article>
+		<footer>
+			<h6>© 2050 Etc.</h6>
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Update Listing</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <main>
+        <h4 id='message'>{{message}}</h4>
+        <form method="post">
+            <div class="form-group">
+                <label for="title">title</label>
+                <input class="form-control" name="title" id="title">
+                <label for="description">description</label>
+                <input class="form-control" name="description" id="description">
+                <label for="price">price</label>
+                <input class="form-control" type="number" name="price" id="price">
+                <label for="startDate">startDate</label>
+                <input class="form-control" type="date" name="startDate" id="startDate">
+                <label for="endDate">endDate</label>
+                <input class="form-control" type="date" name="endDate" id="endDate">
+                <input class="btn btn-primary" type="submit" value="Register">
+                <button><a href="/">back</a></button>
+            </div>
+        </form>
+    </main>
+    <script src="index.js"></script>
+</body>
+
+</html>
