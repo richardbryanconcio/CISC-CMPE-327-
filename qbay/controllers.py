@@ -13,8 +13,6 @@ from wtforms.validators import DataRequired, EqualTo, Length
 from qbay import app
 
 
-
-
 @app.route('/register', methods=['GET'])
 def register_get():
     # templates are stored in the templates folder
