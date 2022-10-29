@@ -7,10 +7,10 @@ def test_r1_1_user_register():
     Testing R1-1: Email cannot be empty. password cannot be empty.
     '''
 
-    assert register('u2', '', 'pA$s123') is False
-    assert register('u3', 'test2@test.com', '') is False
-    assert register('u4', '   ', 'pA$s123') is False
-    assert register('u5', 'test3@test.com', 'pA$s123') is True 
+    assert register('u20', '', 'pA$s123') is None
+    assert register('u30', 'test2@test.com', '') is None
+    assert register('u40', '   ', 'pA$s123') is None
+    assert register('u50', 'test3@test.com', 'pA$s123') is not None
 
 
 def test_r1_4_user_register():
@@ -21,12 +21,11 @@ def test_r1_4_user_register():
     and at least one special character.
     '''
 
-    assert register('u6', 'test6@test.com', 'pA$s123') is False
-    assert register('u7', 'test7@test.com', 'Ab!23456') is True
-    assert register('u8', 'test8@test.com', 'A!23456') is False
-    assert register('u9', 'test9@test.com', 'a!23456') is False
-    assert register('u10', 'test10@test.com', 'Ab123456') is False
-
+    assert register('u60', 'test6@test.com', 'pA$s123') is not None
+    assert register('u70', 'test7@test.com', 'Ab!23456') is not None
+    assert register('u80', 'test8@test.com', 'A!23456') is None
+    assert register('u90', 'test9@test.com', 'a!23456') is None
+    assert register('u100', 'test10@test.com', 'Ab123456') is None
 
 
 def test_r1_5_user_register():
@@ -35,11 +34,11 @@ def test_r1_5_user_register():
     and space allowed only if it is not as the prefix or suffix.
     '''
 
-    assert register('', 'test11@test.com', 'pA$s123') is False
-    assert register('u12', 'test12@test.com', 'pA$s123') is True
-    assert register(' u13', 'test13@test.com', 'pA$s123') is False
-    assert register('u14 ', 'test14@test.com', 'pA$s123') is False
-    assert register('u 15', 'test15@test.com', 'pA$s123') is True
+    assert register('', 'test11@test.com', 'pA$s123') is None
+    assert register('u120', 'test12@test.com', 'pA$s123') is not None
+    assert register(' u130', 'test13@test.com', 'pA$s123') is None
+    assert register('u140 ', 'test14@test.com', 'pA$s123') is None
+    assert register('u 150', 'test15@test.com', 'pA$s123') is not None
 
 
 def test_r1_6_user_register():
@@ -48,10 +47,12 @@ def test_r1_6_user_register():
     and less than 20 characters.
     '''
 
-    assert register('x', 'test16@test.com', 'pA$s123') is False
-    assert register('u17', 'test17@test.com', 'pA$s123') is True
-    assert register('twentycharacters0018', 'test18@test.com', 'pA$s123') is False
-    assert register('twentycharacters019', 'test19@test.com', 'pA$s123') is True
+    assert register('x', 'test16@test.com', 'pA$s123') is None
+    assert register('u17', 'test17@test.com', 'pA$s123') is not None
+    assert register('twentycharacters0018',
+                    'test18@test.com', 'pA$s123') is None
+    assert register('twentycharacters019',
+                    'test19@test.com', 'pA$s123') is not None
 
 
 def test_r1_7_user_register():
@@ -59,9 +60,9 @@ def test_r1_7_user_register():
     Testing R1-7: If the email has been used, the operation failed.
     '''
 
-    assert register('u0', 'test0@test.com', 'pA$s123') is True
-    assert register('u0', 'test1@test.com', 'pA$s123') is True
-    assert register('u1', 'test0@test.com', 'pA$s123') is False
+    assert register('u00', 'test0@test.com', 'pA$s123') is not None
+    assert register('u00', 'test1@test.com', 'pA$s123') is not None
+    assert register('u10', 'test0@test.com', 'pA$s123') is None
 
 
 def test_r1_8_9_10_user_register():
@@ -72,10 +73,9 @@ def test_r1_8_9_10_user_register():
     (free $100 dollar signup bonus).
     '''
 
-
-    user = login('test0@test.com', 'Ab!23456')
-    assert user.postalCode == None 
-    assert user.billingAddress == None
+    user = login('test0@test.com', 'pA$s123')
+    assert user.postalCode is None
+    assert user.billingAddress is None
     assert user.balance == 100
 
 
@@ -89,7 +89,7 @@ def test_r2_1_login():
 
     user = login('test0@test.com', 'pA$s123')
     assert user is not None
-    assert user.username == 'u100'
+    assert user.username == 'u00'
 
     user = login('test0@test.com', 'pA$s12345')
     assert user is None
@@ -137,6 +137,7 @@ def test_r3_1_update():
     assert update('email', user, 'test20@test.com') is True
     assert update('password', user, '1234567') is False
 
+
 def test_r3_2_3_update():
     '''
     R3-2: postal code should be non-empty, 
@@ -153,7 +154,8 @@ def test_r3_2_3_update():
 
 def test_r3_4_update():
     '''
-    R3-4: User name follows the requirements above. (non-empty, alphanumeric-only, no special characters such as !)
+    R3-4: User name follows the requirements above. 
+    (non-empty, alphanumeric-only, no special characters such as !)
     '''
     register('update test', 'update@user.com', 'Ab!23456')
     user = login('update@user.com', 'Ab!23456')

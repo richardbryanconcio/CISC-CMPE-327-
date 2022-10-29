@@ -18,12 +18,12 @@ db = SQLAlchemy(app)
 # of listings for the day.
 class Listing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), unique = True, nullable = False)
+    title = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(2000))
-    price = db.Column(db.Float, nullable = False)
-    lastModifiedDate = db.Column(db.Date, nullable = False)
-    ownerId = db.Column(db.Integer, nullable = False)
-    # describes from which dates the property is avalible 
+    price = db.Column(db.Float, nullable=False)
+    lastModifiedDate = db.Column(db.Date, nullable=False)
+    ownerId = db.Column(db.Integer, nullable=False)
+    # describes from which dates the property is avalible
     startDate = db.Column(db.Date, nullable=False)
     endDate = db.Column(db.Date, nullable=False)
 
@@ -48,13 +48,12 @@ class Booking(db.Model):
 # Therefore, the model has access to id, username, and email databases
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), nullable=False, unique=True)
+    username = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), nullable=False)
     password = db.Column(db.String(120), nullable=False)
     billingAddress = db.Column(db.String)
     postalCode = db.Column(db.String)
     balance = db.Column(db.Float, nullable=False)
-
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -67,11 +66,12 @@ class Review(db.Model):
     reviewTitle = db.Column(db.String(120), nullable=False)
     reviewText = db.Column(db.String)
     dateReviewed = db.Column(db.String(30), nullable=False)
-    userId = db.Column(db.Integer, nullable = False)
-    listingId = db.Column(db.Integer, nullable = False)
+    userId = db.Column(db.Integer, nullable=False)
+    listingId = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return '<Review ID %r>' % self.id
+
 
 # create all tables
 db.create_all()
@@ -134,7 +134,28 @@ def login(email, password):
         return None
         print("Email is empty")
 
-def update(field, new):
+    if len(password) == 0:
+        return None
+        print("Password is empty")
+
+    # Tests if it has an uppercase, lowercase, contains a digit,
+    # or if string length is above 6
+    if (any(x.isupper() for x in password) and
+        any(x.islower() for x in password) and
+        any(x.isdigit() for x in password) and
+            len(password) >= 6) is False:
+        return None
+
+    # Validating the data of emails and passwords from the database
+    validatedAccounts = User.query.filter_by(
+        email=email, password=password).all()
+    if len(validatedAccounts) != 1:
+        return None
+    return validatedAccounts[0]
+
+
+
+def update(field, user, new):
     '''
     Update login information
       Parameters:
@@ -143,13 +164,81 @@ def update(field, new):
       Returns:
         True if the change went through false if operation failed
     '''
+
+    if field == 'username':
+        if len(new) <= 0 or len(new) > 80:
+            return False
+        if new[0] == ' ' or new[len(new) - 1] == ' ':
+            return False
+
+        temp = new.replace(' ', '')
+        if not temp.isalnum():
+            return False
+
+        existed = User.query.filter_by(username=new).all()
+        if len(existed) > 0:
+            return False
+
+        user.username = new
+        db.session.commit()
+        return True
+
+    elif field == 'email':
+        if len(new) <= 0 or len(new) > 120:
+            return False
+        if new[0] == ' ' or new[len(new) - 1] == ' ':
+            return False
+
+        existed = User.query.filter_by(email=new).all()
+        if len(existed) > 0:
+            return False
+
+        if not checkemail(new):
+            return False
+
+        user.email = new
+        db.session.commit()
+        return True
+
+    elif field == "billingAddress":
+        if new[0] == ' ' or new[len(new) - 1] == ' ':
+            return False
+        if len(new) <= 0:
+            return False
+
+        user.billingAddress = new
+        db.session.commit()
+        return True
+
+    elif field == "postalCode":
+        if len(new) <= 0 or len(new) > 7:
+            return False
+        if new[0] == ' ' or new[len(new) - 1] == ' ':
+            return False
+
+        if not checkpostal(new):
+            return False
+
+        existed = User.query.filter_by(postalCode=new).all()
+        if len(existed) > 0:
+            return False
+
+        user.postalCode = new
+        db.session.commit()
+        return True
+
+    return False
+
+
 def createListing(title, description, price, user, startDate, endDate):
     '''
     Create a new listing
       Parameters:
-        title (string): title of the listing, must be no longer then 80 characters 
-        description (string): description of the listings, 
-        must be longer then title, more then 20 characters and no longer then 20000 characters
+        title (string): (title of the listing, must 
+        be no longer then 80 characters)
+        description (string): (description of the listings, 
+        must be longer then title, more then 20 characters 
+        and no longer then 20000 characters)
         price (float): price of the listing bounded to [10, 10000]
         user (int): userId of the user who created the listing
         startDate (date): starting date of avalibilty for the listing
@@ -163,13 +252,14 @@ def createListing(title, description, price, user, startDate, endDate):
         return None
 
     # check if title has leading or trailing white space
-    # option avalible trim title in the future instead of not creating the listing
+    # option avalible trim title in the future
+    # instead of not creating the listing
     if title[0] == ' ' or title[len(title) - 1] == ' ':
         return None
 
     # check if title is alphanumeric excluding spaces
     tempTitle = title.replace(' ', '')
-    if  not tempTitle.isalnum():
+    if not tempTitle.isalnum():
         return None
 
     # check if title is proper length
@@ -192,8 +282,10 @@ def createListing(title, description, price, user, startDate, endDate):
     if endDate < startDate:
         return None
 
-    # if all checks pass create the listing 
-    listing = Listing(title=title, description=description, price=price, lastModifiedDate=date.today(), ownerId=user.id, startDate=startDate, endDate=endDate)  
+    # if all checks pass create the listing
+    listing = Listing(title=title, description=description, price=price,
+                      lastModifiedDate=date.today(),
+                      ownerId=user.id, startDate=startDate, endDate=endDate)
 
     db.session.add(listing)
 
@@ -225,7 +317,7 @@ def updateListing(field, new, listing):
             return False
         # new title must be alphanumeric (excluding spaces)
         tempTitle = new.replace(' ', '')
-        if  not tempTitle.isalnum():
+        if not tempTitle.isalnum():
             return False
         # new title must be less then 80 characters and not empty
         if len(new) > 80 or new == '':
@@ -239,7 +331,8 @@ def updateListing(field, new, listing):
         db.session.commit()
         return True
     elif field == 'description':
-        # new description must be between 20-2000 characters, must contain more characters then the title
+        # new description must be between 20-2000 characters,
+        # must contain more characters then the title
         if len(new) < 20 or len(new) > 2000 or len(new) < len(listing.title):
             return False
 
@@ -257,7 +350,7 @@ def updateListing(field, new, listing):
         db.session.commit()
         return True
     elif field == 'startDate':
-        # convert datetime to date 
+        # convert datetime to date
         new = datetime.date(new)
         if new < date.today() or new > listing.endDate:
             return False
@@ -265,7 +358,7 @@ def updateListing(field, new, listing):
         listing.startDate = new
         return True
     elif field == 'endDate':
-        # convert datetime to date 
+        # convert datetime to date
         new = datetime.date(new)
         if new < listing.startDate:
             return False
@@ -277,10 +370,9 @@ def updateListing(field, new, listing):
     else:
         return False
 
-    
 
 def checkpass(password):
-    regexpass = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\W_]{6,}$"
+    regexpass = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\W_]{6,}$"
     if re.fullmatch(regexpass, password):
         return True
     else:
@@ -288,7 +380,7 @@ def checkpass(password):
 
 
 def checkpostal(postal):
-    regexpostal = "^[a-zA-Z][0-9][a-zA-Z] ?[0-9][a-zA-Z][0-9]"
+    regexpostal = r"^[a-zA-Z][0-9][a-zA-Z] ?[0-9][a-zA-Z][0-9]"
     if re.fullmatch(regexpostal, postal):
         return True
     else:
