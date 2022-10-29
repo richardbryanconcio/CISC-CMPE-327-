@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="Page Description">
+        <title>Pocket Rentals</title>
+        <link rel="stylesheet" href="/style.css">
+        <script src="/script.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1><a href="/">Pocket Rentals</a></h1>
+            <h2>Sign in</h2>
+        </header>
+        <h4 id='message'>{{message}}</h4>
+      <!-- Page content -->
+        <form method="post"> <!-- UNSURE ABOUT IF THIS IS GET OR LOGIN_GET ETC. -->
+            <p><div class="email-form">
+                <small>Email:</small>
+                <input class="form-control" placeholder="Email" name="email" id="email" required>
+            </div></p>
+            <p><div class="password-form">
+                <small>Password:</small>
+                <input class ="form-control" placeholder="Password" type="password" name="password" id="password" required>
+            </div></p>
+            <p><div class="remember-me-checkbox">
+                <input id="login" type="checkbox"> <!-- WHAT WOULD BE THE ID? -->
+                <label for="remember-me-label">
+                    <small><span>Remember me</span></small>
+                </label>
+            </div></p>
+            <div class="sign-in-button">
+                <!-- <button type="button">Sign in</button> -->
+                <p><input class="btn btn-primary" type="submit" value="Sign in"></p>
+            </div>   
+        </form>
+        <p><a href="/register" class="text-light"><small>Create new account</small></a></p>
+  
+    </body>
+
+</html>

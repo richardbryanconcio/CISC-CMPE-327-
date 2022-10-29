@@ -4,6 +4,8 @@ import re
 from email_validator import validate_email, EmailNotValidError
 from datetime import date, datetime
 
+from flask_login import UserMixin
+
 '''
 This file defines data models and related business logics
 '''
@@ -44,9 +46,9 @@ class Booking(db.Model):
 
 # Within the database model - it contains an id, username, and email column
 # Therefore, the model has access to id, username, and email databases
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), nullable=False)
+    username = db.Column(db.String(80), nullable=False, unique=True)
     email = db.Column(db.String(120), nullable=False)
     password = db.Column(db.String(120), nullable=False)
     billingAddress = db.Column(db.String)
