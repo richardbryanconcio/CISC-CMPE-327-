@@ -20,6 +20,7 @@ A2 (backend dev) Folder structure:
 |   └── templates        ======> templates for webpages
 ├── qbay_test            ======> Testing code
 │   ├── __init__.py      ======> Required for a python module (can be empty)
+|   ├── frontEnd         ======> folder containing front end testing code
 │   ├── conftest.py      ======> Code to run before/after all the testing
 │   └── test_models.py   ======> Testing code for models.py
 └── requirements.txt     ======> Dependencies
