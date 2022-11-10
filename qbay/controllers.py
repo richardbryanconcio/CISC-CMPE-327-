@@ -229,15 +229,14 @@ def login_post():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        errorMsgFlash = None
 
         success = login(email, password)
         if success:
             session['logged_in'] = success.id
-            return redirect('/')
+            return render_template('home.html', message='Login successful!')
         
         if not success:
-            errorMsgFlash = "Login failed. Please try again."
+            flash('Login failed. Please try again.')
             return redirect('/login')
     return redirect('/')
 
