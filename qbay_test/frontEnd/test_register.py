@@ -489,8 +489,9 @@ class FrontEndHomePageTest(BaseCase):
 
     def test_register_fail_partition_1(self, *_):
         """
-        This is a sample front end integration test to show
-        user registration Fail. With password2 not matching password.
+        This is a sample front end integration test using input partitoning 
+        testing to show user registration Fail with password2 not 
+        matching password.
         """
         # open register page
         self.open(base_url + '/register')
@@ -511,8 +512,8 @@ class FrontEndHomePageTest(BaseCase):
  
     def test_register_fail_partition_2(self, *_):
         """
-        Test to show user registration Fail with password2 
-        not matching password.
+        Test using input partitoning testing to show user registration 
+        Fail with password2 not matching password.
         """
         # open register page
         self.open(base_url + '/register')
@@ -533,8 +534,9 @@ class FrontEndHomePageTest(BaseCase):
  
     def test_register_fail_partition_3(self, *_):
         """
-        This is a sample front end integration test to show
-        user registration Fail. With password2 not matching password.
+        This is a sample front end integration test using input partitoning 
+        testingto show user registration Fail with invalid username and
+        password2 not matching password.
         """
         # open register page
         self.open(base_url + '/register')
@@ -555,8 +557,9 @@ class FrontEndHomePageTest(BaseCase):
  
     def test_register_fail_partition_4(self, *_):
         """
-        This is a sample front end integration test to show
-        user registration Fail. With password2 not matching password.
+        This is a sample front end integration testtest using input partitoning 
+        testing to show user registration Fail with invalid username 
+        and password.
         """
         # open register page
         self.open(base_url + '/register')
@@ -577,9 +580,9 @@ class FrontEndHomePageTest(BaseCase):
 
     def test_register_fail_partition_5(self, *_):
         """
-        This is a sample front end integration test to show
-        user registration Fail. With invalid Username, invalid password, 
-        and password2 not matching password.
+        This is a sample front end integration test using input partitoning 
+        testing to show user registration Fail. With invalid Username, 
+        invalid password, and password2 not matching password.
         """
         # open register page
         self.open(base_url + '/register')
@@ -600,9 +603,9 @@ class FrontEndHomePageTest(BaseCase):
 
     def test_register_fail_partition_6(self, *_):
         """
-        This is a sample front end integration test to show
-        user registration Fail. With invalid email and password2 
-        not matching password.
+        This is a sample front end integration test  using input partitoning 
+        testing to show user registration Fail. With invalid email and 
+        password2 not matching password.
         """
         # open register page
         self.open(base_url + '/register')
@@ -621,3 +624,140 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_element("#welcome-header")
         self.assert_text("Registration Fail.", "#welcome-header")
 
+    def test_register_fail_partition_7(self, *_):
+        """
+        This is a sample front end integration test  using input partitioning 
+        testing to show user registration Fail. With invalid email and 
+        password.
+        """
+        # open register page
+        self.open(base_url + '/register')
+        # fill email, name, password and password2
+        self.type("#email", "testfail@part7@test.com")
+        self.type("#name", "userfailpart7")
+        self.type("#password", "pAss123")
+        self.type("#password2", "pAss123")
+ 
+        # click enter button
+        self.click('input[type="submit"]')
+ 
+        # open home page
+        self.open(base_url)
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        self.assert_text("Registration Fail.", "#welcome-header")
+
+    def test_register_fail_partition_8(self, *_):
+        """
+        This is a sample front end integration test  using input partitioning 
+        testing to show user registration Fail. With invalid email, 
+        password, and password 2 not matching password.
+        """
+        # open register page
+        self.open(base_url + '/register')
+        # fill email, name, password and password2
+        self.type("#email", "testfail@part8@test.com")
+        self.type("#name", "userfailpart8")
+        self.type("#password", "pAss123")
+        self.type("#password2", "pAss126")
+ 
+        # click enter button
+        self.click('input[type="submit"]')
+ 
+        # open home page
+        self.open(base_url)
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        self.assert_text("Registration Fail.", "#welcome-header")
+
+    def test_register_fail_partition_9(self, *_):
+        """
+        This is a sample front end integration test  using input partitioning 
+        testing to show user registration Fail with invalid email, 
+        and username.
+        """
+        # open register page
+        self.open(base_url + '/register')
+        # fill email, name, password and password2
+        self.type("#email", "testfail@part9@test.com")
+        self.type("#name", "userfailpart#!9")
+        self.type("#password", "pA$s123")
+        self.type("#password2", "pA$s123")
+ 
+        # click enter button
+        self.click('input[type="submit"]')
+ 
+        # open home page
+        self.open(base_url)
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        self.assert_text("Registration Fail.", "#welcome-header")
+
+    def test_register_fail_partition_10(self, *_):
+        """
+        This is a sample front end integration test  using input partitioning 
+        testing to show user registration Fail with invalid email, username,
+        and password2 not matching password.
+        """
+        # open register page
+        self.open(base_url + '/register')
+        # fill email, name, password and password2
+        self.type("#email", "testfail@part10@test.com")
+        self.type("#name", "userfailpart#!10")
+        self.type("#password", "pA$s123")
+        self.type("#password2", "pAss123")
+ 
+        # click enter button
+        self.click('input[type="submit"]')
+ 
+        # open home page
+        self.open(base_url)
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        self.assert_text("Registration Fail.", "#welcome-header")
+
+    def test_register_fail_partition_11(self, *_):
+        """
+        This is a sample front end integration test  using input partitioning 
+        testing to show user registration Fail with invalid email, username,
+        and password while password2 matches password.
+        """
+        # open register page
+        self.open(base_url + '/register')
+        # fill email, name, password and password2
+        self.type("#email", "testfail@part11@test.com")
+        self.type("#name", "userfailpart#!11")
+        self.type("#password", "pAss123")
+        self.type("#password2", "pAss123")
+ 
+        # click enter button
+        self.click('input[type="submit"]')
+ 
+        # open home page
+        self.open(base_url)
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        self.assert_text("Registration Fail.", "#welcome-header")
+
+    def test_register_fail_partition_12(self, *_):
+        """
+        This is a sample front end integration test  using input partitioning 
+        testing to show user registration Fail with invalid email, username,
+        password, and password2.
+        """
+        # open register page
+        self.open(base_url + '/register')
+        # fill email, name, password and password2
+        self.type("#email", "testfail@part12@test.com")
+        self.type("#name", "userfailpart#!12")
+        self.type("#password", "pAss123")
+        self.type("#password2", "pAfs123")
+ 
+        # click enter button
+        self.click('input[type="submit"]')
+ 
+        # open home page
+        self.open(base_url)
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        self.assert_text("Registration Fail.", "#welcome-header")
