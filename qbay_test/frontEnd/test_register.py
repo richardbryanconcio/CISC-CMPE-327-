@@ -147,7 +147,7 @@ class FrontEndHomePageTest(BaseCase):
         # open login page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testr113@test.com")
+        self.type("#email", "testr113@test.com")
         self.type("#name", "userr113")
         self.type("#password", "")
         self.type("#password2", "")
@@ -174,7 +174,7 @@ class FrontEndHomePageTest(BaseCase):
         # open login page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testr141@test.com")
+        self.type("#email", "testr141@test.com")
         self.type("#name", "userr141")
         self.type("#password", "Pas1!")
         self.type("#password2", "Pas1!")
@@ -201,7 +201,7 @@ class FrontEndHomePageTest(BaseCase):
         # open login page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testr142@test.com")
+        self.type("#email", "testr142@test.com")
         self.type("#name", "userr142")
         self.type("#password", "pa$s123")
         self.type("#password2", "pa$s123")
@@ -228,7 +228,7 @@ class FrontEndHomePageTest(BaseCase):
         # open login page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testr143@test.com")
+        self.type("#email", "testr143@test.com")
         self.type("#name", "userr143")
         self.type("#password", "PA$S123")
         self.type("#password2", "PA$S123")
@@ -255,7 +255,7 @@ class FrontEndHomePageTest(BaseCase):
         # open login page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testr144@test.com")
+        self.type("#email", "testr144@test.com")
         self.type("#name", "userr144")
         self.type("#password", "pASs123")
         self.type("#password2", "pASs123")
@@ -279,7 +279,7 @@ class FrontEndHomePageTest(BaseCase):
         # open login page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testr144@test.com")
+        self.type("#email", "testr144@test.com")
         self.type("#name", "userr144")
         self.type("#password", "pA$s123")
         self.type("#password2", "pASs123")
@@ -306,7 +306,7 @@ class FrontEndHomePageTest(BaseCase):
         # open login page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testr145@test.com")
+        self.type("#email", "testr145@test.com")
         self.type("#name", "userr145")
         self.type("#password", "pA$s123")
         self.type("#password2", "pA$s123")
@@ -332,7 +332,7 @@ class FrontEndHomePageTest(BaseCase):
         # open login page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testr151@test.com")
+        self.type("#email", "testr151@test.com")
         self.type("#name", "")
         self.type("#password", "pA$s123")
         self.type("#password2", "pA$s123")
@@ -358,7 +358,7 @@ class FrontEndHomePageTest(BaseCase):
         # open login page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testr152@test.com")
+        self.type("#email", "testr152@test.com")
         self.type("#name", " userr152")
         self.type("#password", "pA$s123")
         self.type("#password2", "pA$s123")
@@ -384,7 +384,7 @@ class FrontEndHomePageTest(BaseCase):
         # open login page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testr153@test.com")
+        self.type("#email", "testr153@test.com")
         self.type("#name", "userr153 ")
         self.type("#password", "pA$s123")
         self.type("#password2", "pA$s123")
@@ -410,7 +410,7 @@ class FrontEndHomePageTest(BaseCase):
         # open login page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testr154@test.com")
+        self.type("#email", "testr154@test.com")
         self.type("#name", "userr154$")
         self.type("#password", "pA$s123")
         self.type("#password2", "pA$s123")
@@ -436,7 +436,7 @@ class FrontEndHomePageTest(BaseCase):
         # open login page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testr155@test.com")
+        self.type("#email", "testr155@test.com")
         self.type("#name", "userr155")
         self.type("#password", "pA$s123")
         self.type("#password2", "pA$s123")
@@ -461,7 +461,7 @@ class FrontEndHomePageTest(BaseCase):
         # open login page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testr161@test.com")
+        self.type("#email", "testr161@test.com")
         self.type("#name", "u")
         self.type("#password", "pA$s123")
         self.type("#password2", "pA$s123")
@@ -486,7 +486,7 @@ class FrontEndHomePageTest(BaseCase):
         # open register page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testr162@test.com")
+        self.type("#email", "testr162@test.com")
         self.type("#name", "userr162testr162ur162")
         self.type("#password", "pA$s123")
         self.type("#password2", "pA$s123")
@@ -511,7 +511,7 @@ class FrontEndHomePageTest(BaseCase):
         # open register page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testr163@test.com")
+        self.type("#email", "testr163@test.com")
         self.type("#name", "userr163")
         self.type("#password", "pA$s123")
         self.type("#password2", "pA$s123")
@@ -535,7 +535,7 @@ class FrontEndHomePageTest(BaseCase):
         # open register page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testsuccess1@test.com")
+        self.type("#email", "testsuccess1@test.com")
         self.type("#name", "usersuc1")
         self.type("#password", "pA$s123")
         self.type("#password2", "pA$s123")
@@ -558,7 +558,7 @@ class FrontEndHomePageTest(BaseCase):
         # open register page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", " testsuccess1@test.com")
+        self.type("#email", "testsuccess1@test.com")
         self.type("#name", "usersuc1")
         self.type("#password", "pA$s123")
         self.type("#password2", "pA$s126")
