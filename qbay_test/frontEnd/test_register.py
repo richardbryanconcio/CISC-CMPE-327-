@@ -1,19 +1,23 @@
 # from seleniumBase import Basecase
 import selenium
 # from org.openqa.selenium.By import By
+import org.openqa.selenium.By as By
 from seleniumbase import BaseCase
  
  
 from unittest.mock import patch
 from qbay.models import User
 from qbay_test.conftest import base_url
- 
- 
+
+
 """
 This file defines all integration tests for the frontend registration.
+Testing below covers the black box input coverage testing method.
+The 2nd blackbox testing method used is Input partition testing method.
+If there are repeted test cases between the blackbox testing methods, 
+the repeted test case has been removed
 """
-# Testing below covers the black box input coverage testing method
- 
+
 
 class FrontEndHomePageTest(BaseCase):
     def test_register_fail_R1_1_1(self, *_):
@@ -37,8 +41,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration failed. Try again.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration failed. Try again.", "#welcome-header")
  
     def test_register_fail_R1_1_2(self, *_):
         """
@@ -61,8 +64,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration failed. Try again.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration failed. Try again.", "#welcome-header")
  
     def test_register_fail_R1_3(self, *_):
         """
@@ -86,8 +88,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration failed. Try again.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration failed. Try again.", "#welcome-header")
  
     # covers the test case of all 4 variable Success
     def test_register_Success_R1_3(self, *_):
@@ -110,8 +111,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration Success.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration Success.", "#welcome-header")
  
     def test_register_Success_R1_7(self, *_):
         """
@@ -134,9 +134,8 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration  failed. Try again.",
+        self.assert_text("Registration  failed. Try again.",
                          "#welcome-header")
-        # other available APIs
  
     def test_register_fail_R1_1_3(self, *_):
         """
@@ -159,8 +158,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration failed. Try again.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration failed. Try again.", "#welcome-header")
  
     def test_register_fail_R1_4_1(self, *_):
         """
@@ -186,8 +184,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration failed. Try again.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration failed. Try again.", "#welcome-header")
  
     def test_register_fail_R1_4_2(self, *_):
         """
@@ -213,8 +210,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration failed. Try again.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration failed. Try again.", "#welcome-header")
  
     def test_register_fail_R1_4_3(self, *_):
         """
@@ -240,8 +236,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration failed. Try again.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration failed. Try again.", "#welcome-header")
  
     def test_register_fail_R1_4_4(self, *_):
         """
@@ -267,33 +262,8 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration failed. Try again.", "#welcome-header")
-        # other available APIs
- 
-    def test_register_fail_R1_4_6(self, *_):
-        """
-        This is a sample front end integration test to show
-        user registration failed. The password2 input
-        does not match password1 requirement.
-        """
-        # open login page
-        self.open(base_url + '/register')
-        # fill email, name, password and password2
-        self.type("#email", "testr144@test.com")
-        self.type("#name", "userr144")
-        self.type("#password", "pA$s123")
-        self.type("#password2", "pASs123")
- 
-        # click enter button
-        self.click('input[type="submit"]')
- 
-        # open home page
-        self.open(base_url)
-        # test if the page loads correctly
-        self.assert_element("#welcome-header")
-        self.assert_text(" Registration failed. Try again.", "#welcome-header")
-        # other available APIs
- 
+        self.assert_text("Registration failed. Try again.", "#welcome-header")
+
     def test_register_success_R1_4_5(self, *_):
         """
         This is a sample front end integration test to show
@@ -318,8 +288,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration Success.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration Success.", "#welcome-header")
  
     def test_register_fail_R1_5_1(self, *_):
         """
@@ -344,8 +313,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration failed. Try again.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration failed. Try again.", "#welcome-header")
  
     def test_register_fail_R1_5_2(self, *_):
         """
@@ -370,8 +338,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration failed. Try again.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration failed. Try again.", "#welcome-header")
  
     def test_register_fail_R1_5_3(self, *_):
         """
@@ -396,8 +363,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration failed. Try again.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration failed. Try again.", "#welcome-header")
  
     def test_register_fail_R1_5_4(self, *_):
         """
@@ -422,8 +388,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration failed. Try again.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration failed. Try again.", "#welcome-header")
  
     def test_register_success_R1_5_5(self, *_):
         """
@@ -448,8 +413,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration success.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration success.", "#welcome-header")
  
     def test_register_fail_R1_6_1(self, *_):
         """
@@ -473,8 +437,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration failed. Try again.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration failed. Try again.", "#welcome-header")
  
     def test_register_fail_R1_6_2(self, *_):
         """
@@ -498,8 +461,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration failed. Try again.", "#welcome-header")
-        # other available APIs
+        self.assert_text("Registration failed. Try again.", "#welcome-header")
  
     def test_register_success_R1_6_3(self, *_):
         """
@@ -523,34 +485,9 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration success.", "#welcome-header")
-        # other available APIs
- 
-    def test_register_success_1(self, *_):
-        """
-        This is a sample front end integration test to show
-        user registration success. With all 4 inputs
-        (email, name, password and password2) beings valid.
-        """
-        # open register page
-        self.open(base_url + '/register')
-        # fill email, name, password and password2
-        self.type("#email", "testsuccess1@test.com")
-        self.type("#name", "usersuc1")
-        self.type("#password", "pA$s123")
-        self.type("#password2", "pA$s123")
- 
-        # click enter button
-        self.click('input[type="submit"]')
- 
-        # open home page
-        self.open(base_url)
-        # test if the page loads correctly
-        self.assert_element("#welcome-header")
-        self.assert_text(" Registration success.", "#welcome-header")
-        # other available APIs
- 
-    def test_register_fail_1(self, *_):
+        self.assert_text("Registration success.", "#welcome-header")
+
+    def test_register_fail_partition_1(self, *_):
         """
         This is a sample front end integration test to show
         user registration Fail. With password2 not matching password.
@@ -558,8 +495,8 @@ class FrontEndHomePageTest(BaseCase):
         # open register page
         self.open(base_url + '/register')
         # fill email, name, password and password2
-        self.type("#email", "testsuccess1@test.com")
-        self.type("#name", "usersuc1")
+        self.type("#email", "testfailpart1@test.com")
+        self.type("#name", "userfailpart1")
         self.type("#password", "pA$s123")
         self.type("#password2", "pA$s126")
  
@@ -570,5 +507,117 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text(" Registration Fail.", "#welcome-header")
+        self.assert_text("Registration Fail.", "#welcome-header")
  
+    def test_register_fail_partition_2(self, *_):
+        """
+        Test to show user registration Fail with password2 
+        not matching password.
+        """
+        # open register page
+        self.open(base_url + '/register')
+        # fill email, name, password and password2
+        self.type("#email", "testfailpart2@test.com")
+        self.type("#name", "userfailpart2")
+        self.type("#password", "pA$s123")
+        self.type("#password2", "pA$s1234")
+ 
+        # click enter button
+        self.click('input[type="submit"]')
+ 
+        # open home page
+        self.open(base_url)
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        self.assert_text("Registration Fail.", "#welcome-header")
+ 
+    def test_register_fail_partition_3(self, *_):
+        """
+        This is a sample front end integration test to show
+        user registration Fail. With password2 not matching password.
+        """
+        # open register page
+        self.open(base_url + '/register')
+        # fill email, name, password and password2
+        self.type("#email", "testfailpart3@test.com")
+        self.type("#name", "userfailpart3#$")
+        self.type("#password", "pA$s123")
+        self.type("#password2", "pA$s126")
+ 
+        # click enter button
+        self.click('input[type="submit"]')
+ 
+        # open home page
+        self.open(base_url)
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        self.assert_text("Registration Fail.", "#welcome-header")
+ 
+    def test_register_fail_partition_4(self, *_):
+        """
+        This is a sample front end integration test to show
+        user registration Fail. With password2 not matching password.
+        """
+        # open register page
+        self.open(base_url + '/register')
+        # fill email, name, password and password2
+        self.type("#email", "testfailpart4@test.com")
+        self.type("#name", "userfailpart4#$")
+        self.type("#password", "pAss123")
+        self.type("#password2", "pAss123")
+ 
+        # click enter button
+        self.click('input[type="submit"]')
+ 
+        # open home page
+        self.open(base_url)
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        self.assert_text("Registration Fail.", "#welcome-header")
+
+    def test_register_fail_partition_5(self, *_):
+        """
+        This is a sample front end integration test to show
+        user registration Fail. With invalid Username, invalid password, 
+        and password2 not matching password.
+        """
+        # open register page
+        self.open(base_url + '/register')
+        # fill email, name, password and password2
+        self.type("#email", "testfailpart5@test.com")
+        self.type("#name", "userfailpart5#$")
+        self.type("#password", "pAss123")
+        self.type("#password2", "pAss126")
+ 
+        # click enter button
+        self.click('input[type="submit"]')
+ 
+        # open home page
+        self.open(base_url)
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        self.assert_text("Registration Fail.", "#welcome-header")
+
+    def test_register_fail_partition_6(self, *_):
+        """
+        This is a sample front end integration test to show
+        user registration Fail. With invalid email and password2 
+        not matching password.
+        """
+        # open register page
+        self.open(base_url + '/register')
+        # fill email, name, password and password2
+        self.type("#email", "testfail@part6@test.com")
+        self.type("#name", "userfailpart6")
+        self.type("#password", "pA$s123")
+        self.type("#password2", "pAss126")
+ 
+        # click enter button
+        self.click('input[type="submit"]')
+ 
+        # open home page
+        self.open(base_url)
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        self.assert_text("Registration Fail.", "#welcome-header")
+
