@@ -9,9 +9,18 @@ from qbay.models import User
 # Contains integration tests for the user update page
 
 class FrontEndUserUpdatePageTest(Basecase):
+    #login to an existing account
+    self.open(base_url + '/login')
+    self.type("#email", "testing@gmail.com")
+    self.type("#password", "Testing1234!")
+    #redirect to update page
+    self.open(base_url + '/baseUpdate')
 
     #TEST CASE 1: UPDATE USERNAME SUCCESS
     def test_update_username_success(self, *_):
+        self.open(base_url + '/updateUsername')
+        self.type("#username", "newname")
+        self.click('input[type="submit"]')
 
     #TEST CASE 2: UPDATE USERNAME FAILURE
     def test_update_username_failure(self, *_):
