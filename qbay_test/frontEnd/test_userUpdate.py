@@ -108,7 +108,6 @@ class FrontEndUserUpdatePageTest(Basecase):
         # check returned to home page
         self.assert_title(base_url)
 
-
     # TEST CASE 8: UPDATE PASSWORD FAILURE (non-empty)
     def test_update_password_failure(self, *_):
         self.open(base_url + 'baseUpdate/updatePassword')
