@@ -349,7 +349,7 @@ class FrontEndLoginPageTest(Basecase):
         self.assert_text("Enter your email address and password", "p")
 
         # R1-7, R2-7
-        # Enters vali email and password that is less than 8 characters
+        # Enters valid email and password that is less than 6 characters
         self.type("#email", "testing08@gmail.com")
         self.type("#password", "Test8")
 
@@ -391,7 +391,7 @@ class FrontEndLoginPageTest(Basecase):
         self.assert_text("Enter your email address and password", "p")
 
         # R2-8
-        # Enters email and password that is less than 8 characters
+        # Enters email without an email ID and valid password
         self.type("#email", "@gmail.com")
         self.type("#password", "Testing09!")
 
@@ -433,7 +433,7 @@ class FrontEndLoginPageTest(Basecase):
         self.assert_text("Enter your email address and password", "p")
 
         # R2-9
-        # Enters email and password that is less than 8 characters
+        # Enters email that is missing '@' symbol and valid password
         self.type("#email", "testing10gmail.com")
         self.type("#password", "Testing10!")
 
@@ -475,7 +475,7 @@ class FrontEndLoginPageTest(Basecase):
         self.assert_text("Enter your email address and password", "p")
     
         # R2-10
-        # Enters email and password that is less than 8 characters
+        # Enters valid email and password that is missing an uppercase letter
         self.type("#email", "testing11@gmail")
         self.type("#password", "testing11!")
     
@@ -493,7 +493,7 @@ class FrontEndLoginPageTest(Basecase):
         self.assert_flash_message("Login failed. Please try again.", "#message")
 
 
-    # Test Case 12: LOGIN FAIL (invalid password format; missing special letter)
+    # Test Case 12: LOGIN FAIL (invalid password format; missing special character)
     def test_login_fail_11(self, *_):
             
         # Tests if the user has entered an invalid email format
@@ -517,7 +517,7 @@ class FrontEndLoginPageTest(Basecase):
         self.assert_text("Enter your email address and password", "p")
     
         # R2-11
-        # Enters email and password that is less than 8 characters
+        # Enters vali email and password that is missing a special character
         self.type("#email", "testing12@gmail")
         self.type("#password", "Testing12")
     
@@ -560,7 +560,7 @@ class FrontEndLoginPageTest(Basecase):
         self.assert_text("Enter your email address and password", "p")
 
         # R2-12
-        # Enters email and password that is less than 8 characters
+        # Enters valid email and password containing a space as a prefix
         self.type("#email", "testing13@gmail")
         self.type("#password", " Testing13!")
 
@@ -603,7 +603,7 @@ class FrontEndLoginPageTest(Basecase):
         self.assert_text("Enter your email address and password", "p")
 
         # R2-13
-        # Enters email and password that is less than 8 characters
+        # Enters valid email and password containing a space as a suffix
         self.type("#email", "testing14@gmail")
         self.type("#password", "Testing14! ")
 
@@ -646,7 +646,7 @@ class FrontEndLoginPageTest(Basecase):
         self.assert_text("Enter your email address and password", "p")
 
         # R2-14
-        # Enters email and password that is less than 8 characters
+        # Enters valid email and password that contains a space as prefix and suffix
         self.type("#email", "testing15@gmail")
         self.type("#password", " Testing15! ")
 
