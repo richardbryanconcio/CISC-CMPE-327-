@@ -665,7 +665,7 @@ class FrontEndLoginPageTest(Basecase):
 
 
     # Test Case 16: SHOTGUN TESTING
-    def test_login_fail_(self, *_):
+    def test_login_fail_15(self, *_):
 
         # Shotgun testing for multiple account creations and logins
 
