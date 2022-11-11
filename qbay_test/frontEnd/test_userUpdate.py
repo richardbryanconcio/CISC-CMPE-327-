@@ -42,6 +42,9 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.type("#username", "newname")
         self.click('input[type="submit"]')
 
+        # check change message is shown
+        self.assert_text("username has been changed", "message")
+
         # check returned to home page
         self.assert_title(base_url)
 
@@ -55,6 +58,9 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.type("#username", " invalidname")
         self.click('input[type="submit"]')
 
+        # check invalid message is shown
+        self.assert_text("username is invalid", "message")
+
         # check returned to home page
         self.assert_title(base_url)
 
@@ -67,6 +73,9 @@ class FrontEndUserUpdatePageTest(Basecase):
 
         self.type("#username", "")
         self.click('input[type="submit"]')
+
+        # check invalid message is shown
+        self.assert_text("username is invalid", "message")
 
         # check returned to home page
         self.assert_title(base_url)
@@ -82,6 +91,9 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.type("#username", "!notvalid")
         self.click('input[type="submit"]')
 
+        # check invalid message is shown
+        self.assert_text("username is invalid", "message")
+
         # check returned to home page
         self.assert_title(base_url)
 
@@ -92,6 +104,9 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.type("#password", "Abracadabra123$")
         self.type("#confPassword", "Abracadabra123$")
         self.click('input[type="submit"]')
+
+        # check password change message is shown
+        self.assert_text("password has been changed", "message")
 
         # check returned to home page
         self.assert_title(base_url)
@@ -105,6 +120,9 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.type("#confPassword", "abc")
         self.click('input[type="submit"]')
 
+        # check password invalid message is shown
+        self.assert_text("password is invalid", "message")
+
         # check returned to home page
         self.assert_title(base_url)
 
@@ -115,6 +133,9 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.type("#password", "")
         self.type("#confPassword", "")
         self.click('input[type="submit"]')
+
+        # check password invalid message is shown
+        self.assert_text("password is invalid", "message")
 
         # check returned to home page
         self.assert_title(base_url)
@@ -130,6 +151,9 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.type("#confPassword", "password2")
         self.click('input[type="submit"]')
 
+        # check password invalid message is shown
+        self.assert_text("password is invalid", "message")
+
         # check returned to home page
         self.assert_title(base_url)
 
@@ -139,12 +163,21 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.type("#email", "ricky@trailerpark.com")
         self.click('input[type="submit"]')
 
+        # check email change message is shown
+        self.assert_text("email has been changed", "message")
+
+        # check returned to home page
+        self.assert_title(base_url)
+
     # TEST CASE 11: UPDATE EMAIL FAILURE (invalid email)
     def test_update_email_failure(self, *_):
         self.open(base_url + 'baseUpdate/updateEmail')
 
         self.type("#email", "notanemail.com")
         self.click('input[type="submit"]')
+
+        # check email invalid message is shown
+        self.assert_text("email is invalid", "message")
 
         # check returned to home page
         self.assert_title(base_url)
@@ -155,6 +188,12 @@ class FrontEndUserUpdatePageTest(Basecase):
 
         self.type("#address", "2525 Maple Ln")
         self.click('input[type="submit"]')
+
+        # check address change message is shown
+        self.assert_text("billing address has been changed", "message")
+
+        # check address change message is shown
+        self.assert_text("email is invalid", "message")
 
         # check returned to home page
         self.assert_title(base_url)
@@ -167,6 +206,9 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.type("#address", "ur moms house")
         self.click('input[type="submit"]')
 
+        # check address invalid message is shown
+        self.assert_text("billing address is invalid", "message")
+
         # check returned to home page
         self.assert_title(base_url)
 
@@ -176,6 +218,9 @@ class FrontEndUserUpdatePageTest(Basecase):
 
         self.type("#postalCode", "b7g 4k5")
         self.click('input[type="submit"]')
+
+        # check postal code change message is shown
+        self.assert_text("postal code has been changed", "message")
 
         # check returned to home page
         self.assert_title(base_url)
@@ -188,6 +233,9 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.type("#postalCode", "4k5 b7g")
         self.click('input[type="submit"]')
 
+        # check postal code invalid message is shown
+        self.assert_text("postal code is invalid", "message")
+
         # check returned to home page
         self.assert_title(base_url)
 
@@ -197,6 +245,9 @@ class FrontEndUserUpdatePageTest(Basecase):
 
         self.type("#postalCode", "")
         self.click('input[type="submit"]')
+
+        # check postal code invalid message is shown
+        self.assert_text("postal code is invalid", "message")
 
         # check returned to home page
         self.assert_title(base_url)
