@@ -10,11 +10,18 @@ from qbay.models import User
 '''
 Requirements 
 
-R3-1: A user is only able to update his/her user name, user email, billing address, password, and postal code.
-R3-2: Postal code should be non-empty, alphanumeric-only, and no special characters such as !.
+R3-1: A user is only able to update his/her user name, user email, 
+billing address, password, and postal code.
+
+R3-2: Postal code should be non-empty, alphanumeric-only, 
+and no special characters such as !.
+
 R3-3: Postal code has to be a valid Canadian postal code.
-R3-4: User name follows the requirements above (non-empty, alphanumeric-only, no special characters such as !).
+
+R3-4: User name follows the requirements above (non-empty, 
+alphanumeric-only, no special characters such as !).
 '''
+
 
 class FrontEndUserUpdatePageTest(Basecase):
     # login to an existing account
@@ -59,7 +66,8 @@ class FrontEndUserUpdatePageTest(Basecase):
 
         self.assert_title(base_url)
 
-    # TEST CASE 4: UPDATE USERNAME FAILURE (R3-4: no special characters such as !)
+    # TEST CASE 4: UPDATE USERNAME FAILURE 
+    # (R3-4: no special characters such as !)
     def test_update_username_failure(self, *_):
         self.open(base_url + 'baseUpdate/updateUsername')
 
@@ -78,7 +86,8 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.type("#confPassword", "Abracadabra123$")
         self.click('input[type="submit"]')
 
-    # TEST CASE 6: UPDATE PASSWORD FAILURE (length greater than 6)
+    # TEST CASE 6: UPDATE PASSWORD FAILURE 
+    # (length greater than 6)
     def test_update_password_failure(self, *_):
         self.open(base_url + 'baseUpdate/updatePassword')
         self.type("#password", "abc")
@@ -114,7 +123,8 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.type("#address", "2525 Maple Ln")
         self.click('input[type="submit"]')
 
-    # TEST CASE 12: UPDATE BILLING ADDRESS FAILURE (invalid address)
+    # TEST CASE 12: UPDATE BILLING ADDRESS FAILURE 
+    # (invalid address)
     def test_update_address_failure(self, *_):
         self.open(base_url + 'baseUpdate/updateBillingPostal')
         self.type("#address", "ur moms house")
@@ -126,7 +136,8 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.type("#postalCode", "b7g 4k5")
         self.click('input[type="submit"]')
 
-    # TEST CASE 14: UPDATE POSTAL CODE FAILURE (R3-3: Must be valid Canadian postal code)
+    # TEST CASE 14: UPDATE POSTAL CODE FAILURE 
+    # (R3-3: Must be valid Canadian postal code)
     def test_update_postal_failure(self, *_):
         self.open(base_url + 'baseUpdate/updateBillingPostal')
         self.type("#postalCode", "4k5 b7g")
