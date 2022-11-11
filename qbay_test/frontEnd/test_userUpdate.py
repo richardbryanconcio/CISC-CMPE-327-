@@ -1,6 +1,5 @@
-from seleniumBase import Basecase
-
-import org.openqa.selenium.By as By
+from seleniumbase import BaseCase
+#import org.openqa.selenium.By as By
 
 from qbay_test.conftest import base_url
 from unittest.mock import patch
@@ -23,7 +22,8 @@ alphanumeric-only, no special characters such as !).
 '''
 
 
-class FrontEndUserUpdatePageTest(Basecase):
+class FrontEndUserUpdatePageTest(BaseCase):
+    '''
     # login to an existing account
     self.open(base_url + '/login')
     self.type("#email", "testing@gmail.com")
@@ -31,6 +31,7 @@ class FrontEndUserUpdatePageTest(Basecase):
 
     # redirect to update page
     self.open(base_url + '/baseUpdate')
+    '''
 
     # TEST CASE 1: UPDATE USERNAME SUCCESS
     def test_update_username_success(self, *_):
@@ -49,7 +50,7 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.assert_title(base_url)
 
     # TEST CASE 2: UPDATE USERNAME FAILURE (R3-4: alphanumeric-only)
-    def test_update_username_failure(self, *_):
+    def test_update_username_failure_1(self, *_):
         self.open(base_url + 'baseUpdate/updateUsername')
 
         # check that current username is displayed
@@ -65,7 +66,7 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.assert_title(base_url)
 
     # TEST CASE 3: UPDATE USERNAME FAILURE (R3-4: non-empty)
-    def test_update_username_failure(self, *_):
+    def test_update_username_failure_2(self, *_):
         self.open(base_url + 'baseUpdate/updateUsername')
 
         # check that current username is displayed
@@ -82,7 +83,7 @@ class FrontEndUserUpdatePageTest(Basecase):
 
     # TEST CASE 4: UPDATE USERNAME FAILURE 
     # (R3-4: no special characters such as !)
-    def test_update_username_failure(self, *_):
+    def test_update_username_failure_3(self, *_):
         self.open(base_url + 'baseUpdate/updateUsername')
 
         # check that current username is displayed
@@ -113,7 +114,7 @@ class FrontEndUserUpdatePageTest(Basecase):
 
     # TEST CASE 6: UPDATE PASSWORD FAILURE 
     # (length greater than 6)
-    def test_update_password_failure(self, *_):
+    def test_update_password_failure_1(self, *_):
         self.open(base_url + 'baseUpdate/updatePassword')
 
         self.type("#password", "abc")
@@ -127,7 +128,7 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.assert_title(base_url)
 
     # TEST CASE 8: UPDATE PASSWORD FAILURE (non-empty)
-    def test_update_password_failure(self, *_):
+    def test_update_password_failure_2(self, *_):
         self.open(base_url + 'baseUpdate/updatePassword')
 
         self.type("#password", "")
@@ -141,11 +142,8 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.assert_title(base_url)
 
     # TEST 9: UPDATE PASSWORD FAILURE (password doesnt match confirmation)
-    def test_update_username_failure(self, *_):
-        self.open(base_url + 'baseUpdate/updateUsername')
-
-        # check that current username is displayed
-        self.assert_text(user.username, "currentUsername")
+    def test_update_password_failure_3(self, *_):
+        self.open(base_url + 'baseUpdate/updatePassword')
 
         self.type("#username", "password1")
         self.type("#confPassword", "password2")
@@ -227,7 +225,7 @@ class FrontEndUserUpdatePageTest(Basecase):
 
     # TEST CASE 15: UPDATE POSTAL CODE FAILURE 
     # (R3-3: Must be valid Canadian postal code)
-    def test_update_postal_failure(self, *_):
+    def test_update_postal_failure_1(self, *_):
         self.open(base_url + 'baseUpdate/updateBillingPostal')
 
         self.type("#postalCode", "4k5 b7g")
@@ -240,7 +238,7 @@ class FrontEndUserUpdatePageTest(Basecase):
         self.assert_title(base_url)
 
     # TEST CASE 16: UPDATE POSTAL CODE FAILURE (R3-2: non-empty)
-    def test_update_postal_failure(self, *_):
+    def test_update_postal_failure_2(self, *_):
         self.open(base_url + 'baseUpdate/updateBillingPostal')
 
         self.type("#postalCode", "")
