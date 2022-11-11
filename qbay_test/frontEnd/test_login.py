@@ -234,11 +234,3 @@ class FrontEndLoginPageTest(Basecase):
 
         # Should see the flash message at the top of the page
         self.assert_flash_message("Login failed. Please try again.", "#message")
-
-    
-
-        
-
-       
-
-       
