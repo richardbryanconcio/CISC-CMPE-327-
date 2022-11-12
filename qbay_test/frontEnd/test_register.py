@@ -15,7 +15,8 @@ This file defines all integration tests for the frontend registration.
 Testing below covers the black box input coverage testing method.
 The 2nd blackbox testing method used is Input partition testing method.
 If there are repeted test cases between the blackbox testing methods, 
-the repeted test case has been removed
+the repeted test case has been removed.
+The 3rd blackbox testing method used is shotgun testing. 
 """
 
 
