@@ -136,7 +136,7 @@ class FrontEndCreateListingTest(BaseCase):
         endDate = "01/01/2024"
 
         for i in range(100):
-            # generate a title with length between 1 and 150
+            # generate a description with length between 1 and 150
             length = random.randint(1, 4000)
             description = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz')
                             for i in range(length))
@@ -162,3 +162,41 @@ class FrontEndCreateListingTest(BaseCase):
                 # create new title if a listing was created successfully (r4_8)
                 title = (int(title) + 1)
 
+    def test_r4_4_create_listing(self, *_):
+        '''
+        R4-4: Description has to be longer than the product's title.
+
+        tested using shotgun testing where the generated input is title and description 
+        '''
+        # a set of valid inputs for creating a listing
+        price = "100"
+        startDate = "01/01/2022"
+        endDate = "01/01/2024"
+
+        for i in range(100):
+            # generate a description and title with length between 20 and 80 (to fulfill r4_2 and r4_3)
+            length = random.randint(20, 80)
+            description = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz')
+                            for i in range(length))
+            length = random.randint(20, 80)
+            title = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz')
+                            for i in range(length))
+            self.open(base_url + '/createListing')
+            self.type("#title", title)
+            self.type("#description", description)
+            self.type("#price", price)
+            self.type("#startDate", startDate)
+            self.type("#endDate", endDate)
+            self.click('input[type="submit"]')
+
+            if (len(title) > len(description)):
+                # check invalid message is shown
+                print("title length: ", len(title))
+                print("description length: ", len(description))
+                assert self.get_current_url() == base_url + '/createListing'
+                self.assert_text(
+                    "creating listing failed, please try again", "#message")
+            else:
+                print("description length: ", length)
+                # check that we are redirected to home page
+                assert self.get_current_url() == base_url + "/"
