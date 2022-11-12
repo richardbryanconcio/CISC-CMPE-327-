@@ -200,3 +200,41 @@ class FrontEndCreateListingTest(BaseCase):
                 print("description length: ", length)
                 # check that we are redirected to home page
                 assert self.get_current_url() == base_url + "/"
+
+
+    def test_r4_5_create_listing(self, *_):
+        '''
+        R4-5: Price has to be of range [10, 10000].
+
+        tested using shotgun testing where the generated input is price
+        '''
+        # a set of valid inputs for creating a listing
+        title = "1"
+        description = "This is a test description"
+        price = "100"
+        startDate = "01/01/2022"
+        endDate = "01/01/2024"
+
+
+        for i in range(100):
+            # generate a description and title with length between 20 and 80 (to fulfill r4_2 and r4_3)
+            price = random.randint(0, 20000)
+            self.open(base_url + '/createListing')
+            self.type("#title", title)
+            self.type("#description", description)
+            self.type("#price", price)
+            self.type("#startDate", startDate)
+            self.type("#endDate", endDate)
+            self.click('input[type="submit"]')
+
+            if (price < 10 or price > 10000):
+                # check invalid message is shown
+                assert self.get_current_url() == base_url + '/createListing'
+                self.assert_text(
+                    "creating listing failed, please try again", "#message")
+            else:
+                # check that we are redirected to home page
+                assert self.get_current_url() == base_url + "/"
+
+                # create new title if a listing was created successfully (r4_8)
+                title = (int(title) + 1)
