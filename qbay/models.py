@@ -270,7 +270,7 @@ def createListing(title, description, price, user, startDate, endDate):
         return None
 
     # check if description is shorter then title
-    if len(description) < len(title):
+    if len(description) <= len(title):
         return None
 
     # check if price is within proper range
