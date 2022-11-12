@@ -88,7 +88,7 @@ class FrontEndCreateListingTest(BaseCase):
         '''
         R4-2: The title of the product is no longer than 80 characters.
 
-        tested using shotgun testing where the generated input is title 
+        tested using hybrid testing with input partioning and shotgun testing
         '''
         # a set of valid inputs for creating a listing
         # description must be longer then title
@@ -97,6 +97,48 @@ class FrontEndCreateListingTest(BaseCase):
         price = "100"
         startDate = "01/01/2022"
         endDate = "01/01/2024"
+
+        # p1 = title is 80 characters long
+        # expected = pass
+        self.open(base_url + '/createListing')
+        self.type("#title", ''.join(random.choice(
+            'abcdefghijklmnopqrstuvwxyz') for i in range(80)))
+        self.type("#description", description)
+        self.type("#price", price)
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check we are redirected to home
+        assert self.get_current_url() == base_url + "/"
+
+        # p2 = title is 81 characters long
+        # expected = fail
+        self.open(base_url + '/createListing')
+        self.type("#title", ''.join(random.choice(
+            'abcdefghijklmnopqrstuvwxyz') for i in range(81)))
+        self.type("#description", description)
+        self.type("#price", price)
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check invalid message is shown
+        assert self.get_current_url() == base_url + '/createListing'
+        self.assert_text("creating listing failed, please try again", "#message")
+
+        # p3 = title is 100 characters long
+        # expected = fail
+        self.open(base_url + '/createListing')
+        self.type("#title", ''.join(random.choice(
+            'abcdefghijklmnopqrstuvwxyz') for i in range(100)))
+        self.type("#description", description)
+        self.type("#price", price)
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check invalid message is shown
+        assert self.get_current_url() == base_url + '/createListing'
+        self.assert_text("creating listing failed, please try again", "#message")
+
 
         for i in range(100):
             # generate a title with length between 1 and 150
