@@ -144,7 +144,7 @@ class FrontEndCreateListingTest(BaseCase):
         self.assert_text(
             "creating listing failed, please try again", "#message")
 
-        for i in range(100):
+        for i in range(10):
             # generate a title with length between 1 and 150
             length = random.randint(1, 160)
             title = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz')
@@ -234,7 +234,7 @@ class FrontEndCreateListingTest(BaseCase):
         self.assert_text(
             "creating listing failed, please try again", "#message")
 
-        for i in range(100):
+        for i in range(10):
             # generate a description with length between 1 and 150
             length = random.randint(1, 4000)
             description = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz')
@@ -331,7 +331,7 @@ class FrontEndCreateListingTest(BaseCase):
         assert self.get_current_url() == base_url + "/"
 
         titlesUsed = []
-        for i in range(100):
+        for i in range(10):
             # generate a description and title with length between 20 and 80 
             # (to fulfill r4_2 and r4_3)
             length = random.randint(20, 80)
@@ -439,7 +439,7 @@ class FrontEndCreateListingTest(BaseCase):
         self.assert_text(
             "creating listing failed, please try again", "#message")
 
-        for i in range(100):
+        for i in range(10):
             # generate a description and title with length between 20 and 80 
             # (to fulfill r4_2 and r4_3)
             price = random.randint(0, 20000)
