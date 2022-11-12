@@ -377,7 +377,7 @@ class FrontEndCreateListingTest(BaseCase):
         # p1 = price is 20
         # expected = pass
         self.open(base_url + '/createListing')
-        self.type("#title", title)
+        self.type("#title", 'a1')
         self.type("#description", description)
         self.type("#price", "20")
         self.type("#startDate", startDate)
@@ -389,7 +389,7 @@ class FrontEndCreateListingTest(BaseCase):
         # p2 = price is 10
         # expected = pass
         self.open(base_url + '/createListing')
-        self.type("#title", title)
+        self.type("#title", 'b1')
         self.type("#description", description)
         self.type("#price", "10")
         self.type("#startDate", startDate)
@@ -401,7 +401,7 @@ class FrontEndCreateListingTest(BaseCase):
         # p3 = price is 10000
         # expected = pass
         self.open(base_url + '/createListing')
-        self.type("#title", title)
+        self.type("#title", 'c1')
         self.type("#description", description)
         self.type("#price", "10000")
         self.type("#startDate", startDate)
@@ -413,7 +413,7 @@ class FrontEndCreateListingTest(BaseCase):
         # p4 = price is 10001
         # expected = fail
         self.open(base_url + '/createListing')
-        self.type("#title", title)
+        self.type("#title", 'd1')
         self.type("#description", description)
         self.type("#price", "10001")
         self.type("#startDate", startDate)
@@ -427,7 +427,7 @@ class FrontEndCreateListingTest(BaseCase):
         # p5 = price is 9
         # expected = fail
         self.open(base_url + '/createListing')
-        self.type("#title", title)
+        self.type("#title", 'e1')
         self.type("#description", description)
         self.type("#price", "9")
         self.type("#startDate", startDate)
