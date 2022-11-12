@@ -159,12 +159,10 @@ class FrontEndCreateListingTest(BaseCase):
 
             if (length > 80):
                 # check invalid message is shown
-                print("title length: ", length)
                 assert self.get_current_url() == base_url + '/createListing'
                 self.assert_text(
                     "creating listing failed, please try again", "#message")
             else:
-                print("title length: ", length)
                 # check that we are redirected to home page
                 assert self.get_current_url() == base_url + "/"
 
@@ -250,12 +248,10 @@ class FrontEndCreateListingTest(BaseCase):
 
             if (len(description) > 2000 or len(description) < 20):
                 # check invalid message is shown
-                print("description length: ", length)
                 assert self.get_current_url() == base_url + '/createListing'
                 self.assert_text(
                     "creating listing failed, please try again", "#message")
             else:
-                print("description length: ", length)
                 # check that we are redirected to home page
                 assert self.get_current_url() == base_url + "/"
 
@@ -351,13 +347,10 @@ class FrontEndCreateListingTest(BaseCase):
 
             if (len(title) > len(description)):
                 # check invalid message is shown
-                print("title length: ", len(title))
-                print("description length: ", len(description))
                 assert self.get_current_url() == base_url + '/createListing'
                 self.assert_text(
                     "creating listing failed, please try again", "#message")
             else:
-                print("description length: ", length)
                 # check that we are redirected to home page
                 assert self.get_current_url() == base_url + "/"
 
