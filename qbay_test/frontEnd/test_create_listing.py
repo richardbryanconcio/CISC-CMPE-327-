@@ -20,149 +20,149 @@ class FrontEndCreateListingTest(BaseCase):
     except:
         pass
 
-    # def test_r4_1_create_listing(self, *_):
-    #     '''
-    #     R4-1: The title of the product has to be alphanumeric-only,
-    #     and space allowed only if it is not as prefix and suffix.
+    def test_r4_1_create_listing(self, *_):
+        '''
+        R4-1: The title of the product has to be alphanumeric-only,
+        and space allowed only if it is not as prefix and suffix.
 
-    #     tested using input partion testing where the input is title
-    #     '''
-    #     # a set of valid inputs for creating a listing
-    #     desciption = "This is a test description"
-    #     price = "100"
-    #     startDate = "01/01/2022"
-    #     endDate = "01/01/2024"
+        tested using input partion testing where the input is title
+        '''
+        # a set of valid inputs for creating a listing
+        desciption = "This is a test description"
+        price = "100"
+        startDate = "01/01/2022"
+        endDate = "01/01/2024"
 
-    #     # p1 = title with a space prefix
-    #     # expected = fail
-    #     self.open(base_url + '/createListing')
-    #     self.type("#title", " title with prefix")
-    #     self.type("#description", desciption)
-    #     self.type("#price", price)
-    #     self.type("#startDate", startDate)
-    #     self.type("#endDate", endDate)
-    #     self.click('input[type="submit"]')
-    #     # check invalid message is shown
-    #     assert self.get_current_url() == base_url + '/createListing'
-    #     self.assert_text("creating listing failed, please try again", "#message")
+        # p1 = title with a space prefix
+        # expected = fail
+        self.open(base_url + '/createListing')
+        self.type("#title", " title with prefix")
+        self.type("#description", desciption)
+        self.type("#price", price)
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check invalid message is shown
+        assert self.get_current_url() == base_url + '/createListing'
+        self.assert_text("creating listing failed, please try again", "#message")
 
-    #     # p2 = title with a space suffix
-    #     # expected = fail
-    #     self.open(base_url + '/createListing')
-    #     self.type("#title", "title with suffix ")
-    #     self.type("#description", desciption)
-    #     self.type("#price", price)
-    #     self.type("#startDate", startDate)
-    #     self.type("#endDate", endDate)
-    #     self.click('input[type="submit"]')
-    #     # check invalid message is shown
-    #     assert self.get_current_url() == base_url + '/createListing'
-    #     self.assert_text("creating listing failed, please try again", "#message")
+        # p2 = title with a space suffix
+        # expected = fail
+        self.open(base_url + '/createListing')
+        self.type("#title", "title with suffix ")
+        self.type("#description", desciption)
+        self.type("#price", price)
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check invalid message is shown
+        assert self.get_current_url() == base_url + '/createListing'
+        self.assert_text("creating listing failed, please try again", "#message")
 
-    #     # p3 = title is non-alphanumeric
-    #     # expected = fail
-    #     self.open(base_url + '/createListing')
-    #     self.type("#title", "non-alphanumeric!")
-    #     self.type("#description", desciption)
-    #     self.type("#price", price)
-    #     self.type("#startDate", startDate)
-    #     self.type("#endDate", endDate)
-    #     self.click('input[type="submit"]')
-    #     # check invalid message is shown
-    #     assert self.get_current_url() == base_url + '/createListing'
-    #     self.assert_text("creating listing failed, please try again", "#message")
+        # p3 = title is non-alphanumeric
+        # expected = fail
+        self.open(base_url + '/createListing')
+        self.type("#title", "non-alphanumeric!")
+        self.type("#description", desciption)
+        self.type("#price", price)
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check invalid message is shown
+        assert self.get_current_url() == base_url + '/createListing'
+        self.assert_text("creating listing failed, please try again", "#message")
 
-    #     # p4 = title is alphanumeric without space as prefix or suffix
-    #     # expected = fail
-    #     self.open(base_url + '/createListing')
-    #     self.type("#title", "valid title")
-    #     self.type("#description", desciption)
-    #     self.type("#price", price)
-    #     self.type("#startDate", startDate)
-    #     self.type("#endDate", endDate)
-    #     self.click('input[type="submit"]')
-    #     # check we are redirected to home
-    #     assert self.get_current_url() == base_url + "/"
+        # p4 = title is alphanumeric without space as prefix or suffix
+        # expected = fail
+        self.open(base_url + '/createListing')
+        self.type("#title", "valid title")
+        self.type("#description", desciption)
+        self.type("#price", price)
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check we are redirected to home
+        assert self.get_current_url() == base_url + "/"
 
-    # def test_r4_2_create_listing(self, *_):
-    #     '''
-    #     R4-2: The title of the product is no longer than 80 characters.
+    def test_r4_2_create_listing(self, *_):
+        '''
+        R4-2: The title of the product is no longer than 80 characters.
 
-    #     tested using hybrid testing with input partioning and shotgun testing
-    #     '''
-    #     # a set of valid inputs for creating a listing
-    #     # description must be longer then title
-    #     description = ''.join(random.choice(
-    #         'abcdefghijklmnopqrstuvwxyz') for i in range(161))
-    #     price = "100"
-    #     startDate = "01/01/2022"
-    #     endDate = "01/01/2024"
+        tested using hybrid testing with input partioning and shotgun testing
+        '''
+        # a set of valid inputs for creating a listing
+        # description must be longer then title
+        description = ''.join(random.choice(
+            'abcdefghijklmnopqrstuvwxyz') for i in range(161))
+        price = "100"
+        startDate = "01/01/2022"
+        endDate = "01/01/2024"
 
-    #     # p1 = title is 80 characters long
-    #     # expected = pass
-    #     self.open(base_url + '/createListing')
-    #     self.type("#title", ''.join(random.choice(
-    #         'abcdefghijklmnopqrstuvwxyz') for i in range(80)))
-    #     self.type("#description", description)
-    #     self.type("#price", price)
-    #     self.type("#startDate", startDate)
-    #     self.type("#endDate", endDate)
-    #     self.click('input[type="submit"]')
-    #     # check we are redirected to home
-    #     assert self.get_current_url() == base_url + "/"
+        # p1 = title is 80 characters long
+        # expected = pass
+        self.open(base_url + '/createListing')
+        self.type("#title", ''.join(random.choice(
+            'abcdefghijklmnopqrstuvwxyz') for i in range(80)))
+        self.type("#description", description)
+        self.type("#price", price)
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check we are redirected to home
+        assert self.get_current_url() == base_url + "/"
 
-    #     # p2 = title is 81 characters long
-    #     # expected = fail
-    #     self.open(base_url + '/createListing')
-    #     self.type("#title", ''.join(random.choice(
-    #         'abcdefghijklmnopqrstuvwxyz') for i in range(81)))
-    #     self.type("#description", description)
-    #     self.type("#price", price)
-    #     self.type("#startDate", startDate)
-    #     self.type("#endDate", endDate)
-    #     self.click('input[type="submit"]')
-    #     # check invalid message is shown
-    #     assert self.get_current_url() == base_url + '/createListing'
-    #     self.assert_text("creating listing failed, please try again", "#message")
+        # p2 = title is 81 characters long
+        # expected = fail
+        self.open(base_url + '/createListing')
+        self.type("#title", ''.join(random.choice(
+            'abcdefghijklmnopqrstuvwxyz') for i in range(81)))
+        self.type("#description", description)
+        self.type("#price", price)
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check invalid message is shown
+        assert self.get_current_url() == base_url + '/createListing'
+        self.assert_text("creating listing failed, please try again", "#message")
 
-    #     # p3 = title is 100 characters long
-    #     # expected = fail
-    #     self.open(base_url + '/createListing')
-    #     self.type("#title", ''.join(random.choice(
-    #         'abcdefghijklmnopqrstuvwxyz') for i in range(100)))
-    #     self.type("#description", description)
-    #     self.type("#price", price)
-    #     self.type("#startDate", startDate)
-    #     self.type("#endDate", endDate)
-    #     self.click('input[type="submit"]')
-    #     # check invalid message is shown
-    #     assert self.get_current_url() == base_url + '/createListing'
-    #     self.assert_text("creating listing failed, please try again", "#message")
+        # p3 = title is 100 characters long
+        # expected = fail
+        self.open(base_url + '/createListing')
+        self.type("#title", ''.join(random.choice(
+            'abcdefghijklmnopqrstuvwxyz') for i in range(100)))
+        self.type("#description", description)
+        self.type("#price", price)
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check invalid message is shown
+        assert self.get_current_url() == base_url + '/createListing'
+        self.assert_text("creating listing failed, please try again", "#message")
 
 
-    #     for i in range(100):
-    #         # generate a title with length between 1 and 150
-    #         length = random.randint(1, 160)
-    #         title = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz')
-    #                         for i in range(length))
-    #         self.open(base_url + '/createListing')
-    #         self.type("#title", title)
-    #         self.type("#description", description)
-    #         self.type("#price", price)
-    #         self.type("#startDate", startDate)
-    #         self.type("#endDate", endDate)
-    #         self.click('input[type="submit"]')
+        for i in range(100):
+            # generate a title with length between 1 and 150
+            length = random.randint(1, 160)
+            title = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz')
+                            for i in range(length))
+            self.open(base_url + '/createListing')
+            self.type("#title", title)
+            self.type("#description", description)
+            self.type("#price", price)
+            self.type("#startDate", startDate)
+            self.type("#endDate", endDate)
+            self.click('input[type="submit"]')
 
-    #         if (length > 80):
-    #             # check invalid message is shown
-    #             print("title length: ", length)
-    #             assert self.get_current_url() == base_url + '/createListing'
-    #             self.assert_text(
-    #                 "creating listing failed, please try again", "#message")
-    #         else:
-    #             print("title length: ", length)
-    #             # check that we are redirected to home page
-    #             assert self.get_current_url() == base_url + "/"
+            if (length > 80):
+                # check invalid message is shown
+                print("title length: ", length)
+                assert self.get_current_url() == base_url + '/createListing'
+                self.assert_text(
+                    "creating listing failed, please try again", "#message")
+            else:
+                print("title length: ", length)
+                # check that we are redirected to home page
+                assert self.get_current_url() == base_url + "/"
 
     def test_r4_3_create_listing(self, *_):
         '''
