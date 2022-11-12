@@ -330,7 +330,8 @@ class FrontEndCreateListingTest(BaseCase):
         # check we are redirected to home
         assert self.get_current_url() == base_url + "/"
 
-        titlesUsed = []
+        titlesUsed = ['']
+        title = ''
         for i in range(10):
             # generate a description and title with length between 20 and 80 
             # (to fulfill r4_2 and r4_3)
