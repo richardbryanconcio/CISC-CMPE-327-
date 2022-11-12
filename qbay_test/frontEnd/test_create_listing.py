@@ -176,7 +176,7 @@ class FrontEndCreateListingTest(BaseCase):
         tested using hybrid testing with input partioning and shotgun testing
         '''
         # a set of valid inputs for creating a listing
-        title = '1'
+        title = title = "r4 3 1"
         price = "100"
         startDate = "01/01/2022"
         endDate = "01/01/2024"
@@ -260,7 +260,7 @@ class FrontEndCreateListingTest(BaseCase):
                 assert self.get_current_url() == base_url + "/"
 
                 # create new title if a listing was created successfully (r4_8)
-                title = (int(title) + 1)
+                title = title[:5] + str(int(title[5:]) + 1)
 
     def test_r4_4_create_listing(self, *_):
         '''
@@ -368,7 +368,7 @@ class FrontEndCreateListingTest(BaseCase):
         tested using hybrid testing with input partioning and shotgun testing
         '''
         # a set of valid inputs for creating a listing
-        title = "1"
+        title = "r4 5 1"
         description = "This is a test description"
         price = "100"
         startDate = "01/01/2022"
@@ -459,7 +459,7 @@ class FrontEndCreateListingTest(BaseCase):
                 assert self.get_current_url() == base_url + "/"
 
                 # create new title if a listing was created successfully (r4_8)
-                title = (int(title) + 1)
+                title = title[:5] + str(int(title[5:]) + 1)
 
     def test_r4_8_create_listing(self, *_):
         '''
