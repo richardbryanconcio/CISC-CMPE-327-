@@ -365,7 +365,7 @@ class FrontEndCreateListingTest(BaseCase):
         '''
         R4-5: Price has to be of range [10, 10000].
 
-        tested using shotgun testing where the generated input is price
+        tested using hybrid testing with input partioning and shotgun testing
         '''
         # a set of valid inputs for creating a listing
         title = "1"
@@ -373,6 +373,70 @@ class FrontEndCreateListingTest(BaseCase):
         price = "100"
         startDate = "01/01/2022"
         endDate = "01/01/2024"
+
+        # p1 = price is 20
+        # expected = pass
+        self.open(base_url + '/createListing')
+        self.type("#title", title)
+        self.type("#description", description)
+        self.type("#price", "20")
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check we are redirected to home
+        assert self.get_current_url() == base_url + "/"
+
+        # p2 = price is 10
+        # expected = pass
+        self.open(base_url + '/createListing')
+        self.type("#title", title)
+        self.type("#description", description)
+        self.type("#price", "10")
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check we are redirected to home
+        assert self.get_current_url() == base_url + "/"
+
+        # p3 = price is 10000
+        # expected = pass
+        self.open(base_url + '/createListing')
+        self.type("#title", title)
+        self.type("#description", description)
+        self.type("#price", "10000")
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check we are redirected to home
+        assert self.get_current_url() == base_url + "/"
+
+        # p4 = price is 10001
+        # expected = fail
+        self.open(base_url + '/createListing')
+        self.type("#title", title)
+        self.type("#description", description)
+        self.type("#price", "10001")
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check invalid message is shown
+        assert self.get_current_url() == base_url + '/createListing'
+        self.assert_text(
+            "creating listing failed, please try again", "#message")
+
+        # p5 = price is 9
+        # expected = fail
+        self.open(base_url + '/createListing')
+        self.type("#title", title)
+        self.type("#description", description)
+        self.type("#price", "9")
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check invalid message is shown
+        assert self.get_current_url() == base_url + '/createListing'
+        self.assert_text(
+            "creating listing failed, please try again", "#message")
 
         for i in range(100):
             # generate a description and title with length between 20 and 80 (to fulfill r4_2 and r4_3)
