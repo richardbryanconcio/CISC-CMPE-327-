@@ -16,7 +16,7 @@ class FrontEndCreateListingTest(BaseCase):
     # create a user for testing, if it already exists in the db then pass
     # should be replaced with a login once authentication is up and running
     try:
-        register("test", "test@test.com", "!Q1q12345")
+        register("createListingTest", "test@test.com", "!Q1q12345")
     except Exception:
         pass
 
@@ -330,6 +330,7 @@ class FrontEndCreateListingTest(BaseCase):
         # check we are redirected to home
         assert self.get_current_url() == base_url + "/"
 
+        titlesUsed = []
         for i in range(100):
             # generate a description and title with length between 20 and 80 
             # (to fulfill r4_2 and r4_3)
@@ -337,8 +338,13 @@ class FrontEndCreateListingTest(BaseCase):
             description = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz')
                                   for i in range(length))
             length = random.randint(20, 80)
-            title = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz')
-                            for i in range(length))
+
+            # ensure no duplicate titles are used
+            while title in titlesUsed:
+                title = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz')
+                                for i in range(length))
+            titlesUsed.append(title)
+
             self.open(base_url + '/createListing')
             self.type("#title", title)
             self.type("#description", description)
