@@ -17,7 +17,7 @@ class FrontEndCreateListingTest(BaseCase):
     # should be replaced with a login once authentication is up and running
     try:
         register("test", "test@test.com", "!Q1q12345")
-    except:
+    except Exception:
         pass
 
     def test_r4_1_create_listing(self, *_):
@@ -169,7 +169,8 @@ class FrontEndCreateListingTest(BaseCase):
     def test_r4_3_create_listing(self, *_):
         '''
         R4-3: The description of the product can be arbitrary characters, 
-            with a minimum length of 20 characters and a maximum of 2000 characters.
+            with a minimum length of 20 characters 
+            and a maximum of 2000 characters.
 
         tested using hybrid testing with input partioning and shotgun testing
         '''
@@ -330,7 +331,8 @@ class FrontEndCreateListingTest(BaseCase):
         assert self.get_current_url() == base_url + "/"
 
         for i in range(100):
-            # generate a description and title with length between 20 and 80 (to fulfill r4_2 and r4_3)
+            # generate a description and title with length between 20 and 80 
+            # (to fulfill r4_2 and r4_3)
             length = random.randint(20, 80)
             description = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz')
                                   for i in range(length))
@@ -432,7 +434,8 @@ class FrontEndCreateListingTest(BaseCase):
             "creating listing failed, please try again", "#message")
 
         for i in range(100):
-            # generate a description and title with length between 20 and 80 (to fulfill r4_2 and r4_3)
+            # generate a description and title with length between 20 and 80 
+            # (to fulfill r4_2 and r4_3)
             price = random.randint(0, 20000)
             self.open(base_url + '/createListing')
             self.type("#title", title)
