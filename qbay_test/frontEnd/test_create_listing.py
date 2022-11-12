@@ -81,7 +81,7 @@ class FrontEndCreateListingTest(BaseCase):
         self.type("#startDate", startDate)
         self.type("#endDate", endDate)
         self.click('input[type="submit"]')
-        # check invalid message is shown
+        # check we are redirected to home
         assert self.get_current_url() == base_url + "/"
 
     def test_r4_2_create_listing(self, *_):
@@ -238,3 +238,56 @@ class FrontEndCreateListingTest(BaseCase):
 
                 # create new title if a listing was created successfully (r4_8)
                 title = (int(title) + 1)
+
+    def test_r4_8_create_listing(self, *_):
+        '''
+        R4-8: A user cannot create products that have the same title.
+
+        tested using input partion testing
+        '''
+
+        # a set of valid inputs for creating a listing
+        desciption = "This is a test description"
+        price = "100"
+        startDate = "01/01/2022"
+        endDate = "01/01/2024"
+
+        # p1 = create listing with a unique title
+        # expected = success
+        self.open(base_url + '/createListing')
+        self.type("#title", "unqiue title")
+        self.type("#description", desciption)
+        self.type("#price", price)
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check we are redirected to home
+        assert self.get_current_url() == base_url + "/"
+
+        # p2 = create listing identical to p1
+        # expected = fail
+        self.open(base_url + '/createListing')
+        self.type("#title", "unqiue title")
+        self.type("#description", desciption)
+        self.type("#price", price)
+        self.type("#startDate", startDate)
+        self.type("#endDate", endDate)
+        self.click('input[type="submit"]')
+        # check invalid message is shown
+        assert self.get_current_url() == base_url + '/createListing'
+        self.assert_text(
+            "creating listing failed, please try again", "#message")
+
+        # p3 = create listing where only the title is the same
+        # expected = fail
+        self.open(base_url + '/createListing')
+        self.type("#title", "unqiue title")
+        self.type("#description", "new description that is different")
+        self.type("#price", 900)
+        self.type("#startDate", "01/20/2022")
+        self.type("#endDate", "01/20/2024")
+        self.click('input[type="submit"]')
+        # check invalid message is shown
+        assert self.get_current_url() == base_url + '/createListing'
+        self.assert_text(
+            "creating listing failed, please try again", "#message")
