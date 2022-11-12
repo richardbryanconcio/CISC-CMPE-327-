@@ -354,7 +354,7 @@ class FrontEndCreateListingTest(BaseCase):
             self.type("#endDate", endDate)
             self.click('input[type="submit"]')
 
-            if (len(title) > len(description)):
+            if (len(title) >= len(description)):
                 # check invalid message is shown
                 assert self.get_current_url() == base_url + '/createListing'
                 self.assert_text(
