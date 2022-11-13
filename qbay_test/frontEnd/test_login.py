@@ -1,8 +1,6 @@
+from seleniumBase import BaseCase
+
 from unittest.mock import patch
-
-import org.openqa.selenium.By as By
-from seleniumBase import Basecase
-
 from qbay.models import User
 from qbay_test.conftest import base_url
 
@@ -23,7 +21,7 @@ from qbay_test.conftest import base_url
 # EQUIVALENCE AND BOUNDARY VALUE TESTING / OUTPUT
     # Test the boundaries of characters in password field.
 
-class FrontEndLoginPageTest(Basecase):
+class FrontEndLoginPageTest(BaseCase):
 
     # TEST CASE 1: LOGIN SUCCESS
     def test_login_success(self, *_):
@@ -53,7 +51,6 @@ class FrontEndLoginPageTest(Basecase):
         self.type("#password", "Testing01!")
 
         # Clicks 'remember me' button
-        self.findElement(By.id("remember_me")).click()
         self.click('input[type="checkbox"]')
 
         # Clicks the 'sign in' button
@@ -69,7 +66,7 @@ class FrontEndLoginPageTest(Basecase):
         self.assert_text("Login Successful!", "h4")
 
         # Checks if 'Pocket Rentals' header redirects user to homepage when clicked
-        self.findElement(By.linkText("Pocket Rentals")).click()
+        self.assert_text("Pocket Rentals", "h1").click()
         self.assert_title(base_url)
 
 
@@ -101,7 +98,6 @@ class FrontEndLoginPageTest(Basecase):
         self.type("#password", "Wrong1234!")
 
         # Clicks 'remember me' button
-        self.findElement(By.id("remember_me")).click()
         self.click('input[type="checkbox"]')
 
         # Clicks the 'sign in' button
@@ -142,7 +138,6 @@ class FrontEndLoginPageTest(Basecase):
         self.type("#password", "Testing03!")
 
         # Clicks 'remember me' button
-        self.findElement(By.id("remember_me")).click()
         self.click('input[type="checkbox"]')
 
         # Clicks the sign in button
@@ -182,7 +177,6 @@ class FrontEndLoginPageTest(Basecase):
         self.type("#password", "unregistered")
 
         # Clicks 'remember me' button
-        self.findElement(By.id("remember_me")).click()
         self.click('input[type="checkbox"]')
 
         # Clicks the 'sign in' button
@@ -195,7 +189,7 @@ class FrontEndLoginPageTest(Basecase):
         self.assert_flash_message("Login failed. Please try again.", "#message")
 
         # Checks if 'Create new account' redirects user to register page when clicked
-        self.findElement(By.linkText("Create new account")).click()
+        self.assert_text("Create new account", "a").click()
         self.assert_title(base_url + '/register')
         
 
@@ -228,7 +222,6 @@ class FrontEndLoginPageTest(Basecase):
         self.type("#password", "Testing05!")
         
         # Clicks 'remember me' button
-        self.findElement(By.id("remember_me")).click()
         self.click('input[type="checkbox"]')
 
         # Clicks the 'sign in' button
@@ -270,7 +263,6 @@ class FrontEndLoginPageTest(Basecase):
         self.type("#password", " ")
 
         # Clicks 'remember me' button
-        self.findElement(By.id("remember_me")).click()
         self.click('input[type="checkbox"]')
 
         # Clicks the 'sign in' button
@@ -312,7 +304,6 @@ class FrontEndLoginPageTest(Basecase):
         self.type("#password", " ")
 
         # Clicks 'remember me' button
-        self.findElement(By.id("remember_me")).click()
         self.click('input[type="checkbox"]')
 
         # Clicks the 'sign in' button
@@ -354,7 +345,6 @@ class FrontEndLoginPageTest(Basecase):
         self.type("#password", "Test8")
 
         # Clicks 'remember me' button
-        self.findElement(By.id("remember_me")).click()
         self.click('input[type="checkbox"]')
 
         # Clicks the 'sign in' button
@@ -396,7 +386,6 @@ class FrontEndLoginPageTest(Basecase):
         self.type("#password", "Testing09!")
 
         # Clicks 'remember me' button
-        self.findElement(By.id("remember_me")).click()
         self.click('input[type="checkbox"]')
 
         # Clicks the 'sign in' button
@@ -438,7 +427,6 @@ class FrontEndLoginPageTest(Basecase):
         self.type("#password", "Testing10!")
 
         # Clicks 'remember me' button
-        self.findElement(By.id("remember_me")).click()
         self.click('input[type="checkbox"]')
 
         # Clicks the 'sign in' button
@@ -480,7 +468,6 @@ class FrontEndLoginPageTest(Basecase):
         self.type("#password", "testing11!")
     
         # Clicks 'remember me' button
-        self.findElement(By.id("remember_me")).click()
         self.click('input[type="checkbox"]')
     
         # Clicks the 'sign in' button
@@ -522,7 +509,6 @@ class FrontEndLoginPageTest(Basecase):
         self.type("#password", "Testing12")
     
         # Clicks 'remember me' button
-        self.findElement(By.id("remember_me")).click()
         self.click('input[type="checkbox"]')
     
         # Clicks the 'sign in' button
@@ -565,7 +551,6 @@ class FrontEndLoginPageTest(Basecase):
         self.type("#password", " Testing13!")
 
         # Clicks 'remember me' button
-        self.findElement(By.id("remember_me")).click()
         self.click('input[type="checkbox"]')
 
         # Clicks the 'sign in' button
@@ -608,7 +593,6 @@ class FrontEndLoginPageTest(Basecase):
         self.type("#password", "Testing14! ")
 
         # Clicks 'remember me' button
-        self.findElement(By.id("remember_me")).click()
         self.click('input[type="checkbox"]')
 
         # Clicks the 'sign in' button
@@ -651,7 +635,6 @@ class FrontEndLoginPageTest(Basecase):
         self.type("#password", " Testing15! ")
 
         # Clicks 'remember me' button
-        self.findElement(By.id("remember_me")).click()
         self.click('input[type="checkbox"]')
 
         # Clicks the 'sign in' button
