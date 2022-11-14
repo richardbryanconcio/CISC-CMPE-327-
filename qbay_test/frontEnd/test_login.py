@@ -1,5 +1,5 @@
 import selenium
-from seleniumBase import BaseCase
+from seleniumbase import BaseCase
 
 
 from unittest.mock import patch
@@ -47,6 +47,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#email", "testing01@gmail.com")
         self.type("#name", "Test01")
         self.type("#password", "Testing01!")
+        self.type("#password2", "Testing01!")
         self.click('input[type="submit"]')
 
         # Checks that user is redirected to login page
@@ -96,6 +97,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#email", "testing02@gmail.com")
         self.type("#name", "Test02")
         self.type("#password", "Testing02!")
+        self.type("#password2", "Testing02!")
         self.click('input[type="submit"]')
 
         # Checks that user is redirected to login page
@@ -137,6 +139,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#email", "testing03@gmail.com")
         self.type("#name", "Test03")
         self.type("#password", "Testing03!")
+        self.type("#password2", "Testing03!")
         self.click('input[type="submit"]')
 
         # Checks that user is redirected to login page
@@ -178,6 +181,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#email", "testing04@gmail.com")
         self.type("#name", "Test04")
         self.type("#password", "Testing04!")
+        self.type("#password2", "Testing04!")
         self.click('input[type="submit"]')
 
         # Checks that user is redirected to login page
@@ -224,6 +228,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#email", "testing05@gmail.com")
         self.type("#name", "Test05")
         self.type("#password", "Testing05!")
+        self.type("#password2", "Testing05!")
         self.click('input[type="submit"]')
 
         # Checks that user is redirected to login page
@@ -266,6 +271,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#email", "testing06@gmail.com")
         self.type("#name", "Test06")
         self.type("#password", "Testing06!")
+        self.type("#password2", "Testing06!")
         self.click('input[type="submit"]')
 
         # Checks that user is redirected to login page
@@ -309,6 +315,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#email", "testing07@gmail.com")
         self.type("#name", "Test07")
         self.type("#password", "Testing07!")
+        self.type("#password2", "Testing07!")
         self.click('input[type="submit"]')
 
         # Checks that user is redirected to login page
@@ -353,6 +360,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#email", "testing08@gmail.com")
         self.type("#name", "Test08")
         self.type("#password", "Testing08!")
+        self.type("#password2", "Testing08!")
         self.click('input[type="submit"]')
 
         # Checks that user is redirected to login page
@@ -395,6 +403,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#email", "testing09@gmail.com")
         self.type("#name", "Test09")
         self.type("#password", "Testing09!")
+        self.type("#password2", "Testing09!")
         self.click('input[type="submit"]')
 
         # Checks that user is redirected to login page
@@ -437,6 +446,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#email", "testing10@gmail.com")
         self.type("#name", "Test10")
         self.type("#password", "Testing10!")
+        self.type("#password2", "Testing10!")
         self.click('input[type="submit"]')
 
         # Checks that user is redirected to login page
@@ -480,6 +490,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#email", "testing11@gmail.com")
         self.type("#name", "Test11")
         self.type("#password", "Testing11!")
+        self.type("#password2", "Testing11!")
         self.click('input[type="submit"]')
 
         # Checks that user is redirected to login page
@@ -524,6 +535,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#email", "testing12@gmail.com")
         self.type("#name", "Test12")
         self.type("#password", "Testing12!")
+        self.type("#password2", "Testing12!")
         self.click('input[type="submit"]')
 
         # Checks that user is redirected to login page
@@ -568,6 +580,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#email", "testing13@gmail")
         self.type("#name", "Test13")
         self.type("#password", "Testing13!")
+        self.type("#password2", "Testing13!")
         self.click('input[type="submit"]')
 
         # Checks that user is redirected to login page
@@ -613,6 +626,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#email", "testing14@gmail")
         self.type("#name", "Test14")
         self.type("#password", "Testing14!")
+        self.type("#password2", "Testing14!")
         self.click('input[type="submit"]')
 
         # Checks that user is redirected to login page
@@ -658,6 +672,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#email", "testing15@gmail")
         self.type("#name", "Test15")
         self.type("#password", "Testing15!")
+        self.type("#password2", "Testing15!")
         self.click('input[type="submit"]')
 
         # Checks that user is redirected to login page
