@@ -1,16 +1,13 @@
-# from seleniumBase import Basecase
 import selenium
-# from org.openqa.selenium.By import By
-# import org.openqa.selenium.By as By
 from seleniumbase import BaseCase
- 
- 
+
+
 from unittest.mock import patch
 from qbay.models import User
 from qbay_test.conftest import base_url
 
 
-"""
+""" 
 This file defines all integration tests for the frontend registration.
 Testing below covers the black box input coverage testing method.
 The 2nd blackbox testing method used is Input partition testing method.
@@ -39,7 +36,7 @@ class FrontEndHomePageTest(BaseCase):
         # click enter button
         self.click('input[type="submit"]')
         # test to make sure no header message appears or redirected
-        self.assert_text("Please fill out this field.", "#message-error")
+        self.assert_text("", "#email") 
  
     def test_register_fail_R1_1_2(self, *_):
         """
@@ -135,7 +132,7 @@ class FrontEndHomePageTest(BaseCase):
         # click enter button
         self.click('input[type="submit"]')
         # test to make sure no header message appears or redirected
-        self.assert_text("", "h4")
+        self.assert_text("", "#password")
 
     def test_register_fail_R1_4_1(self, *_):
         """
@@ -266,7 +263,7 @@ class FrontEndHomePageTest(BaseCase):
         # click enter button
         self.click('input[type="submit"]')
         # test to make sure no header message appears or redirected
-        self.assert_text("", "h4")
+        self.assert_text("", "#name")
  
     def test_register_fail_R1_5_2(self, *_):
         """
