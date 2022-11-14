@@ -31,9 +31,6 @@ The 3rd blackbox testing method used is 'shotgun' testing.
 # BLACK BOX SHOTGUN TESTING / INPUT COVERAGE
     # Register multiple accounts (20+) and ensure each is logged in correctly.
 
-# EQUIVALENCE AND BOUNDARY VALUE TESTING / OUTPUT COVERAGE
-    # Test the boundaries of characters in password field.
-
 
 class FrontEndLoginPageTest(BaseCase):
 
