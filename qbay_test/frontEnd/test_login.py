@@ -20,16 +20,16 @@ The 3rd blackbox testing method used is 'shotgun' testing.
 # Contains integration tests for the login page.
 
 # REQUIREMENTS PARTITIONING TESTING / FUNCTIONALITY
-    # Given a registered user's correct email and password combination,
-    # the user should be redirected to the home page and logged in.
-        # R1: Given a valid email and valid password
-        # R2: Given a registered email and password
-        # R3: Given a correct combination of a registered email and password
-        # R4: User is redirected to home page
-        # R5: User is logged in
+# Given a registered user's correct email and password combination,
+# the user should be redirected to the home page and logged in.
+# R1: Given a valid email and valid password
+# R2: Given a registered email and password
+# R3: Given a correct combination of a registered email and password
+# R4: User is redirected to home page
+# R5: User is logged in
 
 # BLACK BOX SHOTGUN TESTING / INPUT COVERAGE
-    # Register multiple accounts (20+) and ensure each is logged in correctly.
+# Register multiple accounts (20+) and ensure each is logged in correctly.
 
 
 class FrontEndLoginPageTest(BaseCase):
@@ -37,8 +37,9 @@ class FrontEndLoginPageTest(BaseCase):
     # TEST CASE 1: LOGIN SUCCESS
     def test_login_success(self, *_):
 
-        # Tests if the user has logged in successfully with a registered account
-            # Uses input testing, with partitioning
+        # Tests if the user has logged in successfully
+        # with a registered account
+        # Uses input testing, with partitioning
 
         # First register the user with valid email and password
         # Correspond to test case an see if success/fail
@@ -48,7 +49,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "Testing01!")
         self.click('input[type="submit"]')
 
-        # Checks that user is redirected to login page after successful registration
+        # Checks that user is redirected to login page
+        # after successful registration
         self.assert_title(base_url + '/login')
 
         # Checks if 'Sign in' header is present
@@ -72,11 +74,13 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_title(base_url)
 
         # R5-1
-        # Once user clicked the sign in button, they should be redirected to the home page
+        # Once user clicked the sign in button,
+        # they should be redirected to the home page
         # Should see the success message at the top of the page
         self.assert_text("Login Successful!", "h4")
 
-        # Checks if 'Pocket Rentals' header redirects user to homepage when clicked
+        # Checks if 'Pocket Rentals' header
+        # redirects user to homepage when clicked
         self.assert_text("Pocket Rentals", "h1").click()
         self.assert_title(base_url)
 
@@ -84,7 +88,7 @@ class FrontEndLoginPageTest(BaseCase):
     def test_login_fail_1(self, *_):
 
         # Tests if the user fails to login with incorrect password to email
-            # Uses input testing, with partitioning
+        # Uses input testing, with partitioning
 
         # First register the user with valid email and password
         # Correspond to test case an see if success/fail
@@ -94,7 +98,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "Testing02!")
         self.click('input[type="submit"]')
 
-        # Checks that user is redirected to login page after successful registration
+        # Checks that user is redirected to login page
+        # after successful registration
         self.assert_title(base_url + '/login')
 
         # Checks if 'Sign in' header is present
@@ -117,13 +122,14 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_title(base_url + '/login')
 
         # Should see the flash message at the top of the page
-        self.assert_flash_message("Login failed. Please try again.", "#message")
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
 
     # TEST CASE 3: LOGIN FAIL (incorrect email for password)
     def test_login_fail_2(self, *_):
 
         # Tests if the user fails to login with incorrect email to password
-            # Uses input testing, with partitioning
+        # Uses input testing, with partitioning
 
         # First register the user with valid email and password
         # Correspond to test case an see if success/fail
@@ -133,7 +139,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "Testing03!")
         self.click('input[type="submit"]')
 
-        # Checks that user is redirected to login page after successful registration
+        # Checks that user is redirected to login page
+        # after successful registration
         self.assert_title(base_url + '/login')
 
         # Checks if 'Sign in' header is present
@@ -156,13 +163,14 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_title(base_url + '/login')
 
         # Should see the flash message at the top of the page
-        self.assert_flash_message("Login failed. Please try again.", "#message")
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
 
     # TEST CASE 4: LOGIN FAIL (account not registered)
     def test_login_fail_3(self, *_):
 
         # Tests if the user has not registered an account
-            # Uses input testing, with partitioning
+        # Uses input testing, with partitioning
 
         # First register the user with valid email and password
         # Correspond to test case an see if success/fail
@@ -172,7 +180,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "Testing04!")
         self.click('input[type="submit"]')
 
-        # Checks that user is redirected to login page after successful registration
+        # Checks that user is redirected to login page
+        # after successful registration
         self.assert_title(base_url + '/login')
 
         # Checks if 'Sign in' header is present
@@ -194,7 +203,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_title(base_url + '/login')
 
         # Should see the flash message at the top of the page
-        self.assert_flash_message("Login failed. Please try again.", "#message")
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
 
         # Checks if 'Create new account' redirects user
         # to register page when clicked
@@ -205,8 +215,8 @@ class FrontEndLoginPageTest(BaseCase):
     def test_login_fail_4(self, *_):
 
         # Tests if the user has not entered an email; only a password
-            # Uses input testing, with partitioning
-            # Uses equivalence and boundary value testing
+        # Uses input testing, with partitioning
+        # Uses equivalence and boundary value testing
 
         # First register the user with valid email and password
         # Correspond to test case an see if success/fail
@@ -240,14 +250,15 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_title(base_url + '/login')
 
         # The email box must be filled out to follow through with sign in
-        self.assert_text("Please fill out this field.", "#message-error")
+        self.assert_text("Please fill out this field.",
+                         "#message-error")
 
     # TEST CASE 6: LOGIN FAIL (no password entered)
     def test_login_fail_5(self, *_):
 
         # Tests if the user has not entered a password; only an email
-            # Uses input testing, with partitioning
-            # Uses equivalence and boundary value testing
+        # Uses input testing, with partitioning
+        # Uses equivalence and boundary value testing
 
         # First register the user with valid email and password
         # Correspond to test case an see if success/fail
@@ -257,7 +268,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "Testing06!")
         self.click('input[type="submit"]')
 
-        # Checks that user is redirected to login page after successful registration
+        # Checks that user is redirected to login page
+        # after successful registration
         self.assert_title(base_url + '/login')
 
         # Checks if 'Sign in' header is present
@@ -279,15 +291,17 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks that the user is redirected to the login page
         self.assert_title(base_url + '/login')
 
-        # The password box must be filled out to follow through with sign in
-        self.assert_text("Please fill out this field.", "#message-error")
+        # The password box must be
+        # filled out to follow through with sign in
+        self.assert_text("Please fill out this field.",
+                         "#message-error")
 
     # TEST CASE 7: LOGIN FAIL (no email and password entered)
     def test_login_fail_6(self, *_):
 
         # Tests if the user has not entered an email or password
-            # Uses input testing, with partitioning
-            # Uses equivalence and boundary value testing
+        # Uses input testing, with partitioning
+        # Uses equivalence and boundary value testing
 
         # First register the user with valid email and password
         # Correspond to test case an see if success/fail
@@ -297,7 +311,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "Testing07!")
         self.click('input[type="submit"]')
 
-        # Checks that user is redirected to login page after successful registration
+        # Checks that user is redirected to login page
+        # after successful registration
         self.assert_title(base_url + '/login')
 
         # Checks if 'Sign in' header is present
@@ -319,15 +334,18 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks that the user is redirected to the login page
         self.assert_title(base_url + '/login')
 
-        # The email/password box must be filled out to follow through with sign in
-        self.assert_text("Please fill out this field.", "#message-error")
+        # The email/password box must be
+        # filled out to follow through with sign in
+        self.assert_text("Please fill out this field.",
+                         "#message-error")
 
     # Test Case 8: LOGIN FAIL (minimum password length)
     def test_login_fail_7(self, *_):
 
-        # Tests if the user has entered a password that is less than 6 characters
-            # Uses input testing, with partitioning
-            # Uses equivalence and boundary value testing
+        # Tests if the user has entered a password
+        # that is less than 6 characters
+        # Uses input testing, with partitioning
+        # Uses equivalence and boundary value testing
 
         # First register the user with valid email and password
         # Correspond to test case an see if success/fail
@@ -337,7 +355,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "Testing08!")
         self.click('input[type="submit"]')
 
-        # Checks that user is redirected to login page after successful registration
+        # Checks that user is redirected to login page
+        # after successful registration
         self.assert_title(base_url + '/login')
 
         # Checks if 'Sign in' header is present
@@ -360,14 +379,15 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_title(base_url + '/login')
 
         # Should see the flash message at the top of the page
-        self.assert_flash_message("Login failed. Please try again.", "#message")
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
 
     # Test Case 9: LOGIN FAIL (invalid email format; missing email ID)
     def test_login_fail_8(self, *_):
 
         # Tests if the user has entered an invalid email format
-            # Uses input testing, with partitioning
-            # Uses equivalence and boundary value testing
+        # Uses input testing, with partitioning
+        # Uses equivalence and boundary value testing
 
         # First register the user with valid email and password
         # Correspond to test case an see if success/fail
@@ -377,7 +397,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "Testing09!")
         self.click('input[type="submit"]')
 
-        # Checks that user is redirected to login page after successful registration
+        # Checks that user is redirected to login page
+        # after successful registration
         self.assert_title(base_url + '/login')
 
         # Checks if 'Sign in' header is present
@@ -400,14 +421,15 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_title(base_url + '/login')
 
         # Should see the flash message at the top of the page
-        self.assert_flash_message("Login failed. Please try again.", "#message")
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
 
     # Test Case 10: LOGIN FAIL (invalid email format; missing @ symbol)
     def test_login_fail_9(self, *_):
 
         # Tests if the user has entered an invalid email format
-            # Uses input testing, with partitioning
-            # Uses equivalence and boundary value testing
+        # Uses input testing, with partitioning
+        # Uses equivalence and boundary value testing
 
         # First register the user with valid email and password
         # Correspond to test case an see if success/fail
@@ -417,7 +439,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "Testing10!")
         self.click('input[type="submit"]')
 
-        # Checks that user is redirected to login page after successful registration
+        # Checks that user is redirected to login page
+        # after successful registration
         self.assert_title(base_url + '/login')
 
         # Checks if 'Sign in' header is present
@@ -440,14 +463,16 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_title(base_url + '/login')
 
         # Should see the flash message at the top of the page
-        self.assert_flash_message("Login failed. Please try again.", "#message")
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
 
-    # Test Case 11: LOGIN FAIL (invalid password format; missing uppercase letter)
+    # Test Case 11: LOGIN FAIL (invalid password format;
+    # missing uppercase letter)
     def test_login_fail_10(self, *_):
 
         # Tests if the user has entered an invalid email format
-            # Uses input testing, with partitioning
-            # Uses equivalence and boundary value testing
+        # Uses input testing, with partitioning
+        # Uses equivalence and boundary value testing
 
         # First register the user with valid email and password
         # Correspond to test case an see if success/fail
@@ -457,7 +482,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "Testing11!")
         self.click('input[type="submit"]')
 
-        # Checks that user is redirected to login page after successful registration
+        # Checks that user is redirected to login page
+        # after successful registration
         self.assert_title(base_url + '/login')
 
         # Checks if 'Sign in' header is present
@@ -466,7 +492,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_text("Enter your email address and password", "p")
 
         # R2-10
-        # Enters valid email and password that is missing an uppercase letter
+        # Enters valid email and password
+        # that is missing an uppercase letter
         self.type("#email", "testing11@gmail")
         self.type("#password", "testing11!")
 
@@ -480,14 +507,16 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_title(base_url + '/login')
 
         # Should see the flash message at the top of the page
-        self.assert_flash_message("Login failed. Please try again.", "#message")
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
 
-    # Test Case 12: LOGIN FAIL (invalid password format; missing special character)
+    # Test Case 12: LOGIN FAIL (invalid password format;
+    # missing special character)
     def test_login_fail_11(self, *_):
 
         # Tests if the user has entered an invalid email format
-            # Uses input testing, with partitioning
-            # Uses equivalence and boundary value testing
+        # Uses input testing, with partitioning
+        # Uses equivalence and boundary value testing
 
         # First register the user with valid email and password
         # Correspond to test case an see if success/fail
@@ -497,7 +526,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "Testing12!")
         self.click('input[type="submit"]')
 
-        # Checks that user is redirected to login page after successful registration
+        # Checks that user is redirected to login page
+        # after successful registration
         self.assert_title(base_url + '/login')
 
         # Checks if 'Sign in' header is present
@@ -506,7 +536,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_text("Enter your email address and password", "p")
 
         # R2-11
-        # Enters vali email and password that is missing a special character
+        # Enters vali email and password
+        # that is missing a special character
         self.type("#email", "testing12@gmail")
         self.type("#password", "Testing12")
 
@@ -520,14 +551,16 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_title(base_url + '/login')
 
         # Should see the flash message at the top of the page
-        self.assert_flash_message("Login failed. Please try again.", "#message")
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
 
-    # Test Case 13: LOGIN FAIL (invalid password format; space as prefix)
+    # Test Case 13: LOGIN FAIL (invalid password format;
+    # space as prefix)
     def test_login_fail_12(self, *_):
 
         # Tests if the user has entered an invalid email format
-            # Uses input testing, with partitioning
-            # Uses equivalence and boundary value testing
+        # Uses input testing, with partitioning
+        # Uses equivalence and boundary value testing
 
         # First register the user with valid email and password
         # Correspond to test case an see if success/fail
@@ -563,14 +596,16 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_title(base_url + '/login')
 
         # Should see the flash message at the top of the page
-        self.assert_flash_message("Login failed. Please try again.", "#message")
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
 
-    # Test Case 14: LOGIN FAIL (invalid password format; space as suffix)
+    # Test Case 14: LOGIN FAIL (invalid password format;
+    # space as suffix)
     def test_login_fail_13(self, *_):
 
         # Tests if the user has entered an invalid email format
-            # Uses input testing, with partitioning
-            # Uses equivalence and boundary value testing
+        # Uses input testing, with partitioning
+        # Uses equivalence and boundary value testing
 
         # First register the user with valid email and password
         # Correspond to test case an see if success/fail
@@ -606,7 +641,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_title(base_url + '/login')
 
         # Should see the flash message at the top of the page
-        self.assert_flash_message("Login failed. Please try again.", "#message")
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
 
     # Test Case 15: LOGIN FAIL (invalid password format;
     # space as prefix and suffix)
@@ -650,7 +686,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_title(base_url + '/login')
 
         # Should see the flash message at the top of the page
-        self.assert_flash_message("Login failed. Please try again.", "#message")
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
 
     # Test Case 16: SHOTGUN TESTING
     def test_login_fail_15(self, *_):
@@ -697,4 +734,5 @@ class FrontEndLoginPageTest(BaseCase):
             user_fail_list.append(x)
             self.click('input[type="submit"]')
             self.assert_title(base_url + '/login')
-            self.assert_flash_message("Login failed. Please try again.", "#message")
+            self.assert_flash_message("Login failed. Please try again.",
+                                      "#message")
