@@ -649,8 +649,8 @@ class FrontEndLoginPageTest(BaseCase):
     def test_login_fail_14(self, *_):
 
         # Tests if the user has entered an invalid email format
-            # Uses input testing, with partitioning
-            # Uses equivalence and boundary value testing
+        # Uses input testing, with partitioning
+        # Uses equivalence and boundary value testing
 
         # First register the user with valid email and password
         # Correspond to test case an see if success/fail
