@@ -355,6 +355,8 @@ def updateListing(field, new, listing):
             return False
 
         listing.startDate = new
+        listing.lastModifiedDate = date.today()
+        db.session.commit()
         return True
     elif field == 'endDate':
         # convert datetime to date
