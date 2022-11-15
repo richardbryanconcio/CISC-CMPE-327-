@@ -57,7 +57,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks if 'Sign in' header is present
         self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "h4")
+        self.assert_text("Enter your email and password", "h4")
 
         # R1-1, R2-1, R3-1
         # Entered email and password of registered account
@@ -82,7 +82,7 @@ class FrontEndLoginPageTest(BaseCase):
 
         # Checks if 'Pocket Rentals' header
         # redirects user to homepage when clicked
-        self.assert_text("Pocket Rentals", "h2").click()
+        self.assert_text("Pocket Rentals", "h1").click()
         assert self.get_current_url() == base_url + '/'
 
     # TEST CASE 2: LOGIN FAIL (incorrect password for email)
@@ -107,7 +107,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks if 'Sign in' header is present
         self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "h4")
+        self.assert_text("Enter your email and password", "h4")
 
         # R1-2, R2-2
         # Enters correct email, but incorrect password
@@ -149,7 +149,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks if 'Sign in' header is present
         self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "h4")
+        self.assert_text("Enter your email and password", "h4")
 
         # R1-3, R2-3
         # Enters incorrect email, but correct password
@@ -191,7 +191,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks if 'Sign in' header is present
         self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "h4")
+        self.assert_text("Enter your email and password", "h4")
 
         # Enters email and password of an unregistered account
         self.type("#email", "unregistered@gmail.com")
@@ -238,7 +238,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks if 'Sign in' header is present
         self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "h4")
+        self.assert_text("Enter your email and password", "h4")
 
         # R1-4, R2-4
         # Enters password, but no email
@@ -281,7 +281,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks if 'Sign in' header is present
         self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "h4")
+        self.assert_text("Enter your email and password", "h4")
 
         # R1-5, R2-5
         # Enters email, but no password
@@ -325,7 +325,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks if 'Sign in' header is present
         self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "h4")
+        self.assert_text("Enter your email and password", "h4")
 
         # R1-6, R2-6
         # Enters no email and no password
@@ -370,7 +370,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks if 'Sign in' header is present
         self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "h4")
+        self.assert_text("Enter your email and password", "h4")
 
         # R1-7, R2-7
         # Enters valid email and password that is less than 6 characters
@@ -413,7 +413,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks if 'Sign in' header is present
         self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "h4")
+        self.assert_text("Enter your email and password", "h4")
 
         # R2-8
         # Enters email without an email ID and valid password
@@ -456,7 +456,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks if 'Sign in' header is present
         self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "h4")
+        self.assert_text("Enter your email and password", "h4")
 
         # R2-9
         # Enters email that is missing '@' symbol and valid password
@@ -500,7 +500,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks if 'Sign in' header is present
         self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "h4")
+        self.assert_text("Enter your email and password", "h4")
 
         # R2-10
         # Enters valid email and password
@@ -545,7 +545,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks if 'Sign in' header is present
         self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "h4")
+        self.assert_text("Enter your email and password", "h4")
 
         # R2-11
         # Enters vali email and password
@@ -591,7 +591,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_text("Sign in", "h2")
 
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "h4")
+        self.assert_text("Enter your email and password", "h4")
 
         # R2-12
         # Enters valid email and password
@@ -637,7 +637,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_text("Sign in", "h2")
 
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "h4")
+        self.assert_text("Enter your email and password", "h4")
 
         # R2-13
         # Enters valid email and password
@@ -683,7 +683,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_text("Sign in", "h2")
 
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "h4")
+        self.assert_text("Enter your email and password", "h4")
 
         # R2-14
         # Enters valid email and password that contains
