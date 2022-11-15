@@ -332,7 +332,7 @@ def updateListing(field, new, listing):
     elif field == 'description':
         # new description must be between 20-2000 characters,
         # must contain more characters then the title
-        if len(new) < 20 or len(new) > 2000 or len(new) < len(listing.title):
+        if len(new) < 20 or len(new) > 2000 or len(new) <= len(listing.title):
             return False
 
         listing.description = new
