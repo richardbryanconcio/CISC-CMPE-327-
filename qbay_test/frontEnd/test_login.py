@@ -1,3 +1,4 @@
+import random
 import selenium
 from seleniumbase import BaseCase
 
@@ -666,6 +667,67 @@ class FrontEndLoginPageTest(BaseCase):
     # Checks for valid/invalid email and password inputs.
 
     # Test Case 16: SHOTGUN TESTING
+    def test_login_shotgun_iteration(self, *_):
+        user_list = list(25)
+        random_letters = {'a','b','c','d','e','f','g','h','i','j','k','l','m',
+                          'n','o','p','q','r','s','t','u','v','w','x','y','z'}
+        
+        random_numbers = {'0','1','2','3','4','5','6','7','8','9'}
+        random_symbols = {'!','@','#','$','%','^','&','*','(',')','_','-','+',
+                            '=','{','}','[',']','|',';',':','<','>','?','/','~'}
+
+        # Generates a list of 25 random emails and passwords
+        for i in range(25):
+            email = ""
+            password = ""
+            for j in range(10):
+                email += random.choice(random_letters)
+                password += random.choice(random_letters)
+                password += random.choice(random_numbers)
+                password += random.choice(random_symbols)
+            user_list[i] = (email, password)
+
+        # Registers the user with the random email and password
+        for i in range(25):
+
+            self.open(base_url + '/register')
+            self.type("#email", user_list[i][0])
+            self.type("#name", "Test")
+            self.type("#password", user_list[i][1])
+            self.type("#password2", user_list[i][1])
+            self.click('input[type="submit"]')
+
+            # Checks that user is redirected to login page
+            # after successful registration
+            assert self.get_current_url() == base_url + '/login'
+
+            # Checks if 'Sign in' header is present
+            self.assert_text("Sign in", "h2")
+
+            # Checks if line of text is present
+            self.assert_text("Enter your email and password", "h4")
+
+            # Enters valid email and password
+            self.type("#email", user_list[i][0])
+            self.type("#password", user_list[i][1])
+
+            # Clicks 'remember me' button
+            self.click('input[type="checkbox"]')
+
+            # Clicks the 'sign in' button
+            self.click('input[type="submit"]')
+
+            if user_list[i][0] == "" or user_list[i][1] == "":
+                # Checks that the user is redirected to the login page
+                # Invalid account submission
+                assert self.get_current_url() == base_url + '/login'
+                self.assert_text("Login failed. Please try again.", "h4")
+            else:
+                # Checks that the user is redirected to the home page
+                # after successful login
+                assert self.get_current_url() == base_url + '/'
+                self.assert_text("Login successful!", "h4")
+
     def test_login_shotgun_1(self, *_):
 
         """
