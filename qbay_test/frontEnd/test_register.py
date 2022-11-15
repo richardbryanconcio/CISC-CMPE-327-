@@ -5,7 +5,7 @@ from seleniumbase import BaseCase
 from unittest.mock import patch
 from qbay.models import User
 from qbay_test.conftest import base_url
-
+import random
 
 """ 
 This file defines all integration tests for the frontend registration.
@@ -37,7 +37,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test to make sure no header message appears or redirected
         self.assert_text("", "#email") 
- 
+
     def test_register_fail_R1_1_2(self, *_):
         """
         This is a sample front end integration test to show
@@ -635,6 +635,160 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("The passwords do not match", "h4")
+
+    def test_register_shotgun_test_test_1(self, *_):
+        """
+        Random shotgun testing for email on register page.
+        Some invalid characters that may be entered in email are 
+        removed to improve the liklihood of successful user regestration.
+        """
+        for k in range(15):
+            # open register page
+            self.open(base_url + '/register')
+            length = random.randint(0, 20)
+            # fill email, name, password and password2
+            prefix = ''.join(random.choice('@abcdefghijklmnopqrstuvwxyzABCDE' + 
+                             'FGHIJKLMNOPQRSTUVWXYZ0123456789._-+&')
+                             for i in range(length))
+            length = random.randint(0, 10)
+            suffix = ''.join(random.choice('abcdefghijklmnopqrstuvwxyzABCDE' + 
+                             'FGHIJKLMNOPQRSTUVWXYZ01234')
+                             for i in range(length))
+            length = random.randint(0, 10)
+            
+            domain = ''.join(random.choice('abcdefghijklmnopqrstuvwxyzABCDE' + 
+                             'FGHIJKLMNOPQRSTUVWXYZ0123456789!#')
+                             for i in range(length))
+            includeAt = random.randint(0, 10)
+            if (includeAt == 0):
+                atInclude = ""
+            else:
+                atInclude = '@'
+            includeDot = random.randint(0, 10)
+            if (includeDot == 0):
+                dotInclude = ""
+            else:
+                dotInclude = '.'
+            email = (prefix + atInclude + suffix + dotInclude + 
+                     random.choice([domain, "com", "ca", "org", "edu", "net"]))
+
+            print(email)
+            includeAt = random.randint(0, 5)
+            if (includeAt == 0):
+                email = ""
+            self.type("#email", email)
+            
+            self.type("#name", "userR11")
+            self.type("#password", "Password1!")
+            self.type("#password2", "Password1!")
+    
+            # click enter button
+            
+            self.click('input[type="submit"]')
+            
+            if len(email) == 0:
+                self.assert_text("", "#email")
+            elif (self.get_current_url() == base_url + '/register'):
+                # test to make sure no header message appears or redirected
+                self.assert_text("Registration failed.", "h4") 
+            else: 
+                self.assert_text("Enter your email and password", "h4")
+   
+    def test_register_shotgun_test_test_2(self, *_):
+        """
+        Random shotgun testing for name on register page
+        """
+        for i in range(15):
+            # open register page
+            self.open(base_url + '/register')
+            i = i + 1
+            workingEmail = ("emailworking" + str(i) + "@testmail.com")
+            self.type("#email", workingEmail)
+            length = random.randint(0, 30)
+            nameTest = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz' +
+                               'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#')
+                               for i in range(length))
+            self.type("#name", nameTest)
+            self.type("#password", "Password1!")
+            self.type("#password2", "Password1!")
+    
+            # click enter button
+            print(workingEmail, "    ", nameTest)
+            
+            self.click('input[type="submit"]')
+            
+            if len(nameTest) == 0:
+                self.assert_text("", "#name")
+            elif (self.get_current_url() == base_url + '/register'):
+                # test to make sure no header message appears or redirected
+                self.assert_text("Registration failed.", "h4") 
+            else: 
+                self.assert_text("Enter your email and password", "h4")
+
+    def test_register_shotgun_test_test_3(self, *_):
+        """
+        Random shotgun testing for password on register page
+        """
+        for i in range(15):
+            # open register page
+            self.open(base_url + '/register')
+            i = i + 1
+            workingEmail = ("emailworking" + str(i) + "@testmail.com")
+            self.type("#email", workingEmail)
+            self.type("#name", "nameTest1")
+            length = random.randint(0, 30)
+            testPassword = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz' + 
+                                   'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@' +
+                                                 '#$%^&*()_-+=\\//')
+                                   for i in range(length))
+            self.type("#password", testPassword)
+            self.type("#password2", testPassword)
+    
+            # click enter button            
+            self.click('input[type="submit"]')
+            
+            if len(testPassword) == 0:
+                self.assert_text("", "#password")
+            elif (self.get_current_url() == base_url + '/register'):
+                # test to make sure no header message appears or redirected
+                self.assert_text("Registration failed.", "h4") 
+            else: 
+                self.assert_text("Enter your email and password", "h4")
+
+    def test_register_shotgun_test_test_4(self, *_):
+        """
+        Random shotgun testing for password and password2 matching or 
+        being empty on register page
+        """
+        for i in range(25):
+            # open register page
+            self.open(base_url + '/register')
+            i = i + 1
+            workingEmail = ("emailworking" + str(i) + "@testmail.com")
+            self.type("#email", workingEmail)
+            self.type("#name", "nameTest1")
+            length = random.randint(0, 30)
+            testPassword = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz' +
+                                   'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@' +
+                                                 '#$%^&*()_-+=\\//') 
+                                   for i in range(length))
+            self.type("#password", testPassword)
+            testPassword2 = ""
+            if random.randint(0, 1) == 1:
+                testPassword2 = "pA$s123"
+            else:
+                testPassword = testPassword2
+            self.type("#password2", testPassword2)
+    
+            # click enter button         
+            self.click('input[type="submit"]')
+            
+            if ((len(testPassword) == 0) or (len(testPassword) == 0)):
+                self.assert_text("", "#password")
+            elif (testPassword != testPassword2):
+                self.assert_text("The passwords do not match", "h4") 
+            else: 
+                self.assert_text("Enter your email and password", "h4")
 
     def test_register_shotgun_1(self, *_):
         """
