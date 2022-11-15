@@ -372,6 +372,33 @@ class FrontEndCreateListingTest(BaseCase):
             assert self.get_current_url() == base_url + '/updateListing/' + str(id)
             self.assert_text("price is invalid", "h4")
 
+        def test_r4_8(self, *_):
+            '''
+            R4-8: A user cannot create products that have the same title.
+            tested using input partion testing
+            '''
+            listings = Listing.query.all()
+            listing = listings[0]
+            id = listing.id
+
+            otherListing = listings[1]
+
+            # p1 = title is same as other listing
+            # expected = fail
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='title']", otherListing.title)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            self.assert_text("title is invalid", "h4")
+
+            # p2 = title is different from other listing
+            # expected = pass
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='title']", "a"*20)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/listing/' + str(id)
+            self.assert_text("a"*20, "h1")
+
 
 
         test_r4_1(self)
@@ -379,3 +406,4 @@ class FrontEndCreateListingTest(BaseCase):
         test_r4_3(self)
         test_r4_4(self)
         test_r4_5(self)
+        test_r4_8(self)
