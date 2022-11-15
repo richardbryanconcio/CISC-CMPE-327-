@@ -115,7 +115,7 @@ class FrontEndCreateListingTest(BaseCase):
 
         # assert last modfied date is a day in the past
         self.open(base_url + "/listing/" + str(id))
-        self.assert_text("listing was last modified on: 2020-01-01", "h5")
+        self.assert_text("listing was last modified on: 2021-02-02", "h5")
 
         # update the listing
         self.open(base_url + "/updateListing/" + str(id))
