@@ -124,8 +124,7 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Should see the flash message at the top of the page
-        self.assert_flash_message("Login failed. Please try again.", 
-                                  "#message")
+        self.assert_text("Login failed. Please try again.", "#message")
 
     # TEST CASE 3: LOGIN FAIL (incorrect email for password)
     def test_login_fail_2(self, *_):
@@ -165,9 +164,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks that the user is redirected to the login page
         assert self.get_current_url() == base_url + '/login'
 
-        # Should see the flash message at the top of the page
-        self.assert_text("Login failed. Please try again.", "#message")
-
     # TEST CASE 4: LOGIN FAIL (account not registered)
     def test_login_fail_3(self, *_):
 
@@ -204,9 +200,6 @@ class FrontEndLoginPageTest(BaseCase):
 
         # Checks that the user is redirected to the login page
         assert self.get_current_url() == base_url + '/login'
-
-        # Should see the flash message at the top of the page
-        self.assert_text("Login failed. Please try again.", "#message")
 
         # Checks if 'Create new account' redirects user
         # to register page when clicked
@@ -370,9 +363,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks that the user is redirected to the login page
         assert self.get_current_url() == base_url + '/login'
 
-        # Should see the flash message at the top of the page
-        self.assert_text("Login failed. Please try again.", "#message")
-
     # Test Case 9: LOGIN FAIL (invalid email format; missing email ID)
     def test_login_fail_8(self, *_):
 
@@ -498,9 +488,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Checks that the user is redirected to the login page
         assert self.get_current_url() == base_url + '/login'
 
-        # Should see the flash message at the top of the page
-        self.assert_text("Login failed. Please try again.", "#message")
-
     # Test Case 12: LOGIN FAIL (invalid password format;
     # missing special character)
     def test_login_fail_11(self, *_):
@@ -528,7 +515,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_text("Enter your email and password", "h4")
 
         # R2-11
-        # Enters vali email and password
+        # Enters valid email and password
         # that is missing a special character
         self.type("#email", "testing12@gmail")
         self.type("#password", "Testing12")
@@ -541,9 +528,6 @@ class FrontEndLoginPageTest(BaseCase):
 
         # Checks that the user is redirected to the login page
         assert self.get_current_url() == base_url + '/login'
-
-        # Should see the flash message at the top of the page
-        self.assert_text("Login failed. Please try again.", "#message")
 
     # Test Case 13: LOGIN FAIL (invalid password format;
     # space as prefix)
@@ -584,11 +568,9 @@ class FrontEndLoginPageTest(BaseCase):
         # Clicks the 'sign in' button
         self.click('input[type="submit"]')
 
-        # Checks that the user is redirected to the login page
-        assert self.get_current_url() == base_url + '/login'
-
-        # Should see the flash message at the top of the page
-        self.assert_text("Login failed. Please try again.", "#message")
+        # Checks that the user is redirected to the register page
+        # Invalid account submission
+        assert self.get_current_url() == base_url + '/register'
 
     # Test Case 14: LOGIN FAIL (invalid password format;
     # space as suffix)
@@ -629,11 +611,9 @@ class FrontEndLoginPageTest(BaseCase):
         # Clicks the 'sign in' button
         self.click('input[type="submit"]')
 
-        # Checks that the user is redirected to the login page
-        assert self.get_current_url() == base_url + '/login'
-
-        # Should see the flash message at the top of the page
-        self.assert_text("Login failed. Please try again.", "#message")
+        # Checks that the user is redirected to the register page
+        # Invalid account submission
+        assert self.get_current_url() == base_url + '/register'
 
     # Test Case 15: LOGIN FAIL (invalid password format;
     # space as prefix and suffix)
@@ -674,11 +654,9 @@ class FrontEndLoginPageTest(BaseCase):
         # Clicks the 'sign in' button
         self.click('input[type="submit"]')
 
-        # Checks that the user is redirected to the login page
-        assert self.get_current_url() == base_url + '/login'
-
-        # Should see the flash message at the top of the page
-        self.assert_text("Login failed. Please try again.", "#message")
+        # Checks that the user is redirected to the register page
+        # Invalid account submission
+        assert self.get_current_url() == base_url + '/register'
 
     # SHOTGUN TESTING TEST CASES
     # Note that each test case depicts a random input for email and password.
@@ -1005,7 +983,6 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "superHAPPY88!")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
-        self.assert_text("Login failed. Please try again.", "#message")
 
     def test_login_shotgun_15(self, *_):
 
