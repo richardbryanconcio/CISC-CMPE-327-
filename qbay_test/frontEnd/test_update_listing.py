@@ -221,7 +221,76 @@ class FrontEndCreateListingTest(BaseCase):
             assert self.get_current_url() == base_url + '/updateListing/' + str(id)
             self.assert_text("title is invalid", "h4")
 
+        def test_r4_3(self, *_):
+            '''
+            R4-3: The description of the product can be arbitrary characters, 
+                with a minimum length of 20 characters 
+                and a maximum of 2000 characters.
+            tested using hybrid testing using input partion testing and boundary value analysis
+            '''
+            listings = Listing.query.all()
+            listing = listings[0]
+            id = listing.id
+
+            # set title to be less than 20 characters
+            title = ''.join(random.choice(
+            'abcdefghijklmnopqrstuvwxyz') for i in range(18))
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='title']", title)
+            self.click('input[type="submit"]')
+
+            # p1 = description is 20 characters
+            # expected = pass
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='description']", "a"*20)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/listing/' + str(id)
+            self.assert_text("a"*20, "h2")
+
+            # p2 = description is 21 characters
+            # expected = pass
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='description']", "a"*21)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/listing/' + str(id)
+            self.assert_text("a"*21, "h2")
+
+            # p3 = description is 19 characters
+            # expected = fail
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='description']", "a"*19)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            self.assert_text("description is invalid", "h4")
+
+            # p4 = description is 2000 characters
+            # expected = pass
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='description']", "a"*2000)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/listing/' + str(id)
+            self.assert_text("a"*2000, "h2")
+
+            # p5 = description is 2001 characters
+            # expected = fail
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='description']", "a"*2001)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            self.assert_text("description is invalid", "h4")
+
+            # p6 = description is 1999 characters
+            # expected = pass
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='description']", "a"*1999)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/listing/' + str(id)
+            self.assert_text("a"*1999, "h2")
+
+
+
 
 
         test_r4_1(self)
         test_r4_2(self)
+        test_r4_3(self)
