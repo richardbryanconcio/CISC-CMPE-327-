@@ -55,9 +55,9 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_title(base_url + '/login')
 
         # Checks if 'Sign in' header is present
-        self.assert_text("Sign in", "h1")
+        self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "p")
+        self.assert_text("Enter your email address and password", "h4")
 
         # R1-1, R2-1, R3-1
         # Entered email and password of registered account
@@ -82,7 +82,7 @@ class FrontEndLoginPageTest(BaseCase):
 
         # Checks if 'Pocket Rentals' header
         # redirects user to homepage when clicked
-        self.assert_text("Pocket Rentals", "h1").click()
+        self.assert_text("Pocket Rentals", "h2").click()
         assert self.get_current_url() == base_url + '/'
 
     # TEST CASE 2: LOGIN FAIL (incorrect password for email)
@@ -105,9 +105,9 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Checks if 'Sign in' header is present
-        self.assert_text("Sign in", "h1")
+        self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "p")
+        self.assert_text("Enter your email address and password", "h4")
 
         # R1-2, R2-2
         # Enters correct email, but incorrect password
@@ -147,9 +147,9 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Checks if 'Sign in' header is present
-        self.assert_text("Sign in", "h1")
+        self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "p")
+        self.assert_text("Enter your email address and password", "h4")
 
         # R1-3, R2-3
         # Enters incorrect email, but correct password
@@ -189,9 +189,9 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Checks if 'Sign in' header is present
-        self.assert_text("Sign in", "h1")
+        self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "p")
+        self.assert_text("Enter your email address and password", "h4")
 
         # Enters email and password of an unregistered account
         self.type("#email", "unregistered@gmail.com")
@@ -236,9 +236,9 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Checks if 'Sign in' header is present
-        self.assert_text("Sign in", "h1")
+        self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "p")
+        self.assert_text("Enter your email address and password", "h4")
 
         # R1-4, R2-4
         # Enters password, but no email
@@ -279,9 +279,9 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Checks if 'Sign in' header is present
-        self.assert_text("Sign in", "h1")
+        self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "p")
+        self.assert_text("Enter your email address and password", "h4")
 
         # R1-5, R2-5
         # Enters email, but no password
@@ -323,9 +323,9 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Checks if 'Sign in' header is present
-        self.assert_text("Sign in", "h1")
+        self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "p")
+        self.assert_text("Enter your email address and password", "h4")
 
         # R1-6, R2-6
         # Enters no email and no password
@@ -368,9 +368,9 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Checks if 'Sign in' header is present
-        self.assert_text("Sign in", "h1")
+        self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "p")
+        self.assert_text("Enter your email address and password", "h4")
 
         # R1-7, R2-7
         # Enters valid email and password that is less than 6 characters
@@ -411,9 +411,9 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Checks if 'Sign in' header is present
-        self.assert_text("Sign in", "h1")
+        self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "p")
+        self.assert_text("Enter your email address and password", "h4")
 
         # R2-8
         # Enters email without an email ID and valid password
@@ -454,9 +454,9 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Checks if 'Sign in' header is present
-        self.assert_text("Sign in", "h1")
+        self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "p")
+        self.assert_text("Enter your email address and password", "h4")
 
         # R2-9
         # Enters email that is missing '@' symbol and valid password
@@ -498,9 +498,9 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Checks if 'Sign in' header is present
-        self.assert_text("Sign in", "h1")
+        self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "p")
+        self.assert_text("Enter your email address and password", "h4")
 
         # R2-10
         # Enters valid email and password
@@ -543,9 +543,9 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Checks if 'Sign in' header is present
-        self.assert_text("Sign in", "h1")
+        self.assert_text("Sign in", "h2")
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "p")
+        self.assert_text("Enter your email address and password", "h4")
 
         # R2-11
         # Enters vali email and password
@@ -588,10 +588,10 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Checks if 'Sign in' header is present
-        self.assert_text("Sign in", "h1")
+        self.assert_text("Sign in", "h2")
 
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "p")
+        self.assert_text("Enter your email address and password", "h4")
 
         # R2-12
         # Enters valid email and password
@@ -634,10 +634,10 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Checks if 'Sign in' header is present
-        self.assert_text("Sign in", "h1")
+        self.assert_text("Sign in", "h2")
 
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "p")
+        self.assert_text("Enter your email address and password", "h4")
 
         # R2-13
         # Enters valid email and password
@@ -680,10 +680,10 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Checks if 'Sign in' header is present
-        self.assert_text("Sign in", "h1")
+        self.assert_text("Sign in", "h2")
 
         # Checks if line of text is present
-        self.assert_text("Enter your email address and password", "p")
+        self.assert_text("Enter your email address and password", "h4")
 
         # R2-14
         # Enters valid email and password that contains
@@ -704,50 +704,593 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_flash_message("Login failed. Please try again.",
                                   "#message")
 
+    # SHOTGUN TESTING TEST CASES
+    # Note that each test case depicts a random input for email and password.
+    # It does not affect the registration process,
+    # as it only accounts for login.
+
+    # Checks for valid/invalid email and password inputs.
+
     # Test Case 16: SHOTGUN TESTING
-    def test_login_fail_15(self, *_):
+    def test_login_shotgun_1(self, *_):
 
-        # Shotgun testing for multiple account creations and logins
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        Password too long.
+        """
 
-        # Creating 25 accounts that should be
-        # valid and successfully logged in
-        user_list = list(25)
-        for x in user_list:
-            # Goes through register to create accounts
-            self.open(base_url + '/register')
-            self.type("#email", "shotguntest" + str(x) + "@gmail.com")
-            self.type("#name", "Shotgun" + str(x))
-            self.type("#password", "Testing" + str(x) + "!")
-            self.type("#password2", "Testing" + str(x) + "!")
-            # Then logs in each account
-            self.open(base_url + '/login')
-            self.type("#email", "shotguntest" + str(x) + "@gmail.com")
-            self.type("#password", "Testing" + str(x) + "!")
-            user_list.append(x)
-            self.click('input[type="submit"]')
-            assert self.get_current_url() == base_url + '/'
-            self.assert_text("Login Successful!", "h4")
+        self.open(base_url + '/register')
+        self.type("#email", "failedshotgun@gmail.com")
+        self.type("#name", "Failure00!")
+        self.type("#password", "Failure00!")
+        self.type("#password2", "Failure00!")
+        self.click('input[type="submit"]')
 
-        # Creating 25 accounts that should be
-        # invalid and fails to login
-        user_fail_list = list(25)
-        for x in user_fail_list:
-            # Goes through register to create accounts
-            self.open(base_url + '/register')
-            self.type("#email", "failedshotgun" + str(x) + "@gmail.com")
-            self.type("#name", "Shotgun" + str(x))
-            self.type("#password", "Te$t" + str(x))
-            self.type("#password2", "Te$t" + str(x))
-            # Then logs in each account
-            # Some accounts should fail as it does not meet min
-            # password character length
-            # Accounts would not have the same password as
-            # previously registered accounts
-            self.open(base_url + '/login')
-            self.type("#email", "failedshotgun" + str(x) + "@gmail.com")
-            self.type("#password", "Te$t" + str(x))
-            user_fail_list.append(x)
-            self.click('input[type="submit"]')
-            assert self.get_current_url() == base_url + '/login'
-            self.assert_flash_message("Login failed. Please try again.",
-                                      "#message")
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "failedshotgun@gmail.com")
+        self.type("#password", "Long99!Long99!Long99!Long99!Long99!")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
+
+    def test_login_shotgun_2(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        Password too short.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "failingn@gmail.com")
+        self.type("#name", "Random00!")
+        self.type("#password", "Random00!")
+        self.type("#password2", "Random00!")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "failing@gmail.com")
+        self.type("#password", "ran0!")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
+    
+    def test_login_shotgun_3(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "sik3@gmail.com")
+        self.type("#name", "K1DDING")
+        self.type("#password", "J0Ke$rr!")
+        self.type("#password2", "J0Ke$rr!")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "sik3@gmail.com")
+        self.type("#password", "J0Ke$rr!")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/'
+        self.assert_text("Login Successful!", "h4")
+    
+    def test_login_shotgun_4(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        Email ID too long.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "drinkingwater@gmail.com")
+        self.type("#name", "WaTer!09")
+        self.type("#password", "WaTer!09")
+        self.type("#password2", "WaTer!09")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "drinkingwaterrrrrrrrrrrrrrrr@gmail.com")
+        self.type("#password", "WaTer!09")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
+    
+    def test_login_shotgun_5(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        Email ID too short.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "eatingwater@gmail.com")
+        self.type("#name", "EaTiNg!08")
+        self.type("#password", "EaTiNg!08")
+        self.type("#password2", "EaTiNg!08")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "f@gmail.com")
+        self.type("#password", "EaTiNg!08")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
+
+    def test_login_shotgun_6(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "project5PRINT@gmail.com")
+        self.type("#name", "sprintPROJECT")
+        self.type("#password", "spr1ntPROJ$")
+        self.type("#password2", "spr1ntPROJ$")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "project5PRINT@gmail.com")
+        self.type("#password", "spr1ntPROJ$")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/'
+        self.assert_text("Login Successful!", "h4")
+
+    def test_login_shotgun_7(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        Incorrect input for email.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "throwingfart@gmail.com")
+        self.type("#name", "fArT!99")
+        self.type("#password", "fArT!99")
+        self.type("#password2", "fArT!99")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "incorrect@gmail.com")
+        self.type("#password", "fArT!99")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
+    
+    def test_login_shotgun_8(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "takeiteasy@gmail.com")
+        self.type("#name", "Breezy1")
+        self.type("#password", "L1ghtBreeze$")
+        self.type("#password2", "L1ghtBreeze$")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "takeiteasy@gmail.com")
+        self.type("#password", "L1ghtBreeze$")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/'
+        self.assert_text("Login Successful!", "h4")
+
+    def test_login_shotgun_9(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        Incorrect input for email.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "blanketTowel@gmail.com")
+        self.type("#name", "townketBlankel8")
+        self.type("#password", "wARM$weather76")
+        self.type("#password2", "wARM$weather76")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "towelBlanket@gmail.com")
+        self.type("#password", "wARM$weather76")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
+
+    def test_login_shotgun_10(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        Missing @ symbol in email.
+        Space as prefix in password.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "TickingTime@gmail.com")
+        self.type("#name", "clockMaster99")
+        self.type("#password", "getAwatch567$")
+        self.type("#password2", "getAwatch567$")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "TickingTimegmail.com")
+        self.type("#password", " getAwatch567$")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
+    
+    def test_login_shotgun_11(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        Space as suffix in password.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "mikaeljacksun@gmail.com")
+        self.type("#name", "MikaelJacksun")
+        self.type("#password", "$till4liv3")
+        self.type("#password2", "$till4liv3")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "mikaeljacksun@gmail.com")
+        self.type("#password", "$till4liv3 ")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
+
+    def test_login_shotgun_12(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "thisIsFalse@gmail.com")
+        self.type("#name", "False1")
+        self.type("#password", "Fal$ePass")
+        self.type("#password2", "Fal$ePass")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "thisIsFalse@gmail.com")
+        self.type("#password", "Fal$ePass")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/'
+        self.assert_text("Login Successful!", "h4")
+
+    def test_login_shotgun_13(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        Space as prefix in email.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "hungryNOW@gmail.com")
+        self.type("#name", "EatLeftOvers55")
+        self.type("#password", "yuMMy33$f")
+        self.type("#password2", "yuMMy33$f")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", " hungryNOW@gmail.com")
+        self.type("#password", "yuMMy33$f")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
+
+    def test_login_shotgun_14(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        Password does not match.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "SADman@gmail.com")
+        self.type("#name", "SADMAN00")
+        self.type("#password", "notHAPPY77!")
+        self.type("#password2", "notHAPPY77!")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "SADman@gmail.com")
+        self.type("#password", "superHAPPY88!")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
+
+    def test_login_shotgun_15(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        Password missing special character.
+        Password all lower case. No upper case letter.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "c0dingL0L@gmail.com")
+        self.type("#name", "h4ck3r")
+        self.type("#password", "Password123$")
+        self.type("#password2", "Password123$")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "c0dingL0L@gmail.com")
+        self.type("#password", "password123")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
+
+    def test_login_shotgun_16(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        Password only contains numbers.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "why25tests@gmail.com")
+        self.type("#name", "RegrettingIt99")
+        self.type("#password", "myFAULT$0rry")
+        self.type("#password2", "myFAULT$0rry")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "why25tests@gmail.com")
+        self.type("#password", "37548753")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
+
+    def test_login_shotgun_17(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        Email ID is only 2 letters long.
+        Incorrect email.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "cravingICEcream@gmail.com")
+        self.type("#name", "scream4ICEcream")
+        self.type("#password", "freeICEcream$")
+        self.type("#password2", "freeICEcream$")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "ic@gmail.com")
+        self.type("#password", "freeICEcream$")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
+
+    def test_login_shotgun_18(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        Space as a suffix for email.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "emptySPACE9@gmail.com")
+        self.type("#name", "AstroNOT")
+        self.type("#password", "emptySPACE$")
+        self.type("#password2", "emptySPACE$")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "emptySPACE9@gmail.com ")
+        self.type("#password", "emptySPACE$")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
+
+    def test_login_shotgun_19(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "correctEmail@gmail.com")
+        self.type("#name", "Correct1")
+        self.type("#password", "correctPass$")
+        self.type("#password2", "correctPass$")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "correctEmail@gmail.com")
+        self.type("#password", "correctPass$")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/'
+        self.assert_text("Login Successful!", "h4")
+
+    def test_login_shotgun_20(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "tiredAlready@gmail.com")
+        self.type("#name", "AlreadyTired7")
+        self.type("#password", "tieHeard7!")
+        self.type("#password2", "tieHeard7!")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "tiredAlready@gmail.com")
+        self.type("#password", "tieHeard7!")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/'
+        self.assert_text("Login Successful!", "h4")
+
+    def test_login_shotgun_21(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "randC0RRECT@gmail.com")
+        self.type("#name", "C0rrectRand")
+        self.type("#password", "coreR3ctRand!")
+        self.type("#password2", "coreR3ctRand!")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "randC0RRECT@gmail.com")
+        self.type("#password", "coreR3ctRand!")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/'
+        self.assert_text("Login Successful!", "h4")
+
+    def test_login_shotgun_22(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "cl0wn@gmail.com")
+        self.type("#name", "H0NK")
+        self.type("#password", "cl0wn!RL")
+        self.type("#password2", "cl0wn!RL")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "cl0wn@gmail.com")
+        self.type("#password", "cl0wn!RL")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/'
+        self.assert_text("Login Successful!", "h4")
+
+    def test_login_shotgun_23(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "fakeAF@gmail.com")
+        self.type("#name", "ImFake")
+        self.type("#password", "fak3AF!")
+        self.type("#password2", "fak3AF!")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "fakeAF@gmail.com")
+        self.type("#password", "fak3AF!")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/'
+        self.assert_text("Login Successful!", "h4")
+
+    def test_login_shotgun_24(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "FINALdone@gmail.com")
+        self.type("#name", "CELEBRAT3")
+        self.type("#password", "LeTSG0!")
+        self.type("#password2", "LeTSG0!")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "FINALdone@gmail.com")
+        self.type("#password", "LeTSG0!")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/'
+        self.assert_text("Login Successful!", "h4")
+
+    def test_login_shotgun_25(self, *_):
+
+        """
+        This is a sample black box shotgun test case for LOGIN.
+        Incorrect password. Only contains special characters.
+        """
+
+        self.open(base_url + '/register')
+        self.type("#email", "FINALfail@gmail.com")
+        self.type("#name", "FAILur3")
+        self.type("#password", "DissAP0INT!")
+        self.type("#password2", "DissAP0INT!")
+        self.click('input[type="submit"]')
+
+        # After successful registration, test login
+
+        self.open(base_url + '/login')
+        self.type("#email", "FINALfail@gmail.com")
+        self.type("#password", "!!$$$!!$$!")
+        self.click('input[type="submit"]')
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_flash_message("Login failed. Please try again.",
+                                  "#message")
