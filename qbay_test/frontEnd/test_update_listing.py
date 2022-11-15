@@ -337,9 +337,45 @@ class FrontEndCreateListingTest(BaseCase):
             assert self.get_current_url() == base_url + '/updateListing/' + str(id)
             self.assert_text("title is invalid", "h4")
 
+        def test_r4_5(self, *_):
+            '''
+            R4-5: Price has to be of range [10, 10000].
+
+            tested using boundary anaylsis testing
+            do not have to test lower bound because price can not be reduced (r5_2)
+            '''
+            listings = Listing.query.all()
+            listing = listings[0]
+            id = listing.id
+
+            # p1 = price is 9999
+            # expected = pass
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='price']", "9999")
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/listing/' + str(id)
+            self.assert_text("$9999", "h3")
+
+            # p2 = price is 10000
+            # expected = pass
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='price']", "10000")
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/listing/' + str(id)
+            self.assert_text("$10000", "h3")
+
+            # p3 = price is 10001
+            # expected = fail
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='price']", "10001")
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            self.assert_text("price is invalid", "h4")
+
 
 
         test_r4_1(self)
         test_r4_2(self)
         test_r4_3(self)
         test_r4_4(self)
+        test_r4_5(self)
