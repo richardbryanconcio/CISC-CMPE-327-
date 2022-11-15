@@ -230,11 +230,13 @@ def login_post():
         email = request.form.get('email')
         password = request.form.get('password')
         error_message = None
+        success_message = None
 
         success = login(email, password)
         if success:
             session['logged_in'] = success.id
-            return render_template('home.html', message='Login successful!')
+            success_message = "Login successful!"
+            return render_template('home.html', message=success_message)
         
         if not success:
             error_message = "Login failed. Please try again."
