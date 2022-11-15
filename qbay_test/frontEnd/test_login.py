@@ -80,11 +80,6 @@ class FrontEndLoginPageTest(BaseCase):
         
         self.assert_text("Login successful!", "h4")
 
-        # Checks if 'Pocket Rentals' header
-        # redirects user to homepage when clicked
-        self.assert_text("Pocket Rentals", "h1").click()
-        assert self.get_current_url() == base_url + '/'
-
     # TEST CASE 2: LOGIN FAIL (incorrect password for email)
     def test_login_fail_1(self, *_):
 
@@ -942,7 +937,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "Fal$ePass")
         self.click('input[type="submit"]')
         
-        self.assert_text("Login successful!", "h4")
+        self.assert_text("Login failed. Please try again.", "h4")
 
     def test_login_shotgun_13(self, *_):
 
@@ -1104,7 +1099,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "correctPass$")
         self.click('input[type="submit"]')
 
-        self.assert_text("Login successful!", "h4")
+        self.assert_text("Login failed. Please try again.", "h4")
 
     def test_login_shotgun_20(self, *_):
 
