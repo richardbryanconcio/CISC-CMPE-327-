@@ -172,4 +172,56 @@ class FrontEndCreateListingTest(BaseCase):
             assert self.get_current_url() == base_url + '/listing/' + str(id)
             self.assert_text("updatedtitle", "h1")
 
+        def test_r4_2(self, *_):
+            '''
+            R4-2: The title of the product is no longer than 80 characters.
+
+            tested using hybrid testing using input partion testing and boundary value analysis
+            '''
+            listings = Listing.query.all()
+            listing = listings[0]
+            id = listing.id
+
+            # set description to be longer than 80 characters
+            description = ''.join(random.choice(
+            'abcdefghijklmnopqrstuvwxyz') for i in range(161))
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='description']", description)
+            self.click('input[type="submit"]')
+
+            # p1 = title is 80 characters
+            # expected = pass
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='title']", "a"*80)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/listing/' + str(id)
+            self.assert_text("a"*80, "h1")
+
+            # p2 = title is 81 characters
+            # expected = fail
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='title']", "a"*81)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            self.assert_text("title is invalid", "h4")
+
+            # p3 = title is 79 characters
+            # expected = pass
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='title']", "a"*79)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/listing/' + str(id)
+            self.assert_text("a"*79, "h1")
+
+            # p4 = title is 100 characters
+            # expected = fail
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='title']", "a"*100)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            self.assert_text("title is invalid", "h4")
+
+
+
         test_r4_1(self)
+        test_r4_2(self)
