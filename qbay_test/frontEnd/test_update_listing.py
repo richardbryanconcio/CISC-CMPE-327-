@@ -50,7 +50,7 @@ class FrontEndCreateListingTest(BaseCase):
                          "updated description longer then 20 chars")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/listing/' + str(id)
-        self.assert_text("updated description", "h2")
+        self.assert_text("updated description longer then 20 chars", "h2")
 
         # update the listing price
         self.open(base_url + "/updateListing/" + str(id))
@@ -111,7 +111,7 @@ class FrontEndCreateListingTest(BaseCase):
         id = listing.id
 
         # set last modified date to a date in the past
-        changeLastModifiedDate(listing, date(2020, 1, 1))
+        changeLastModifiedDate(listing, date(2021, 2, 2))
 
         # assert last modfied date is a day in the past
         self.open(base_url + "/listing/" + str(id))
