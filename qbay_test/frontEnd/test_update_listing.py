@@ -2,7 +2,7 @@ from seleniumbase import BaseCase
 
 from qbay_test.conftest import base_url
 from unittest.mock import patch
-from qbay.models import User, Listing, register, createListing, changeLastModifiedDate
+from qbay.models import User, Listing, changeLastModifiedDate
 
 from datetime import date, datetime
 import random
@@ -10,23 +10,28 @@ import random
 """
 This file defines all integration tests for the frontend update listing page.
 
-R5-1: One can update all attributes of the listing, except owner_id and last_modified_date. 
+R5-1: One can update all attributes of the listing, 
+except owner_id and last_modified_date. 
 R5-2: Price can be only increased but cannot be decreased :)
-R5-3: last_modified_date should be updated when the update operation is successful.
-R5-4: When updating an attribute, one has to make sure that it follows the same requirements as above.
+R5-3: last_modified_date should be updated 
+when the update operation is successful.
+R5-4: When updating an attribute, one has to make sure 
+that it follows the same requirements as above.
 """
 
 
 class FrontEndCreateListingTest(BaseCase):
     # create a user for testing, if it already exists in the db then pass
     # should be replaced with a login once authentication is up and running
-    
+
     def test_r5_1_update_listing(self, *_):
         '''
-        R5-1: One can update all attributes of the listing, except owner_id and last_modified_date.
+        R5-1: One can update all attributes of the listing, 
+        except owner_id and last_modified_date.
 
         tested using input testing
-        no blackbox testing methods can be used here since the output is either true or false
+        no blackbox testing methods can be used here 
+        since the output is either true or false
         '''
         listings = Listing.query.all()
         listing = listings[0]
@@ -41,7 +46,8 @@ class FrontEndCreateListingTest(BaseCase):
 
         # update the listing description
         self.open(base_url + "/updateListing/" + str(id))
-        self.update_text("input[name='description']", "updated description longer then 20 chars")
+        self.update_text("input[name='description']",
+                         "updated description longer then 20 chars")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/listing/' + str(id)
         self.assert_text("updated description", "h2")
@@ -88,12 +94,14 @@ class FrontEndCreateListingTest(BaseCase):
         self.open(base_url + "/updateListing/" + str(id))
         self.update_text("input[name='price']", "100")
         self.click('input[type="submit"]')
-        assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+        assert self.get_current_url() == ((base_url +
+                                           '/updateListing/' + str(id)))
         self.assert_text("price is invalid", "h4")
 
     def test_r5_3_update_listing(self, *_):
         '''
-        R5-3: last_modified_date should be updated when the update operation is successful.
+        R5-3: last_modified_date should be updated 
+        when the update operation is successful.
 
         tested using input partion testing
         '''
@@ -117,17 +125,17 @@ class FrontEndCreateListingTest(BaseCase):
         self.assert_text("updated title2", "h1")
 
         # assert last modified date is today
-        self.assert_text("listing was last modified on: " + str(date.today()), "h5")
+        self.assert_text("listing was last modified on: " +
+                         str(date.today()), "h5")
 
     def test_r5_4_update_listing(self, *_):
         '''
-        R5-4: When updating an attribute, one has to make sure that it follows the same requirements as above.
+        R5-4: When updating an attribute, one has to make sure 
+        that it follows the same requirements as create listing.
 
         tested using a variety of nested functions to test each attribute
         '''
-        
 
-        
         def test_r4_1(self, *_):
             '''
             R4-1: The title of the product has to be alphanumeric-only,
@@ -144,16 +152,17 @@ class FrontEndCreateListingTest(BaseCase):
             self.open(base_url + "/updateListing/" + str(id))
             self.update_text("input[name='title']", " title")
             self.click('input[type="submit"]')
-            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            assert self.get_current_url() == ((base_url +
+                                               '/updateListing/' + str(id)))
             self.assert_text("title is invalid", "h4")
-        
 
             # p2 = title with a space suffix
             # expected = fail
             self.open(base_url + "/updateListing/" + str(id))
             self.update_text("input[name='title']", "title ")
             self.click('input[type="submit"]')
-            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            assert self.get_current_url() == ((base_url +
+                                               '/updateListing/' + str(id)))
             self.assert_text("title is invalid", "h4")
 
             # p3 = title is non-alphanumeric
@@ -161,7 +170,8 @@ class FrontEndCreateListingTest(BaseCase):
             self.open(base_url + "/updateListing/" + str(id))
             self.update_text("input[name='title']", "title!")
             self.click('input[type="submit"]')
-            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            assert self.get_current_url() == ((base_url +
+                                               '/updateListing/' + str(id)))
             self.assert_text("title is invalid", "h4")
 
             # p4 = title is alphanumeric without space as prefix or suffix
@@ -176,7 +186,8 @@ class FrontEndCreateListingTest(BaseCase):
             '''
             R4-2: The title of the product is no longer than 80 characters.
 
-            tested using hybrid testing using input partion testing and boundary value analysis
+            tested using hybrid testing using input partion testing 
+            and boundary value analysis
             '''
             listings = Listing.query.all()
             listing = listings[0]
@@ -184,7 +195,7 @@ class FrontEndCreateListingTest(BaseCase):
 
             # set description to be longer than 80 characters
             description = ''.join(random.choice(
-            'abcdefghijklmnopqrstuvwxyz') for i in range(161))
+                'abcdefghijklmnopqrstuvwxyz') for i in range(161))
             self.open(base_url + "/updateListing/" + str(id))
             self.update_text("input[name='description']", description)
             self.click('input[type="submit"]')
@@ -192,33 +203,35 @@ class FrontEndCreateListingTest(BaseCase):
             # p1 = title is 80 characters
             # expected = pass
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='title']", "a"*80)
+            self.update_text("input[name='title']", "a" * 80)
             self.click('input[type="submit"]')
             assert self.get_current_url() == base_url + '/listing/' + str(id)
-            self.assert_text("a"*80, "h1")
+            self.assert_text("a" * 80, "h1")
 
             # p2 = title is 81 characters
             # expected = fail
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='title']", "a"*81)
+            self.update_text("input[name='title']", "a" * 81)
             self.click('input[type="submit"]')
-            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            assert self.get_current_url() == ((base_url +
+                                               '/updateListing/' + str(id)))
             self.assert_text("title is invalid", "h4")
 
             # p3 = title is 79 characters
             # expected = pass
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='title']", "a"*79)
+            self.update_text("input[name='title']", "a" * 79)
             self.click('input[type="submit"]')
             assert self.get_current_url() == base_url + '/listing/' + str(id)
-            self.assert_text("a"*79, "h1")
+            self.assert_text("a" * 79, "h1")
 
             # p4 = title is 100 characters
             # expected = fail
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='title']", "a"*100)
+            self.update_text("input[name='title']", "a" * 100)
             self.click('input[type="submit"]')
-            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            assert self.get_current_url() == ((base_url +
+                                               '/updateListing/' + str(id)))
             self.assert_text("title is invalid", "h4")
 
         def test_r4_3(self, *_):
@@ -226,7 +239,8 @@ class FrontEndCreateListingTest(BaseCase):
             R4-3: The description of the product can be arbitrary characters, 
                 with a minimum length of 20 characters 
                 and a maximum of 2000 characters.
-            tested using hybrid testing using input partion testing and boundary value analysis
+            tested using hybrid testing using input partion testing 
+            and boundary value analysis
             '''
             listings = Listing.query.all()
             listing = listings[0]
@@ -234,7 +248,7 @@ class FrontEndCreateListingTest(BaseCase):
 
             # set title to be less than 20 characters
             title = ''.join(random.choice(
-            'abcdefghijklmnopqrstuvwxyz') for i in range(18))
+                'abcdefghijklmnopqrstuvwxyz') for i in range(18))
             self.open(base_url + "/updateListing/" + str(id))
             self.update_text("input[name='title']", title)
             self.click('input[type="submit"]')
@@ -242,50 +256,52 @@ class FrontEndCreateListingTest(BaseCase):
             # p1 = description is 20 characters
             # expected = pass
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='description']", "a"*20)
+            self.update_text("input[name='description']", "a" * 20)
             self.click('input[type="submit"]')
             assert self.get_current_url() == base_url + '/listing/' + str(id)
-            self.assert_text("a"*20, "h2")
+            self.assert_text("a" * 20, "h2")
 
             # p2 = description is 21 characters
             # expected = pass
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='description']", "a"*21)
+            self.update_text("input[name='description']", "a" * 21)
             self.click('input[type="submit"]')
             assert self.get_current_url() == base_url + '/listing/' + str(id)
-            self.assert_text("a"*21, "h2")
+            self.assert_text("a" * 21, "h2")
 
             # p3 = description is 19 characters
             # expected = fail
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='description']", "a"*19)
+            self.update_text("input[name='description']", "a" * 19)
             self.click('input[type="submit"]')
-            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            assert self.get_current_url() == ((base_url +
+                                               '/updateListing/' + str(id)))
             self.assert_text("description is invalid", "h4")
 
             # p4 = description is 2000 characters
             # expected = pass
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='description']", "a"*2000)
+            self.update_text("input[name='description']", "a" * 2000)
             self.click('input[type="submit"]')
             assert self.get_current_url() == base_url + '/listing/' + str(id)
-            self.assert_text("a"*2000, "h2")
+            self.assert_text("a" * 2000, "h2")
 
             # p5 = description is 2001 characters
             # expected = fail
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='description']", "a"*2001)
+            self.update_text("input[name='description']", "a" * 2001)
             self.click('input[type="submit"]')
-            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            assert self.get_current_url() == ((base_url +
+                                               '/updateListing/' + str(id)))
             self.assert_text("description is invalid", "h4")
 
             # p6 = description is 1999 characters
             # expected = pass
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='description']", "a"*1999)
+            self.update_text("input[name='description']", "a" * 1999)
             self.click('input[type="submit"]')
             assert self.get_current_url() == base_url + '/listing/' + str(id)
-            self.assert_text("a"*1999, "h2")
+            self.assert_text("a" * 1999, "h2")
 
         def test_r4_4(self, *_):
             '''
@@ -299,42 +315,47 @@ class FrontEndCreateListingTest(BaseCase):
             # p1 = description is longer than title
             # expected = pass
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='title']", "a"*20)
-            self.update_text("input[name='description']", "a"*21)
+            self.update_text("input[name='title']", "a" * 20)
+            self.update_text("input[name='description']", "a" * 21)
             self.click('input[type="submit"]')
             assert self.get_current_url() == base_url + '/listing/' + str(id)
-            self.assert_text("a"*20, "h1")
-            self.assert_text("a"*21, "h2")
+            self.assert_text("a" * 20, "h1")
+            self.assert_text("a" * 21, "h2")
 
             # p2 = description is shorter than title
             # expected = fail
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='title']", "a"*21)
-            self.update_text("input[name='description']", "a"*20)
+            self.update_text("input[name='title']", "a" * 21)
+            self.update_text("input[name='description']", "a" * 20)
             self.click('input[type="submit"]')
-            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
-            self.assert_text("description is invalid, title has been changed", "h4")
+            assert self.get_current_url() == ((base_url +
+                                               '/updateListing/' + str(id)))
+            self.assert_text(
+                "description is invalid, title has been changed", "h4")
 
             # p3 = description is equal to title
             # expected = fail
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='title']", "a"*20)
-            self.update_text("input[name='description']", "a"*20)
+            self.update_text("input[name='title']", "a" * 20)
+            self.update_text("input[name='description']", "a" * 20)
             self.click('input[type="submit"]')
-            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
-            self.assert_text("description is invalid, title has been changed", "h4")
+            assert self.get_current_url() == ((base_url +
+                                               '/updateListing/' + str(id)))
+            self.assert_text(
+                "description is invalid, title has been changed", "h4")
 
             # p4 = change title to be longer than description
             # expected = fail
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='title']", "a"*21)
-            self.update_text("input[name='description']", "a"*22)
+            self.update_text("input[name='title']", "a" * 21)
+            self.update_text("input[name='description']", "a" * 22)
             self.click('input[type="submit"]')
 
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='title']", "a"*23)
+            self.update_text("input[name='title']", "a" * 23)
             self.click('input[type="submit"]')
-            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            assert self.get_current_url() == ((base_url +
+                                               '/updateListing/' + str(id)))
             self.assert_text("title is invalid", "h4")
 
         def test_r4_5(self, *_):
@@ -342,7 +363,8 @@ class FrontEndCreateListingTest(BaseCase):
             R4-5: Price has to be of range [10, 10000].
 
             tested using boundary anaylsis testing
-            do not have to test lower bound because price can not be reduced (r5_2)
+            do not have to test lower bound
+            price can not be reduced (r5_2)
             '''
             listings = Listing.query.all()
             listing = listings[0]
@@ -369,7 +391,8 @@ class FrontEndCreateListingTest(BaseCase):
             self.open(base_url + "/updateListing/" + str(id))
             self.update_text("input[name='price']", "10001")
             self.click('input[type="submit"]')
-            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            assert self.get_current_url() == ((base_url +
+                                               '/updateListing/' + str(id)))
             self.assert_text("price is invalid", "h4")
 
         def test_r4_8(self, *_):
@@ -388,18 +411,17 @@ class FrontEndCreateListingTest(BaseCase):
             self.open(base_url + "/updateListing/" + str(id))
             self.update_text("input[name='title']", otherListing.title)
             self.click('input[type="submit"]')
-            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            assert self.get_current_url() == ((base_url +
+                                               '/updateListing/' + str(id)))
             self.assert_text("title is invalid", "h4")
 
             # p2 = title is different from other listing
             # expected = pass
             self.open(base_url + "/updateListing/" + str(id))
-            self.update_text("input[name='title']", "a"*20)
+            self.update_text("input[name='title']", "a" * 20)
             self.click('input[type="submit"]')
             assert self.get_current_url() == base_url + '/listing/' + str(id)
-            self.assert_text("a"*20, "h1")
-
-
+            self.assert_text("a" * 20, "h1")
 
         test_r4_1(self)
         test_r4_2(self)
