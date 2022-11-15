@@ -129,7 +129,7 @@ def test_r3_1_update():
     R3-1: A user is only able to update his/her user name,
     user email, billing address, and postal code.
     '''
-    register('update test', 'update@user.com', 'Ab!23456')
+    register('updatetest', 'update@user.com', 'Ab!23456')
     user = login('update@user.com', 'Ab!23456')
     assert update('postalCode', user, 'A1K 2P2') is True
     assert update('username', user, 'test') is True
@@ -144,7 +144,7 @@ def test_r3_2_3_update():
     alphanumeric-only, and no special characters such as !.
     R3-3: Postal code has to be a valid Canadian postal code.
     '''
-    register('update test', 'update@user.com', 'Ab!23456')
+    register('updatetest', 'update@user.com', 'Ab!23456')
     user = login('update@user.com', 'Ab!23456')
     assert update('postalCode', user, '') is False
     assert update('postalCode', user, 'L!L R8R') is False
@@ -157,7 +157,7 @@ def test_r3_4_update():
     R3-4: User name follows the requirements above. 
     (non-empty, alphanumeric-only, no special characters such as !)
     '''
-    register('update test', 'update@user.com', 'Ab!23456')
+    register('updatetest', 'update@user.com', 'Ab!23456')
     user = login('update@user.com', 'Ab!23456')
     assert update('username', user, '') is False
     assert update('username', user, ' ') is False

@@ -12,6 +12,41 @@ from wtforms.validators import DataRequired, EqualTo, Length
 
 from qbay import app
 
+# Create Authentication
+def authenticate(inner_function):
+    """
+    :param inner_function: any python function that accepts a user object
+    Wrap any python function and check the current session to see if 
+    the user has logged in. If login, it will call the inner_function
+    with the logged in user object.
+    To wrap a function, we can put a decoration on that function.
+    Example:
+    @authenticate
+    def home_page(user):
+        pass
+    """
+
+    def wrapped_inner():
+
+        # check did we store the key in the session
+        if 'logged_in' in session:
+            id = session['logged_in']
+            try:
+                user = User.query.filter_by(id=id).one_or_none()
+                if user:
+                    # if the user exists, call the inner_function
+                    # with user as parameter
+                    return inner_function(user)
+            except Exception:
+                pass
+        else:
+            # else, redirect to the login page
+            return redirect('/login')
+
+    # return the wrapped version of the inner_function:
+    return wrapped_inner
+
+
 
 @app.route('/register', methods=['GET'])
 def register_get():
@@ -68,6 +103,7 @@ def createListing_get():
 
 
 @app.route('/createListing', methods=['POST'])
+@authenticate
 def createListing_post():
     title = request.form.get('title')
     description = request.form.get('description')
@@ -172,39 +208,6 @@ def updateListing_get(listingId):
                            message="please input which fields to change")
                            
 
-# Create Authentication
-def authenticate(inner_function):
-    """
-    :param inner_function: any python function that accepts a user object
-    Wrap any python function and check the current session to see if 
-    the user has logged in. If login, it will call the inner_function
-    with the logged in user object.
-    To wrap a function, we can put a decoration on that function.
-    Example:
-    @authenticate
-    def home_page(user):
-        pass
-    """
-
-    def wrapped_inner():
-
-        # check did we store the key in the session
-        if 'logged_in' in session:
-            email = session['logged_in']
-            try:
-                user = User.query.filter_by(email=email).one_or_none()
-                if user:
-                    # if the user exists, call the inner_function
-                    # with user as parameter
-                    return inner_function(user)
-            except Exception:
-                pass
-        else:
-            # else, redirect to the login page
-            return redirect('/login')
-
-    # return the wrapped version of the inner_function:
-    return wrapped_inner
 
 
 # Create Login Form
