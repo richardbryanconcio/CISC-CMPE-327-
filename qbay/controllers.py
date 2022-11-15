@@ -229,6 +229,7 @@ def login_post():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
+        error_message = None
 
         success = login(email, password)
         if success:
@@ -236,8 +237,9 @@ def login_post():
             return render_template('home.html', message='Login successful!')
         
         if not success:
-            flash('Login failed. Please try again.')
-            return redirect('/login')
+            error_message = "Login failed. Please try again."
+            return render_template('login.html', message=error_message)
+
     return redirect('/')
 
 
