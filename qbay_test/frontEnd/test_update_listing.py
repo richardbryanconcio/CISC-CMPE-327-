@@ -287,10 +287,59 @@ class FrontEndCreateListingTest(BaseCase):
             assert self.get_current_url() == base_url + '/listing/' + str(id)
             self.assert_text("a"*1999, "h2")
 
+        def test_r4_4(self, *_):
+            '''
+            R4-4: Description has to be longer than the product's title.
+            tested using hybrid testing with input partioning 
+            '''
+            listings = Listing.query.all()
+            listing = listings[0]
+            id = listing.id
 
+            # p1 = description is longer than title
+            # expected = pass
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='title']", "a"*20)
+            self.update_text("input[name='description']", "a"*21)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/listing/' + str(id)
+            self.assert_text("a"*20, "h1")
+            self.assert_text("a"*21, "h2")
+
+            # p2 = description is shorter than title
+            # expected = fail
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='title']", "a"*21)
+            self.update_text("input[name='description']", "a"*20)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            self.assert_text("description is invalid, title has been changed", "h4")
+
+            # p3 = description is equal to title
+            # expected = fail
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='title']", "a"*20)
+            self.update_text("input[name='description']", "a"*20)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            self.assert_text("description is invalid, title has been changed", "h4")
+
+            # p4 = change title to be longer than description
+            # expected = fail
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='title']", "a"*21)
+            self.update_text("input[name='description']", "a"*22)
+            self.click('input[type="submit"]')
+
+            self.open(base_url + "/updateListing/" + str(id))
+            self.update_text("input[name='title']", "a"*23)
+            self.click('input[type="submit"]')
+            assert self.get_current_url() == base_url + '/updateListing/' + str(id)
+            self.assert_text("title is invalid", "h4")
 
 
 
         test_r4_1(self)
         test_r4_2(self)
         test_r4_3(self)
+        test_r4_4(self)
