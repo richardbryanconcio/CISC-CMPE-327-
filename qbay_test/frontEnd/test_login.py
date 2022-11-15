@@ -77,8 +77,8 @@ class FrontEndLoginPageTest(BaseCase):
         # Once user clicked the sign in button,
         # they should be redirected to the home page
         # Should see the success message at the top of the page
-        self.assert_text("Login failed. Please try again.", "h4")
-        # self.assert_text("Login Successful!", "h4")
+        
+        self.assert_text("Login Successful!", "#message")
 
         # Checks if 'Pocket Rentals' header
         # redirects user to homepage when clicked
@@ -737,8 +737,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "J0Ke$rr!")
         self.click('input[type="submit"]')
 
-        self.assert_text("Login failed. Please try again.", "h4")
-        # self.assert_text("Login Successful!", "h4")
+        self.assert_text("Login Successful!", "#message")
     
     def test_login_shotgun_4(self, *_):
 
@@ -806,8 +805,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "spr1ntPROJ$")
         self.click('input[type="submit"]')
 
-        self.assert_text("Login failed. Please try again.", "h4")
-        # self.assert_text("Login Successful!", "h4")
+        self.assert_text("Login Successful!", "#message")
 
     def test_login_shotgun_7(self, *_):
 
@@ -852,8 +850,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "L1ghtBreeze$")
         self.click('input[type="submit"]')
 
-        self.assert_text("Login failed. Please try again.", "h4")
-        # self.assert_text("Login Successful!", "h4")
+        self.assert_text("Login Successful!", "#message")
 
     def test_login_shotgun_9(self, *_):
 
@@ -945,8 +942,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "Fal$ePass")
         self.click('input[type="submit"]')
         
-        self.assert_text("Login failed. Please try again.", "h4")
-        # self.assert_text("Login Successful!", "h4")
+        self.assert_text("Login Successful!", "#message")
 
     def test_login_shotgun_13(self, *_):
 
@@ -1108,8 +1104,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "correctPass$")
         self.click('input[type="submit"]')
 
-        self.assert_text("Login failed. Please try again.", "h4")
-        # self.assert_text("Login Successful!", "h4")
+        self.assert_text("Login Successful!", "#message")
 
     def test_login_shotgun_20(self, *_):
 
@@ -1131,8 +1126,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "tieHeard7!")
         self.click('input[type="submit"]')
 
-        self.assert_text("Login failed. Please try again.", "h4")
-        # self.assert_text("Login Successful!", "h4")
+        self.assert_text("Login Successful!", "#message")
 
     def test_login_shotgun_21(self, *_):
 
@@ -1154,7 +1148,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "coreR3ctRand!")
         self.click('input[type="submit"]')
 
-        self.assert_text("Login Successful!", "h4")
+        self.assert_text("Login Successful!", "#message")
 
     def test_login_shotgun_22(self, *_):
 
@@ -1176,8 +1170,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "cl0wn!RL")
         self.click('input[type="submit"]')
 
-        self.assert_text("Login failed. Please try again.", "h4")
-        # self.assert_text("Login Successful!", "h4")
+        self.assert_text("Login Successful!", "#message")
 
     def test_login_shotgun_23(self, *_):
 
@@ -1199,8 +1192,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "fak3AF!")
         self.click('input[type="submit"]')
 
-        self.assert_text("Login failed. Please try again.", "h4")
-        # self.assert_text("Login Successful!", "h4")
+        self.assert_text("Login Successful!", "#message")
 
     def test_login_shotgun_24(self, *_):
 
@@ -1222,8 +1214,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "LeTSG0!")
         self.click('input[type="submit"]')
 
-        self.assert_text("Login failed. Please try again.", "h4")
-        # self.assert_text("Login Successful!", "h4")
+        self.assert_text("Login Successful!", "#message")
 
     def test_login_shotgun_25(self, *_):
 
