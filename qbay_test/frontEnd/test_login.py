@@ -124,7 +124,7 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Should see the flash message at the top of the page
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
 
     # TEST CASE 3: LOGIN FAIL (incorrect email for password)
     def test_login_fail_2(self, *_):
@@ -163,6 +163,7 @@ class FrontEndLoginPageTest(BaseCase):
 
         # Checks that the user is redirected to the login page
         assert self.get_current_url() == base_url + '/login'
+        self.assert_text("Login failed. Please try again.", "h4")
 
     # TEST CASE 4: LOGIN FAIL (account not registered)
     def test_login_fail_3(self, *_):
@@ -200,6 +201,7 @@ class FrontEndLoginPageTest(BaseCase):
 
         # Checks that the user is redirected to the login page
         assert self.get_current_url() == base_url + '/login'
+        self.assert_text("Login failed. Please try again.", "h4")
 
         # Checks if 'Create new account' redirects user
         # to register page when clicked
@@ -244,6 +246,7 @@ class FrontEndLoginPageTest(BaseCase):
 
         # Checks that the user is redirected to the login page
         assert self.get_current_url() == base_url + '/login'
+        self.assert_text("Login failed. Please try again.", "h4")
 
     # TEST CASE 6: LOGIN FAIL (no password entered)
     def test_login_fail_5(self, *_):
@@ -283,6 +286,7 @@ class FrontEndLoginPageTest(BaseCase):
 
         # Checks that the user is redirected to the login page
         assert self.get_current_url() == base_url + '/login'
+        self.assert_text("Login failed. Please try again.", "h4")
 
     # TEST CASE 7: LOGIN FAIL (no email and password entered)
     def test_login_fail_6(self, *_):
@@ -322,6 +326,7 @@ class FrontEndLoginPageTest(BaseCase):
 
         # Checks that the user is redirected to the login page
         assert self.get_current_url() == base_url + '/login'
+        self.assert_text("Login failed. Please try again.", "h4")
 
     # Test Case 8: LOGIN FAIL (minimum password length)
     def test_login_fail_7(self, *_):
@@ -361,7 +366,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.click('input[type="submit"]')
 
         # Checks that the user is redirected to the login page
-        assert self.get_current_url() == base_url + '/login'
+        self.assert_text("Login failed. Please try again.", "h4")
 
     # Test Case 9: LOGIN FAIL (invalid email format; missing email ID)
     def test_login_fail_8(self, *_):
@@ -403,7 +408,7 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Should see the flash message at the top of the page
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
 
     # Test Case 10: LOGIN FAIL (invalid email format; missing @ symbol)
     def test_login_fail_9(self, *_):
@@ -445,7 +450,7 @@ class FrontEndLoginPageTest(BaseCase):
         assert self.get_current_url() == base_url + '/login'
 
         # Should see the flash message at the top of the page
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
 
     # Test Case 11: LOGIN FAIL (invalid password format;
     # missing uppercase letter)
@@ -487,6 +492,7 @@ class FrontEndLoginPageTest(BaseCase):
 
         # Checks that the user is redirected to the login page
         assert self.get_current_url() == base_url + '/login'
+        self.assert_text("Login failed. Please try again.", "h4")
 
     # Test Case 12: LOGIN FAIL (invalid password format;
     # missing special character)
@@ -528,6 +534,7 @@ class FrontEndLoginPageTest(BaseCase):
 
         # Checks that the user is redirected to the login page
         assert self.get_current_url() == base_url + '/login'
+        self.assert_text("Login failed. Please try again.", "h4")
 
     # Test Case 13: LOGIN FAIL (invalid password format;
     # space as prefix)
@@ -570,7 +577,8 @@ class FrontEndLoginPageTest(BaseCase):
 
         # Checks that the user is redirected to the register page
         # Invalid account submission
-        assert self.get_current_url() == base_url + '/register'
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_text("Login failed. Please try again.", "h4")
 
     # Test Case 14: LOGIN FAIL (invalid password format;
     # space as suffix)
@@ -611,9 +619,10 @@ class FrontEndLoginPageTest(BaseCase):
         # Clicks the 'sign in' button
         self.click('input[type="submit"]')
 
-        # Checks that the user is redirected to the register page
+        # Checks that the user is redirected to the login page
         # Invalid account submission
-        assert self.get_current_url() == base_url + '/register'
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_text("Login failed. Please try again.", "h4")
 
     # Test Case 15: LOGIN FAIL (invalid password format;
     # space as prefix and suffix)
@@ -656,7 +665,8 @@ class FrontEndLoginPageTest(BaseCase):
 
         # Checks that the user is redirected to the register page
         # Invalid account submission
-        assert self.get_current_url() == base_url + '/register'
+        assert self.get_current_url() == base_url + '/login'
+        self.assert_text("Login failed. Please try again.", "h4")
 
     # SHOTGUN TESTING TEST CASES
     # Note that each test case depicts a random input for email and password.
@@ -687,7 +697,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "Long99!Long99!Long99!Long99!Long99!")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
 
     def test_login_shotgun_2(self, *_):
 
@@ -710,7 +720,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "ran0!")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
     
     def test_login_shotgun_3(self, *_):
 
@@ -755,7 +765,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "WaTer!09")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
     
     def test_login_shotgun_5(self, *_):
 
@@ -778,7 +788,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "EaTiNg!08")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
 
     def test_login_shotgun_6(self, *_):
 
@@ -823,7 +833,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "fArT!99")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
     
     def test_login_shotgun_8(self, *_):
 
@@ -868,7 +878,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "wARM$weather76")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
 
     def test_login_shotgun_10(self, *_):
 
@@ -892,7 +902,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", " getAwatch567$")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
     
     def test_login_shotgun_11(self, *_):
 
@@ -915,7 +925,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "$till4liv3 ")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
 
     def test_login_shotgun_12(self, *_):
 
@@ -960,7 +970,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "yuMMy33$f")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
 
     def test_login_shotgun_14(self, *_):
 
@@ -983,6 +993,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "superHAPPY88!")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
+        self.assert_text("Login failed. Please try again.", "h4")
 
     def test_login_shotgun_15(self, *_):
 
@@ -1006,7 +1017,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "password123")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
 
     def test_login_shotgun_16(self, *_):
 
@@ -1029,7 +1040,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "37548753")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
 
     def test_login_shotgun_17(self, *_):
 
@@ -1053,7 +1064,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "freeICEcream$")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
 
     def test_login_shotgun_18(self, *_):
 
@@ -1076,7 +1087,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "emptySPACE$")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
 
     def test_login_shotgun_19(self, *_):
 
@@ -1231,4 +1242,4 @@ class FrontEndLoginPageTest(BaseCase):
         self.type("#password", "!!$$$!!$$!")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/login'
-        self.assert_text("Login failed. Please try again.", "#message")
+        self.assert_text("Login failed. Please try again.", "h4")
