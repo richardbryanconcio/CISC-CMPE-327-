@@ -461,3 +461,7 @@ def passwordValidation(password):
         else:
             print("password does not meet the required complexity")
             return False
+
+def changeLastModifiedDate(listing, d):
+    listing.lastModifiedDate = d
+    db.session.commit()
