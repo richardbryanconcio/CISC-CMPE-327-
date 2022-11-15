@@ -669,12 +669,16 @@ class FrontEndLoginPageTest(BaseCase):
     # Test Case 16: SHOTGUN TESTING
     def test_login_shotgun_iteration(self, *_):
         user_list = list(25)
-        random_letters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
-                          'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
+        random_letters = {'a', 'b', 'c', 'd', 'e', 'f', 'g',
+                          'h', 'i', 'j', 'k', 'l', 'm', 
+                          'n', 'o', 'p', 'q', 'r', 's', 't',
+                          'u', 'v', 'w', 'x', 'y', 'z'}
 
         random_numbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
-        random_symbols = {'!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '-', '+', 
-                          '=', '{', '}', '[', ']', '|', ';', ':', '<', '>', '?', '/', '~'}
+        random_symbols = {'!', '@', '#', '$', '%', '^',
+                          '&', '*', '(', ')', '_', '-', '+', 
+                          '=', '{', '}', '[', ']', '|', ';',
+                          ':', '<', '>', '?', '/', '~'}
 
         # Generates a list of 25 random emails and passwords
         for i in range(25):
