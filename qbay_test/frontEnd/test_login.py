@@ -78,7 +78,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Once user clicked the sign in button,
         # they should be redirected to the home page
         # Should see the success message at the top of the page
-        
+
         self.assert_text("Login successful!", "h4")
 
     # TEST CASE 2: LOGIN FAIL (incorrect password for email)
@@ -671,7 +671,7 @@ class FrontEndLoginPageTest(BaseCase):
         def fail():
             assert self.get_current_url() == base_url + '/login'
             self.assert_text("Login failed. Please try again.", "h4")
-        
+
         def success():
             assert self.get_current_url() == base_url + '/'
 
@@ -680,12 +680,13 @@ class FrontEndLoginPageTest(BaseCase):
         usedEmails.append(email)
         for i in range(10):
             while email in usedEmails:
-                email = ''.join(random.choice("abcdefghijklmnop") for i in range(7)) + '@gmail.com'
+                email = (''.join(random.choice("abcdefghijklmnop")
+                                 for i in range(7)) + '@gmail.com')
             usedEmails.append(email)
 
-            # generate password 
-            password = ''.join(random.choice("abcdefABCDEF!@#$%") for i in range(3,9))
-    
+            # generate password
+            password = ''.join(random.choice("abcdefABCDEF!@#$%")
+                               for i in range(3, 9))
 
             username = "Test" + str(i)
 
@@ -706,9 +707,9 @@ class FrontEndLoginPageTest(BaseCase):
 
             # check if the password is valid
             if (any(x.isupper() for x in password) and
-            any(x.islower() for x in password) and
-            any(x.isdigit() for x in password) and
-                len(password) >= 6) is False:
+                any(x.islower() for x in password) and
+                any(x.isdigit() for x in password) and
+                    len(password) >= 6) is False:
                 fail()
             else:
                 success()
