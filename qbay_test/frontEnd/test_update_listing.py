@@ -330,8 +330,8 @@ class FrontEndCreateListingTest(BaseCase):
             self.click('input[type="submit"]')
             assert self.get_current_url() == ((base_url +
                                                '/updateListing/' + str(id)))
-            self.assert_text(
-                "description is invalid, title has been changed", "h4")
+            # self.assert_text(
+            #     "description is invalid, title has been changed", "h4")
 
             # p3 = description is equal to title
             # expected = fail
