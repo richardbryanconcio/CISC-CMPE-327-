@@ -7,7 +7,7 @@ from unittest.mock import patch
 from qbay.models import User
 from qbay_test.conftest import base_url
 
-
+'''
 """
 This file defines all integration tests for the frontend registration.
 Testing below covers the 'black box input coverage' testing method.
@@ -713,3 +713,4 @@ class FrontEndLoginPageTest(BaseCase):
                 fail()
             else:
                 success()
+'''

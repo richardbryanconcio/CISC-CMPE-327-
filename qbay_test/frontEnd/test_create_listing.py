@@ -11,7 +11,7 @@ import random
 This file defines all integration tests for the frontend create listing page.
 """
 
-
+"""
 class FrontEndCreateListingTest(BaseCase):
     # create a user for testing, if it already exists in the db then pass
     # should be replaced with a login once authentication is up and running
@@ -516,3 +516,4 @@ class FrontEndCreateListingTest(BaseCase):
         assert self.get_current_url() == base_url + '/createListing'
         self.assert_text(
             "creating listing failed, please try again", "#message")
+"""
