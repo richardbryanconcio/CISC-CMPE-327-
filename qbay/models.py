@@ -270,7 +270,7 @@ def createListing(title, description, price, user, startDate, endDate):
         return None
  
     # check if description is shorter then title
-    if len(description) < len(title):
+    if len(description) <= len(title):
         return None
  
     # check if price is within proper range
@@ -332,7 +332,7 @@ def updateListing(field, new, listing):
     elif field == 'description':
         # new description must be between 20-2000 characters,
         # must contain more characters then the title
-        if len(new) < 20 or len(new) > 2000 or len(new) < len(listing.title):
+        if len(new) < 20 or len(new) > 2000 or len(new) <= len(listing.title):
             return False
  
         listing.description = new
@@ -355,6 +355,8 @@ def updateListing(field, new, listing):
             return False
  
         listing.startDate = new
+        listing.lastModifiedDate = date.today()
+        db.session.commit()
         return True
     elif field == 'endDate':
         # convert datetime to date
@@ -459,3 +461,8 @@ def passwordValidation(password):
         else:
             print("password does not meet the required complexity")
             return False
+
+
+def changeLastModifiedDate(listing, d):
+    listing.lastModifiedDate = d
+    db.session.commit()

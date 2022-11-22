@@ -241,7 +241,11 @@ def login_post():
         if not success:
             error_message = "Login failed. Please try again."
             return render_template('login.html', message=error_message)
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 36f569d54b441594a5c50709de95df17e8bdc3a4
     return redirect('/')
 
 
