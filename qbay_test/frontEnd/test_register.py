@@ -1,24 +1,24 @@
 import selenium
 from seleniumbase import BaseCase
-
-
+ 
+ 
 from unittest.mock import patch
 from qbay.models import User
 from qbay_test.conftest import base_url
 import random
-
-""" 
+ 
+"""
 This file defines all integration tests for the frontend registration.
 Testing below covers the black box input coverage testing method.
 The 2nd blackbox testing method used is Input partition testing method.
-If there are repeted test cases between the blackbox testing methods, 
+If there are repeted test cases between the blackbox testing methods,
 the repeted test case has been removed.
-The 3rd blackbox testing method used is shotgun testing. 
+The 3rd blackbox testing method used is shotgun testing.
 """
-
-
+ 
+ 
 class FrontEndHomePageTest(BaseCase):
-
+ 
     def test_register_fail_R1_1_1(self, *_):
         """
         This is a sample front end integration test to show
@@ -36,8 +36,8 @@ class FrontEndHomePageTest(BaseCase):
         # click enter button
         self.click('input[type="submit"]')
         # test to make sure no header message appears or redirected
-        self.assert_text("", "#email") 
-
+        self.assert_text("", "#email")
+ 
     def test_register_fail_R1_1_2(self, *_):
         """
         This is a sample front end integration test to show
@@ -56,7 +56,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("Registration failed.", "h4")
-
+ 
     def test_register_fail_R1_3(self, *_):
         """
         This is a sample front end integration test to show
@@ -76,7 +76,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("Registration failed.", "h4")
-
+ 
     # covers the test case of all 4 variable Success
     def test_register_Success_R1_3(self, *_):
         """
@@ -109,7 +109,7 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#name", "userR11")
         self.type("#password", "Password1!")
         self.type("#password2", "Password1!")
-
+ 
         # click enter button
         self.click('input[type="submit"]')
         # test if the message is correct
@@ -133,7 +133,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test to make sure no header message appears or redirected
         self.assert_text("", "#password")
-
+ 
     def test_register_fail_R1_4_1(self, *_):
         """
         This is a sample front end integration test to show
@@ -155,7 +155,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("Registration failed.", "h4")
-
+ 
     def test_register_fail_R1_4_2(self, *_):
         """
         This is a sample front end integration test to show
@@ -199,7 +199,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("Registration failed.", "h4")
-
+ 
     def test_register_fail_R1_4_4(self, *_):
         """
         This is a sample front end integration test to show
@@ -221,7 +221,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("Registration failed.", "h4")
-
+ 
     def test_register_success_R1_4_5(self, *_):
         """
         This is a sample front end integration test to show
@@ -327,7 +327,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("Registration failed.", "h4")
-
+ 
     def test_register_success_R1_5_5(self, *_):
         """
         This is a sample front end integration test to show
@@ -388,7 +388,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("Registration failed.", "h4")
-
+ 
     def test_register_success_R1_6_3(self, *_):
         """
         This is a sample front end integration test to show
@@ -408,11 +408,11 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("Enter your email and password", "h4")
-
+ 
     def test_register_fail_partition_1(self, *_):
         """
-        This is a sample front end integration test using input partitoning 
-        testing to show user registration Fail with password2 not 
+        This is a sample front end integration test using input partitoning
+        testing to show user registration Fail with password2 not
         matching password.
         """
         # open register page
@@ -427,10 +427,10 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("The passwords do not match", "h4")
-
+ 
     def test_register_fail_partition_2(self, *_):
         """
-        Test using input partitoning testing to show user registration 
+        Test using input partitoning testing to show user registration
         Fail with password2 not matching password.
         """
         # open register page
@@ -448,7 +448,7 @@ class FrontEndHomePageTest(BaseCase):
  
     def test_register_fail_partition_3(self, *_):
         """
-        This is a sample front end integration test using input partitoning 
+        This is a sample front end integration test using input partitoning
         testingto show user registration Fail with invalid username and
         password2 not matching password.
         """
@@ -464,11 +464,11 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("The passwords do not match", "h4")
-
+ 
     def test_register_fail_partition_4(self, *_):
         """
-        This is a sample front end integration testtest using input partitoning 
-        testing to show user registration Fail with invalid username 
+        This is a sample front end integration testtest using input partitoning
+        testing to show user registration Fail with invalid username
         and password.
         """
         # open register page
@@ -483,11 +483,11 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("Registration failed.", "h4")
-
+ 
     def test_register_fail_partition_5(self, *_):
         """
-        This is a sample front end integration test using input partitoning 
-        testing to show user registration Fail. With invalid Username, 
+        This is a sample front end integration test using input partitoning
+        testing to show user registration Fail. With invalid Username,
         invalid password, and password2 not matching password.
         """
         # open register page
@@ -502,11 +502,11 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("The passwords do not match", "h4")
-
+ 
     def test_register_fail_partition_6(self, *_):
         """
-        This is a sample front end integration test  using input partitoning 
-        testing to show user registration Fail. With invalid email and 
+        This is a sample front end integration test  using input partitoning
+        testing to show user registration Fail. With invalid email and
         password2 not matching password.
         """
         # open register page
@@ -521,11 +521,11 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("The passwords do not match", "h4")
-
+ 
     def test_register_fail_partition_7(self, *_):
         """
-        This is a sample front end integration test  using input partitioning 
-        testing to show user registration Fail. With invalid email and 
+        This is a sample front end integration test  using input partitioning
+        testing to show user registration Fail. With invalid email and
         password.
         """
         # open register page
@@ -540,11 +540,11 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("Registration failed.", "h4")
-
+ 
     def test_register_fail_partition_8(self, *_):
         """
-        This is a sample front end integration test  using input partitioning 
-        testing to show user registration Fail. With invalid email, 
+        This is a sample front end integration test  using input partitioning
+        testing to show user registration Fail. With invalid email,
         password, and password 2 not matching password.
         """
         # open register page
@@ -559,11 +559,11 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("The passwords do not match", "h4")
-
+ 
     def test_register_fail_partition_9(self, *_):
         """
-        This is a sample front end integration test  using input partitioning 
-        testing to show user registration Fail with invalid email, 
+        This is a sample front end integration test  using input partitioning
+        testing to show user registration Fail with invalid email,
         and username.
         """
         # open register page
@@ -578,10 +578,10 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("Registration failed.", "h4")
-
+ 
     def test_register_fail_partition_10(self, *_):
         """
-        This is a sample front end integration test  using input partitioning 
+        This is a sample front end integration test  using input partitioning
         testing to show user registration Fail with invalid email, username,
         and password2 not matching password.
         """
@@ -597,10 +597,10 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("The passwords do not match", "h4")
-
+ 
     def test_register_fail_partition_11(self, *_):
         """
-        This is a sample front end integration test  using input partitioning 
+        This is a sample front end integration test  using input partitioning
         testing to show user registration Fail with invalid email, username,
         and password while password2 matches password.
         """
@@ -616,10 +616,10 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("Registration failed.", "h4")
-
+ 
     def test_register_fail_partition_12(self, *_):
         """
-        This is a sample front end integration test  using input partitioning 
+        This is a sample front end integration test  using input partitioning
         testing to show user registration Fail with invalid email, username,
         password, and password2.
         """
@@ -635,11 +635,11 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("The passwords do not match", "h4")
-
+ 
     def test_register_shotgun_test_test_1(self, *_):
         """
         Random shotgun testing for email on register page.
-        Some invalid characters that may be entered in email are 
+        Some invalid characters that may be entered in email are
         removed to improve the liklihood of successful user regestration.
         """
         for k in range(15):
@@ -647,16 +647,16 @@ class FrontEndHomePageTest(BaseCase):
             self.open(base_url + '/register')
             length = random.randint(0, 20)
             # fill email, name, password and password2
-            prefix = ''.join(random.choice('@abcdefghijklmnopqrstuvwxyzABCDE' + 
+            prefix = ''.join(random.choice('@abcdefghijklmnopqrstuvwxyzABCDE' +
                              'FGHIJKLMNOPQRSTUVWXYZ0123456789._-+&')
                              for i in range(length))
             length = random.randint(0, 10)
-            suffix = ''.join(random.choice('abcdefghijklmnopqrstuvwxyzABCDE' + 
+            suffix = ''.join(random.choice('abcdefghijklmnopqrstuvwxyzABCDE' +
                              'FGHIJKLMNOPQRSTUVWXYZ01234')
                              for i in range(length))
             length = random.randint(0, 10)
-            
-            domain = ''.join(random.choice('abcdefghijklmnopqrstuvwxyzABCDE' + 
+           
+            domain = ''.join(random.choice('abcdefghijklmnopqrstuvwxyzABCDE' +
                              'FGHIJKLMNOPQRSTUVWXYZ0123456789!#')
                              for i in range(length))
             includeAt = random.randint(0, 10)
@@ -669,29 +669,29 @@ class FrontEndHomePageTest(BaseCase):
                 dotInclude = ""
             else:
                 dotInclude = '.'
-            email = (prefix + atInclude + suffix + dotInclude + 
+            email = (prefix + atInclude + suffix + dotInclude +
                      random.choice([domain, "com", "ca", "org", "edu", "net"]))
-
+ 
             print(email)
             includeAt = random.randint(0, 5)
             if (includeAt == 0):
                 email = ""
             self.type("#email", email)
-            
+           
             self.type("#name", "userR11")
             self.type("#password", "Password1!")
             self.type("#password2", "Password1!")
-    
+   
             # click enter button
-            
+           
             self.click('input[type="submit"]')
-            
+           
             if len(email) == 0:
                 self.assert_text("", "#email")
             elif (self.get_current_url() == base_url + '/register'):
                 # test to make sure no header message appears or redirected
-                self.assert_text("Registration failed.", "h4") 
-            else: 
+                self.assert_text("Registration failed.", "h4")
+            else:
                 self.assert_text("Enter your email and password", "h4")
    
     def test_register_shotgun_test_test_2(self, *_):
@@ -711,20 +711,20 @@ class FrontEndHomePageTest(BaseCase):
             self.type("#name", nameTest)
             self.type("#password", "Password1!")
             self.type("#password2", "Password1!")
-    
+   
             # click enter button
             print(workingEmail, "    ", nameTest)
-            
+           
             self.click('input[type="submit"]')
-            
+           
             if len(nameTest) == 0:
                 self.assert_text("", "#name")
             elif (self.get_current_url() == base_url + '/register'):
                 # test to make sure no header message appears or redirected
-                self.assert_text("Registration failed.", "h4") 
-            else: 
+                self.assert_text("Registration failed.", "h4")
+            else:
                 self.assert_text("Enter your email and password", "h4")
-
+ 
     def test_register_shotgun_test_test_3(self, *_):
         """
         Random shotgun testing for password on register page
@@ -737,27 +737,27 @@ class FrontEndHomePageTest(BaseCase):
             self.type("#email", workingEmail)
             self.type("#name", "nameTest1")
             length = random.randint(0, 30)
-            testPassword = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz' + 
+            testPassword = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz' +
                                    'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@' +
                                                  '#$%^&*()_-+=\\//')
                                    for i in range(length))
             self.type("#password", testPassword)
             self.type("#password2", testPassword)
-    
+   
             # click enter button            
             self.click('input[type="submit"]')
-            
+           
             if len(testPassword) == 0:
                 self.assert_text("", "#password")
             elif (self.get_current_url() == base_url + '/register'):
                 # test to make sure no header message appears or redirected
-                self.assert_text("Registration failed.", "h4") 
-            else: 
+                self.assert_text("Registration failed.", "h4")
+            else:
                 self.assert_text("Enter your email and password", "h4")
-
+ 
     def test_register_shotgun_test_test_4(self, *_):
         """
-        Random shotgun testing for password and password2 matching or 
+        Random shotgun testing for password and password2 matching or
         being empty on register page
         """
         for i in range(25):
@@ -770,7 +770,7 @@ class FrontEndHomePageTest(BaseCase):
             length = random.randint(0, 30)
             testPassword = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz' +
                                    'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@' +
-                                                 '#$%^&*()_-+=\\//') 
+                                                 '#$%^&*()_-+=\\//')
                                    for i in range(length))
             self.type("#password", testPassword)
             testPassword2 = ""
@@ -779,17 +779,17 @@ class FrontEndHomePageTest(BaseCase):
             else:
                 testPassword = testPassword2
             self.type("#password2", testPassword2)
-    
-            # click enter button         
+   
+            # click enter button        
             self.click('input[type="submit"]')
-            
+           
             if ((len(testPassword) == 0) or (len(testPassword) == 0)):
                 self.assert_text("", "#password")
             elif (testPassword != testPassword2):
-                self.assert_text("The passwords do not match", "h4") 
-            else: 
+                self.assert_text("The passwords do not match", "h4")
+            else:
                 self.assert_text("Enter your email and password", "h4")
-
+ 
     def test_register_shotgun_1(self, *_):
         """
         This is a sample black box shotgun test case.
@@ -806,7 +806,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("Enter your email and password", "h4")
-
+ 
     def test_register_shotgun_2(self, *_):
         """
         This is a sample black box shotgun test case.
@@ -819,12 +819,12 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#name", "Re")
         self.type("#password", "Rental$123")
         self.type("#password2", "Rental$123")
-
+ 
         # click enter button
         self.click('input[type="submit"]')
         # Test if the message is correct.
         self.assert_text("Registration failed.", "h4")
-
+ 
     def test_register_shotgun_3(self, *_):
         """
         This is a sample black box shotgun test case. Registration Fails.
@@ -968,7 +968,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # test if the message is correct
         self.assert_text("Enter your email and password", "h4")
-
+ 
     def test_register_shotgun_11(self, *_):
         """
         This is a sample black box shotgun test case.
@@ -1237,3 +1237,4 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         # Test if the message is correct.
         self.assert_text("The passwords do not match", "h4")
+ 
