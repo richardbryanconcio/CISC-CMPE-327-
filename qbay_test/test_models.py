@@ -360,8 +360,8 @@ def test_r5_1_update_listing():
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     # updating dates is a string in the format of '%Y-%m-%d'
-    newStartDate = datetime(2022, 11, 11)
-    newEndDate = datetime(2023, 11, 11)
+    newStartDate = datetime(2023, 5, 5)
+    newEndDate = datetime(2024, 11, 11)
     listing = createListing(
         "test16", "this is a description", 60, user, startDate, endDate)
 
@@ -375,9 +375,9 @@ def test_r5_1_update_listing():
     assert updateListing('price', 400, listing) is True
     assert listing.price == 400
     assert updateListing('startDate', newStartDate, listing) is True
-    assert listing.startDate == date(2022, 11, 11)
+    assert listing.startDate == date(2023, 5, 5)
     assert updateListing('endDate', newEndDate, listing) is True
-    assert listing.endDate == date(2023, 11, 11)
+    assert listing.endDate == date(2024, 11, 11)
     assert updateListing('ownerId', 1, listing) is False
     assert updateListing('id', '1', listing) is False
     assert updateListing('lastModifiedDate', date(
