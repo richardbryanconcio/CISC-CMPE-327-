@@ -3,3 +3,9 @@ Flask-SQLAlchemy
 pytest
 flake8
 email-validator
+Flask-Login
+Flask-WTF
+WTForms
+Flask-Session
+seleniumbase
+pymysql
