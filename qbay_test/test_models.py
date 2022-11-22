@@ -2,6 +2,73 @@ from datetime import date, datetime
 from qbay.models import register, login, update, createListing, updateListing
 
 
+def test_register_name():
+    '''
+    SQL injection testing register function's name parameter.
+    '''
+    errorCausingList = []
+    filename = 'Generic_SQLI.txt'
+    x = 0
+    with open(filename, 'r') as payloadFile:
+        for payload in payloadFile:
+            nameSQLTest = (payload.strip())
+            x = x + 1
+            workingEmail = ("workingemailn" + str(x) + "@testmail.com")
+            try:       
+                register(nameSQLTest, workingEmail, "pA$s123!")
+            except Exception as e:
+                print("Error from username {" + payload + "}: " + str(e))
+                errorCausingList.append(payload)
+                
+    assert not errorCausingList
+    payloadFile.close
+
+
+def test_register_email():
+    '''
+    SQL injection testing register function's email parameter.
+    '''
+    errorCausingList = []
+    filename = 'Generic_SQLI.txt'
+    x = 0
+    with open(filename, 'r') as payloadFile:
+        for payload in payloadFile:
+            emailSQLTest = (payload.strip())
+            x = x + 1
+            workingName = ("name" + str(x))
+            try:
+                register(workingName, emailSQLTest, "pA$s123!")
+            except Exception as e:
+                print("Error from email {" + payload + "}: " + str(e))
+                errorCausingList.append(payload)
+
+    assert not errorCausingList
+    payloadFile.close
+
+
+def test_register_password():
+    '''
+    SQL injection testing register function's password parameter.
+    '''
+    errorCausingList = []
+    filename = 'Generic_SQLI.txt'
+    x = 0
+    with open(filename, 'r') as payloadFile:
+        for payload in payloadFile:
+            passwordSQLTest = (payload.strip())
+            x = x + 1
+            workingName = ("namep" + str(x))
+            workingEmail = ("workingemailp" + str(x) + "@testmail.com")
+            try:
+                register(workingName, workingEmail, passwordSQLTest)
+            except Exception as e:
+                print("Error from username {" + payload + "}: " + str(e))
+                errorCausingList.append(payload)
+                
+    assert not errorCausingList
+    payloadFile.close
+
+
 def test_r1_1_user_register():
     '''
     Testing R1-1: Email cannot be empty. password cannot be empty.
