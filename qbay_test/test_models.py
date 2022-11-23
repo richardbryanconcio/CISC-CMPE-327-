@@ -61,6 +61,7 @@ def test_create_listing_description():
         for payload in payloadFile:
             nameSQLTest = (payload.strip())
             x = x + 1
+            title = 'test inject desc' + str(x)
             try:
                 createListing(title, nameSQLTest, price,
                               user.id, startDate, endDate)
@@ -126,6 +127,7 @@ def test_create_listing_user():
         for payload in payloadFile:
             nameSQLTest = (payload.strip())
             x = x + 1
+            title = 'test inject user' + str(x)
             try:
                 createListing(title, description, price,
                               nameSQLTest, startDate, endDate)
