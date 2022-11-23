@@ -21,11 +21,11 @@ def test_r1_4_user_register():
     and at least one special character.
     '''
 
-    assert register('u60', 'test6@test.com', '123456') is None
+    assert register('u60', 'test6@test.com', 'pA$s123') is not None
     assert register('u70', 'test7@test.com', 'Ab!23456') is not None
     assert register('u80', 'test8@test.com', 'A!23456') is None
     assert register('u90', 'test9@test.com', 'a!23456') is None
-    assert register('u10', 'test10@test.com', 'Ab123456') is None
+    assert register('u100', 'test10@test.com', 'Ab123456') is None
 
 
 def test_r1_5_user_register():
@@ -35,10 +35,10 @@ def test_r1_5_user_register():
     '''
 
     assert register('', 'test11@test.com', 'pA$s123') is None
-    assert register('u12', 'test12@test.com', 'pA$s123') is not None
-    assert register(' u13', 'test13@test.com', 'pA$s123') is None
-    assert register('u14 ', 'test14@test.com', 'pA$s123') is None
-    assert register('u 15', 'test15@test.com', 'pA$s123') is not None
+    assert register('u120', 'test12@test.com', 'pA$s123') is not None
+    assert register(' u130', 'test13@test.com', 'pA$s123') is None
+    assert register('u140 ', 'test14@test.com', 'pA$s123') is None
+    assert register('u 150', 'test15@test.com', 'pA$s123') is not None
 
 
 def test_r1_6_user_register():
@@ -60,9 +60,9 @@ def test_r1_7_user_register():
     Testing R1-7: If the email has been used, the operation failed.
     '''
 
-    assert register('u100', 'test0@test.com', 'pA$s123') is not None
+    assert register('u00', 'test0@test.com', 'pA$s123') is not None
     assert register('u00', 'test1@test.com', 'pA$s123') is not None
-    assert register('u100', 'test0@test.com', 'pA$s123') is None
+    assert register('u10', 'test0@test.com', 'pA$s123') is None
 
 
 def test_r1_8_9_10_user_register():
@@ -89,10 +89,9 @@ def test_r2_1_login():
 
     user = login('test0@test.com', 'pA$s123')
     assert user is not None
-    assert user.username == 'u100'
+    assert user.username == 'u00'
 
-    # Case when email and password is empty
-    user = login('', '')
+    user = login('test0@test.com', 'pA$s12345')
     assert user is None
 
     # Case when email is empty
@@ -130,15 +129,13 @@ def test_r3_1_update():
     R3-1: A user is only able to update his/her user name,
     user email, billing address, and postal code.
     '''
-
-    user = login('test0@test.com', 'pA$s123')
-    assert update('postalCode', user, 'A1K 2P0') is True
+    register('update test', 'update@user.com', 'Ab!23456')
+    user = login('update@user.com', 'Ab!23456')
+    assert update('postalCode', user, 'A1K 2P2') is True
     assert update('username', user, 'test') is True
     assert update('billingAddress', user, '360 dinner rd') is True
     assert update('email', user, 'test20@test.com') is True
-    assert update('password', user, 'pA$s123newpass') is False
-    assert update('balance', user, 1000) is False
-    assert update('id', user, 1) is False
+    assert update('password', user, '1234567') is False
 
 
 def test_r3_2_3_update():
@@ -147,12 +144,12 @@ def test_r3_2_3_update():
     alphanumeric-only, and no special characters such as !.
     R3-3: Postal code has to be a valid Canadian postal code.
     '''
-
-    user = login('test20@test.com', 'pA$s123')
+    register('update test', 'update@user.com', 'Ab!23456')
+    user = login('update@user.com', 'Ab!23456')
     assert update('postalCode', user, '') is False
     assert update('postalCode', user, 'L!L R8R') is False
-    assert update('postalCode', user, 'V3Y 0A8') is True
     assert update('postalCode', user, 'D0D I2U') is False
+    assert update('postalCode', user, 'B8S 1K6') is True
 
 
 def test_r3_4_update():
@@ -160,7 +157,8 @@ def test_r3_4_update():
     R3-4: User name follows the requirements above. 
     (non-empty, alphanumeric-only, no special characters such as !)
     '''
-    user = login('test20@test.com', 'pA$s123')
+    register('update test', 'update@user.com', 'Ab!23456')
+    user = login('update@user.com', 'Ab!23456')
     assert update('username', user, '') is False
     assert update('username', user, ' ') is False
     assert update('username', user, 'ab99cde!') is False
@@ -294,28 +292,29 @@ def test_r5_1_update_listing():
     user = login('create@listing.com', 'Ab!23456')
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
-    newStartDate = date(2022, 11, 11)
-    newEndDate = date(2023, 11, 11)
+    # updating dates is a string in the format of '%Y-%m-%d'
+    newStartDate = datetime(2023, 5, 5)
+    newEndDate = datetime(2024, 11, 11)
     listing = createListing(
         "test16", "this is a description", 60, user, startDate, endDate)
 
-    assert updateListing('title', 'new title', listing, user) is True
+    assert updateListing('title', 'new title', listing) is True
     assert listing.title == 'new title'
     confirm_change = listing.query.filter_by(title='new title').all()
     assert confirm_change[0].title == 'new title'
     assert updateListing(
-        'description', 'a fancy new description', listing, user) is True
+        'description', 'a fancy new description', listing) is True
     assert listing.description == 'a fancy new description'
-    assert updateListing('price', 400, listing, user) is True
+    assert updateListing('price', 400, listing) is True
     assert listing.price == 400
-    assert updateListing('startDate', newStartDate, listing, user) is True
-    assert listing.startDate == newStartDate
-    assert updateListing('endDate', newEndDate, listing, user) is True
-    assert listing.endDate == newEndDate
-    assert updateListing('ownerId', 1, listing, user) is False
-    assert updateListing('id', '1', listing, user) is False
+    assert updateListing('startDate', newStartDate, listing) is True
+    assert listing.startDate == date(2023, 5, 5)
+    assert updateListing('endDate', newEndDate, listing) is True
+    assert listing.endDate == date(2024, 11, 11)
+    assert updateListing('ownerId', 1, listing) is False
+    assert updateListing('id', '1', listing) is False
     assert updateListing('lastModifiedDate', date(
-        2021, 10, 10), listing, user) is False
+        2021, 10, 10), listing) is False
 
 
 def test_r5_2_update_listing():
@@ -327,8 +326,8 @@ def test_r5_2_update_listing():
     endDate = date(2023, 10, 10)
     listing = createListing(
         "test17", "this is a description", 60, user, startDate, endDate)
-    assert updateListing('price', 100, listing, user) is True
-    assert updateListing('price', 60, listing, user) is False
+    assert updateListing('price', 100, listing) is True
+    assert updateListing('price', 60, listing) is False
 
 
 def test_r5_3_update_listing():
@@ -344,7 +343,7 @@ def test_r5_3_update_listing():
 
     listing.lastModifiedDate = date(2020, 1, 1)
     assert listing.lastModifiedDate == date(2020, 1, 1)
-    updateListing('price', 100, listing, user)
+    updateListing('price', 100, listing)
     assert listing.lastModifiedDate == date.today()
 
 
@@ -360,28 +359,28 @@ def test_r5_4_update_listing():
         "test19", "this is a description", 60, user, startDate, endDate)
 
     # title is alphanumeric only, no leading or trailing spaces
-    assert updateListing('title', '  invalid', listing, user) is False
-    assert updateListing('title', 'invalid   ', listing, user) is False
-    assert updateListing('title', '$inval*id', listing, user) is False
+    assert updateListing('title', '  invalid', listing) is False
+    assert updateListing('title', 'invalid   ', listing) is False
+    assert updateListing('title', '$inval*id', listing) is False
     # title is no longer then 80 characters
     newTitle = ''
     while len(newTitle) <= 90:
         newTitle += 'a'
-    assert updateListing('title', newTitle, listing, user) is False
+    assert updateListing('title', newTitle, listing) is False
     # descrioption is min 20 characters and no longer then 2000
     newDescription = ''
     while len(newDescription) <= 2100:
         newDescription += 'a'
-    assert updateListing('description', 'small', listing, user) is False
-    assert updateListing('description', newDescription, listing, user) is False
+    assert updateListing('description', 'small', listing) is False
+    assert updateListing('description', newDescription, listing) is False
     # description has to be longer then title
     # current description is "this is a description"
     assert updateListing(
         'title', 'title longer than 20 different characters',
-        listing, user) is False
+        listing) is False
     # price has to be in range [10, 10000]
     # (do not have to test less than 10
     # can not be less than 10 when created and can not be reduced via updating)
-    assert updateListing('price', 20000, listing, user) is False
+    assert updateListing('price', 20000, listing) is False
     # no 2 listings can have the same title
-    assert updateListing('title', 'test18', listing, user) is False
+    assert updateListing('title', 'test18', listing) is False
