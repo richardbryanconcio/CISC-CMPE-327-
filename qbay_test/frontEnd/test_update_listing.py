@@ -64,7 +64,7 @@ class FrontEndCreateListingTest(BaseCase):
         self.update_text("input[name='startDate']", "09/09/2023")
         self.click('input[type="submit"]')
         assert self.get_current_url() == base_url + '/listing/' + str(id)
-        self.assert_text("avalible from (2023-09-09)-(2023-10-10)", "h4")
+        self.assert_text("avalible from (2023-09-09)-(2023-11-11)", "h4")
 
         # update the listing end date
         self.open(base_url + "/updateListing/" + str(id))
