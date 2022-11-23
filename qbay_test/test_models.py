@@ -2,6 +2,211 @@ from datetime import date, datetime
 from qbay.models import register, login, update, createListing, updateListing
  
  
+def test_create_listing_title():
+    '''
+    SQL injection testing create listing function title parameter.
+    '''
+    # set of valid inputs
+    user = register("SQL injection title", "injection@title.com", "pA$s123!")
+    assert user is not None
+    # description should be longer then maximum length of title
+    description = 'a' * 90
+    price = 10.0
+    startDate = date(2023, 1, 1)
+    endDate = date(2023, 11, 11)
+
+    # create listing to ensure valid inputs
+    listing = createListing('test inject title', description,
+                            price, user.id, startDate, endDate)
+    assert listing is not None
+
+    errorCausingList = []
+    filename = 'Generic_SQLI.txt'
+    x = 0
+    with open(filename, 'r') as payloadFile:
+        for payload in payloadFile:
+            nameSQLTest = (payload.strip())
+            x = x + 1
+            try:
+                createListing(nameSQLTest, description,
+                              price, user.id, startDate, endDate)
+            except Exception as e:
+                print("Error from title {" + payload + "}: " + str(e))
+                errorCausingList.append(payload)
+
+    assert not errorCausingList
+    payloadFile.close
+
+
+def test_create_listing_description():
+    # set of valid inputs
+    user = register("injct description",
+                    "injection@description.com", "pA$s123!")
+    assert user is not None
+    title = 'test inject desc'
+    price = 10.0
+    startDate = date(2023, 1, 1)
+    endDate = date(2023, 11, 11)
+
+    # create listing to ensure valid inputs
+    listing = createListing('test inject description',
+                            "test description that is long", price, user.id,
+                            startDate, endDate)
+    assert listing is not None
+
+    errorCausingList = []
+    filename = 'Generic_SQLI.txt'
+    x = 0
+    with open(filename, 'r') as payloadFile:
+        for payload in payloadFile:
+            nameSQLTest = (payload.strip())
+            x = x + 1
+            title = 'test inject desc' + str(x)
+            try:
+                createListing(title, nameSQLTest, price,
+                              user.id, startDate, endDate)
+            except Exception as e:
+                print("Error from description {" + payload + "}: " + str(e))
+                errorCausingList.append(payload)
+
+    assert not errorCausingList
+    payloadFile.close
+
+
+# def test_create_listing_price():
+#     # set of valid inputs
+#     user = register("SQL injection price", "injection@price.com", "pA$s123!")
+#     assert user is not None
+#     title = 'test inject price'
+#     description = 'test description that is long'
+#     startDate = date(2023, 1, 1)
+#     endDate = date(2023, 11, 11)
+
+#     # create listing to ensure valid inputs
+#     listing = createListing('test injct price', description, 10.0, user.id,
+#                             startDate, endDate)
+#     assert listing is not None
+
+#     errorCausingList = []
+#     filename = 'Generic_SQLI.txt'
+#     x = 0
+#     with open(filename, 'r') as payloadFile:
+#         for payload in payloadFile:
+#             nameSQLTest = (payload.strip())
+#             x = x + 1
+#             try:
+#                 createListing(title, description, nameSQLTest,
+#                               user.id, startDate, endDate)
+#             except Exception as e:
+#                 print("Error from price {" + payload + "}: " + str(e))
+#                 errorCausingList.append(payload)
+
+#     assert not errorCausingList
+#     payloadFile.close
+
+
+def test_create_listing_user():
+    # set of valid inputs
+    user = register("SQL injection usr", "injection@user.com", "pA$s123!")
+    assert user is not None
+    title = 'test inject user'
+    description = 'test description that is long'
+    price = 10.0
+    startDate = date(2023, 1, 1)
+    endDate = date(2023, 11, 11)
+
+    # create listing to ensure valid inputs
+    listing = createListing('test injct user', description,
+                            price, user.id, startDate, endDate)
+    assert listing is not None
+
+    errorCausingList = []
+    filename = 'Generic_SQLI.txt'
+    x = 0
+    with open(filename, 'r') as payloadFile:
+        for payload in payloadFile:
+            nameSQLTest = (payload.strip())
+            x = x + 1
+            title = 'test inject user' + str(x)
+            try:
+                createListing(title, description, price,
+                              nameSQLTest, startDate, endDate)
+            except Exception as e:
+                print("Error from user {" + payload + "}: " + str(e))
+                errorCausingList.append(payload)
+
+    assert not errorCausingList
+    payloadFile.close
+
+
+# def test_create_listing_startDate():
+#     # set of valid inputs
+#     user = register("SQL injct startDate",
+#                     "injection@startdate.com", "pA$s123!")
+#     assert user is not None
+#     title = 'test inject startDate'
+#     description = 'test description that is long'
+#     price = 10.0
+#     startDate = date(2023, 1, 1)
+#     endDate = date(2023, 11, 11)
+
+#     # create listing to ensure valid inputs
+#     listing = createListing('test injct startDate', description, price,
+#                             user.id, startDate, endDate)
+#     assert listing is not None
+
+#     errorCausingList = []
+#     filename = 'Generic_SQLI.txt'
+#     x = 0
+#     with open(filename, 'r') as payloadFile:
+#         for payload in payloadFile:
+#             nameSQLTest = (payload.strip())
+#             x = x + 1
+#             try:
+#                 createListing(title, description, price,
+#                               user.id, nameSQLTest, endDate)
+#             except Exception as e:
+#                 print("Error from start date {" + payload + "}: " + str(e))
+#                 errorCausingList.append(payload)
+
+#     assert not errorCausingList
+#     payloadFile.close
+
+
+# def test_create_listing_endDate():
+#     # set of valid inputs
+#     user = register("injct endDate",
+#                     "injection@enddate.com", "pA$s123!")
+#     assert user is not None
+#     title = 'test inject endDate'
+#     description = 'test description that is long'
+#     price = 10.0
+#     startDate = date(2023, 1, 1)
+#     endDate = date(2023, 11, 11)
+
+#     # create listing to ensure valid inputs
+#     listing = createListing('test injct endDate', description, price,
+#                             user.id, startDate, endDate)
+#     assert listing is not None
+
+#     errorCausingList = []
+#     filename = 'Generic_SQLI.txt'
+#     x = 0
+#     with open(filename, 'r') as payloadFile:
+#         for payload in payloadFile:
+#             nameSQLTest = (payload.strip())
+#             x = x + 1
+#             try:
+#                 createListing(title, description, price,
+#                               user.id, startDate, nameSQLTest)
+#             except Exception as e:
+#                 print("Error from end date {" + payload + "}: " + str(e))
+#                 errorCausingList.append(payload)
+
+#     assert not errorCausingList
+#     payloadFile.close
+
+
 def test_register_name():
     '''
     SQL injection testing register function's name parameter.
@@ -259,64 +464,68 @@ def test_r4_1_create_listing():
     register('create listing test', 'create@listing.com', 'Ab!23456')
  
     user = login('create@listing.com', 'Ab!23456')
+    userId = user.id
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test1", "this is a description",
-                         60, user, startDate, endDate) is not None
+                         60, userId, startDate, endDate) is not None
     assert createListing("  test2", "this is a description",
-                         60, user, startDate, endDate) is None
+                         60, userId, startDate, endDate) is None
     assert createListing("test3   ", "this is a description",
-                         60, user, startDate, endDate) is None
+                         60, userId, startDate, endDate) is None
     assert createListing("te$t4", "this is a description",
-                         60, user, startDate, endDate) is None
- 
- 
+                         60, userId, startDate, endDate) is None
+
+
 def test_r4_2_create_listing():
     '''
     R4-2: The title of the product is no longer than 80 characters.
     '''
     user = login('create@listing.com', 'Ab!23456')
+    userId = user.id
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     newTitle = ""
     while len(newTitle) <= 81:
         newTitle += "a"
     assert createListing("test5", "this is a description",
-                         60, user, startDate, endDate) is not None
+                         60, userId, startDate, endDate) is not None
     assert createListing(newTitle, "this is a description",
-                         60, user, startDate, endDate) is None
- 
- 
+                         60, userId, startDate, endDate) is None
+
+
 def test_r4_3_create_listing():
     '''
     R4-3: The description of the product can be arbitrary characters,
     with a minimum length of 20 characters and a maximum of 2000 characters.
     '''
     user = login('create@listing.com', 'Ab!23456')
+    userId = user.id
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test7", "this is a description",
-                         60, user, startDate, endDate) is not None
+                         60, userId, startDate, endDate) is not None
     assert createListing("test8", "description", 60,
-                         user, startDate, endDate) is None
+                         userId, startDate, endDate) is None
     veryLongDescription = ""
     while len(veryLongDescription) <= 2000:
         veryLongDescription += "a"
     assert createListing("test9", veryLongDescription, 60,
-                         user, startDate, endDate) is None
- 
- 
+                         userId, startDate, endDate) is None
+
+
 def test_r4_4_create_listing():
     '''
     R4-4: Description has to be longer than the product's title.
     '''
     user = login('create@listing.com', 'Ab!23456')
+    userId = user.id
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test10", "this is a description",
-                         60, user, startDate, endDate) is not None
+                         60, userId, startDate, endDate) is not None
     assert createListing("test 11 that is longer than 20 characters",
-                         "this is a description", 60, user, startDate,
+                         "this is a description", 60, userId, startDate,
                          endDate) is None
  
  
@@ -325,29 +534,31 @@ def test_r4_5_create_listing():
     R4-5: Price has to be of range [10, 10000].
     '''
     user = login('create@listing.com', 'Ab!23456')
+    userId = user.id
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test12", "this is a description",
-                         60, user, startDate, endDate) is not None
+                         60, userId, startDate, endDate) is not None
     assert createListing("test13", "this is a description",
-                         1, user, startDate, endDate) is None
+                         1, userId, startDate, endDate) is None
     assert createListing("test14", "this is a description",
-                         20000, user, startDate, endDate) is None
- 
- 
+                         20000, userId, startDate, endDate) is None
+
+
 def test_r4_8_create_listing():
     '''
     R4-8: A user cannot create products that have the same title.
     '''
     user = login('create@listing.com', 'Ab!23456')
+    userId = user.id
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test15", "this is a description",
-                         60, user, startDate, endDate) is not None
+                         60, userId, startDate, endDate) is not None
     assert createListing("test15", "this is a description",
-                         60, user, startDate, endDate) is None
- 
- 
+                         60, userId, startDate, endDate) is None
+
+
 def test_r5_1_update_listing():
     '''
     R5-1: One can update all attributes of the listing,
@@ -363,8 +574,8 @@ def test_r5_1_update_listing():
     newStartDate = datetime(2023, 5, 5)
     newEndDate = datetime(2024, 11, 11)
     listing = createListing(
-        "test16", "this is a description", 60, user, startDate, endDate)
- 
+        "test16", "this is a description", 60, user.id, startDate, endDate)
+
     assert updateListing('title', 'new title', listing) is True
     assert listing.title == 'new title'
     confirm_change = listing.query.filter_by(title='new title').all()
@@ -392,7 +603,7 @@ def test_r5_2_update_listing():
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     listing = createListing(
-        "test17", "this is a description", 60, user, startDate, endDate)
+        "test17", "this is a description", 60, user.id, startDate, endDate)
     assert updateListing('price', 100, listing) is True
     assert updateListing('price', 60, listing) is False
  
@@ -406,8 +617,8 @@ def test_r5_3_update_listing():
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     listing = createListing(
-        "test18", "this is a description", 60, user, startDate, endDate)
- 
+        "test18", "this is a description", 60, user.id, startDate, endDate)
+
     listing.lastModifiedDate = date(2020, 1, 1)
     assert listing.lastModifiedDate == date(2020, 1, 1)
     updateListing('price', 100, listing)
@@ -423,8 +634,8 @@ def test_r5_4_update_listing():
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     listing = createListing(
-        "test19", "this is a description", 60, user, startDate, endDate)
- 
+        "test19", "this is a description", 60, user.id, startDate, endDate)
+
     # title is alphanumeric only, no leading or trailing spaces
     assert updateListing('title', '  invalid', listing) is False
     assert updateListing('title', 'invalid   ', listing) is False
