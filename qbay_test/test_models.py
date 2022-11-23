@@ -10,13 +10,14 @@ def test_create_listing_title():
     user = register("SQL injection title", "injection@title.com", "pA$s123!")
     assert user is not None
     # description should be longer then maximum length of title
-    description = 'a'*90
+    description = 'a' * 90
     price = 10.0
     startDate = date(2023, 1, 1)
     endDate = date(2023, 11, 11)
 
     # create listing to ensure valid inputs
-    listing = createListing('test inject title', description, price, user.id, startDate, endDate)
+    listing = createListing('test inject title', description,
+                            price, user.id, startDate, endDate)
     assert listing is not None
 
     errorCausingList = []
@@ -48,7 +49,9 @@ def test_create_listing_description():
     endDate = date(2023, 11, 11)
 
     # create listing to ensure valid inputs
-    listing = createListing('test inject description', "test description that is long", price, user.id, startDate, endDate)
+    listing = createListing('test inject description',
+                            "test description that is long", price, user.id,
+                            startDate, endDate)
     assert listing is not None
 
     errorCausingList = []
@@ -79,7 +82,8 @@ def test_create_listing_description():
 #     endDate = date(2023, 11, 11)
 
 #     # create listing to ensure valid inputs
-#     listing = createListing('test injct price', description, 10.0, user.id, startDate, endDate)
+#     listing = createListing('test injct price', description, 10.0, user.id,
+#                             startDate, endDate)
 #     assert listing is not None
 
 #     errorCausingList = []
@@ -111,7 +115,8 @@ def test_create_listing_user():
     endDate = date(2023, 11, 11)
 
     # create listing to ensure valid inputs
-    listing = createListing('test injct user', description, price, user.id, startDate, endDate)
+    listing = createListing('test injct user', description,
+                            price, user.id, startDate, endDate)
     assert listing is not None
 
     errorCausingList = []
@@ -144,7 +149,8 @@ def test_create_listing_user():
 #     endDate = date(2023, 11, 11)
 
 #     # create listing to ensure valid inputs
-#     listing = createListing('test injct startDate', description, price, user.id, startDate, endDate)
+#     listing = createListing('test injct startDate', description, price,
+#                             user.id, startDate, endDate)
 #     assert listing is not None
 
 #     errorCausingList = []
@@ -177,7 +183,8 @@ def test_create_listing_user():
 #     endDate = date(2023, 11, 11)
 
 #     # create listing to ensure valid inputs
-#     listing = createListing('test injct endDate', description, price, user.id, startDate, endDate)
+#     listing = createListing('test injct endDate', description, price,
+#                             user.id, startDate, endDate)
 #     assert listing is not None
 
 #     errorCausingList = []
