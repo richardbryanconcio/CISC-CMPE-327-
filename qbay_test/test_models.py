@@ -9,13 +9,18 @@ def test_create_listing_title():
     # set of valid inputs
     user = register("SQL injection title", "injection@title.com", "pA$s123!")
     assert user is not None
-    description = 'test description'
+    # description should be longer then maximum length of title
+    description = 'a'*90
     price = 10.0
     startDate = date(2023, 1, 1)
     endDate = date(2023, 11, 11)
+
+    # create listing to ensure valid inputs
+    listing = createListing('test inject title', description, price, user.id, startDate, endDate)
+    assert listing is not None
+
     errorCausingList = []
     filename = 'Generic_SQLI.txt'
-
     x = 0
     with open(filename, 'r') as payloadFile:
         for payload in payloadFile:
@@ -41,9 +46,13 @@ def test_create_listing_description():
     price = 10.0
     startDate = date(2023, 1, 1)
     endDate = date(2023, 11, 11)
+
+    # create listing to ensure valid inputs
+    listing = createListing('test inject description', "test description that is long", price, user.id, startDate, endDate)
+    assert listing is not None
+
     errorCausingList = []
     filename = 'Generic_SQLI.txt'
-
     x = 0
     with open(filename, 'r') as payloadFile:
         for payload in payloadFile:
@@ -65,9 +74,13 @@ def test_create_listing_price():
     user = register("SQL injection price", "injection@price.com", "pA$s123!")
     assert user is not None
     title = 'test inject price'
-    description = 'test description'
+    description = 'test description that is long'
     startDate = date(2023, 1, 1)
     endDate = date(2023, 11, 11)
+
+    # create listing to ensure valid inputs
+    listing = createListing('test injct price', description, 10.0, user.id, startDate, endDate)
+    assert listing is not None
 
     errorCausingList = []
     filename = 'Generic_SQLI.txt'
@@ -89,11 +102,17 @@ def test_create_listing_price():
 
 def test_create_listing_user():
     # set of valid inputs
+    user = register("SQL injection usr", "injection@user.com", "pA$s123!")
+    assert user is not None
     title = 'test inject user'
-    description = 'test description'
+    description = 'test description that is long'
     price = 10.0
     startDate = date(2023, 1, 1)
     endDate = date(2023, 11, 11)
+
+    # create listing to ensure valid inputs
+    listing = createListing('test injct user', description, price, user.id, startDate, endDate)
+    assert listing is not None
 
     errorCausingList = []
     filename = 'Generic_SQLI.txt'
@@ -119,9 +138,14 @@ def test_create_listing_startDate():
                     "injection@startdate.com", "pA$s123!")
     assert user is not None
     title = 'test inject startDate'
-    description = 'test description'
+    description = 'test description that is long'
     price = 10.0
+    startDate = date(2023, 1, 1)
     endDate = date(2023, 11, 11)
+
+    # create listing to ensure valid inputs
+    listing = createListing('test injct startDate', description, price, user.id, startDate, endDate)
+    assert listing is not None
 
     errorCausingList = []
     filename = 'Generic_SQLI.txt'
@@ -147,9 +171,14 @@ def test_create_listing_endDate():
                     "injection@enddate.com", "pA$s123!")
     assert user is not None
     title = 'test inject endDate'
-    description = 'test description'
+    description = 'test description that is long'
     price = 10.0
     startDate = date(2023, 1, 1)
+    endDate = date(2023, 11, 11)
+
+    # create listing to ensure valid inputs
+    listing = createListing('test injct endDate', description, price, user.id, startDate, endDate)
+    assert listing is not None
 
     errorCausingList = []
     filename = 'Generic_SQLI.txt'
