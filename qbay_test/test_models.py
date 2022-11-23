@@ -8,6 +8,7 @@ def test_create_listing_title():
     '''
     # set of valid inputs
     user = register("SQL injection title", "injection@title.com", "pA$s123!")
+    assert user is not None
     description = 'test description'
     price = 10.0
     startDate = date(2023, 1, 1)
@@ -22,7 +23,7 @@ def test_create_listing_title():
             x = x + 1
             try:
                 createListing(nameSQLTest, description,
-                              price, user, startDate, endDate)
+                              price, user.id, startDate, endDate)
             except Exception as e:
                 print("Error from title {" + payload + "}: " + str(e))
                 errorCausingList.append(payload)
@@ -33,8 +34,9 @@ def test_create_listing_title():
 
 def test_create_listing_description():
     # set of valid inputs
-    user = register("SQL injection description",
+    user = register("injct description",
                     "injection@description.com", "pA$s123!")
+    assert user is not None
     title = 'test inject desc'
     price = 10.0
     startDate = date(2023, 1, 1)
@@ -49,7 +51,7 @@ def test_create_listing_description():
             x = x + 1
             try:
                 createListing(title, nameSQLTest, price,
-                              user, startDate, endDate)
+                              user.id, startDate, endDate)
             except Exception as e:
                 print("Error from description {" + payload + "}: " + str(e))
                 errorCausingList.append(payload)
@@ -61,6 +63,7 @@ def test_create_listing_description():
 def test_create_listing_price():
     # set of valid inputs
     user = register("SQL injection price", "injection@price.com", "pA$s123!")
+    assert user is not None
     title = 'test inject price'
     description = 'test description'
     startDate = date(2023, 1, 1)
@@ -75,7 +78,7 @@ def test_create_listing_price():
             x = x + 1
             try:
                 createListing(title, description, nameSQLTest,
-                              user, startDate, endDate)
+                              user.id, startDate, endDate)
             except Exception as e:
                 print("Error from price {" + payload + "}: " + str(e))
                 errorCausingList.append(payload)
@@ -112,8 +115,9 @@ def test_create_listing_user():
 
 def test_create_listing_startDate():
     # set of valid inputs
-    user = register("SQL injection startDate",
-                    "injection@startDate.com", "pA$s123!")
+    user = register("SQL injct startDate",
+                    "injection@startdate.com", "pA$s123!")
+    assert user is not None
     title = 'test inject startDate'
     description = 'test description'
     price = 10.0
@@ -128,7 +132,7 @@ def test_create_listing_startDate():
             x = x + 1
             try:
                 createListing(title, description, price,
-                              user, nameSQLTest, endDate)
+                              user.id, nameSQLTest, endDate)
             except Exception as e:
                 print("Error from start date {" + payload + "}: " + str(e))
                 errorCausingList.append(payload)
@@ -139,8 +143,9 @@ def test_create_listing_startDate():
 
 def test_create_listing_endDate():
     # set of valid inputs
-    user = register("SQL injection endDate",
-                    "injection@endDate.com", "pA$s123!")
+    user = register("injct endDate",
+                    "injection@enddate.com", "pA$s123!")
+    assert user is not None
     title = 'test inject endDate'
     description = 'test description'
     price = 10.0
@@ -155,7 +160,7 @@ def test_create_listing_endDate():
             x = x + 1
             try:
                 createListing(title, description, price,
-                              user, startDate, nameSQLTest)
+                              user.id, startDate, nameSQLTest)
             except Exception as e:
                 print("Error from end date {" + payload + "}: " + str(e))
                 errorCausingList.append(payload)
@@ -464,7 +469,7 @@ def test_r5_1_update_listing():
     newStartDate = datetime(2023, 5, 5)
     newEndDate = datetime(2024, 11, 11)
     listing = createListing(
-        "test16", "this is a description", 60, user, startDate, endDate)
+        "test16", "this is a description", 60, user.id, startDate, endDate)
 
     assert updateListing('title', 'new title', listing) is True
     assert listing.title == 'new title'
@@ -493,7 +498,7 @@ def test_r5_2_update_listing():
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     listing = createListing(
-        "test17", "this is a description", 60, user, startDate, endDate)
+        "test17", "this is a description", 60, user.id, startDate, endDate)
     assert updateListing('price', 100, listing) is True
     assert updateListing('price', 60, listing) is False
 
@@ -507,7 +512,7 @@ def test_r5_3_update_listing():
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     listing = createListing(
-        "test18", "this is a description", 60, user, startDate, endDate)
+        "test18", "this is a description", 60, user.id, startDate, endDate)
 
     listing.lastModifiedDate = date(2020, 1, 1)
     assert listing.lastModifiedDate == date(2020, 1, 1)
@@ -524,7 +529,7 @@ def test_r5_4_update_listing():
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     listing = createListing(
-        "test19", "this is a description", 60, user, startDate, endDate)
+        "test19", "this is a description", 60, user.id, startDate, endDate)
 
     # title is alphanumeric only, no leading or trailing spaces
     assert updateListing('title', '  invalid', listing) is False
