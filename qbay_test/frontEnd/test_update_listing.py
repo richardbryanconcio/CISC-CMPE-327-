@@ -429,3 +429,11 @@ class FrontEndCreateListingTest(BaseCase):
         test_r4_4(self)
         test_r4_5(self)
         test_r4_8(self)
+
+        test_r4_1(self)
+        test_r4_2(self)
+        test_r4_3(self)
+        test_r4_4(self)
+        test_r4_5(self)
+        test_r4_8(self)
+"""
