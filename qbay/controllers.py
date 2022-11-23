@@ -13,6 +13,40 @@ from wtforms.validators import DataRequired, EqualTo, Length
 from qbay import app
 
 
+# Create Authentication
+def authenticate(inner_function):
+    """
+    :param inner_function: any python function that accepts a user object
+    Wrap any python function and check the current session to see if 
+    the user has logged in. If login, it will call the inner_function
+    with the logged in user object.
+    To wrap a function, we can put a decoration on that function.
+    Example:
+    @authenticate
+    def home_page(user):
+        pass
+    """
+    
+    def wrapped_inner():
+        # check did we store the key in the session
+        if 'logged_in' in session:
+            id = session['logged_in']
+            try:
+                user = User.query.filter_by(id=id).first()
+                if user:
+                    # if the user exists, call the inner_function
+                    # with user as parameter
+                    return inner_function(user)
+            except Exception:
+                pass
+        else:
+            # else, redirect to the login page
+            return render_template('login.html', message="Please login to continue.")
+
+    # return the wrapped version of the inner_function:
+    wrapped_inner.__name__ = inner_function.__name__
+    return wrapped_inner
+
 @app.route('/register', methods=['GET'])
 def register_get():
     # templates are stored in the templates folder
@@ -62,23 +96,21 @@ def listing_get(listingId):
 
 
 @app.route('/createListing', methods=['GET'])
-def createListing_get():
-
+@authenticate
+def createListing_get(user):
     return render_template('createListing.html')
 
 
 @app.route('/createListing', methods=['POST'])
 def createListing_post():
+    id = session['logged_in']
+    user = User.query.filter_by(id=id).first()
+
     title = request.form.get('title')
     description = request.form.get('description')
     price = int(request.form.get('price'))
     startDate = datetime.strptime(request.form.get('startDate'), '%Y-%m-%d')
     endDate = datetime.strptime(request.form.get('endDate'), '%Y-%m-%d')
-
-    # temporary user placeholder while waiting for login/autheticator function
-    # once implemented user will be passed through wrapper function
-    users = User.query.all()
-    user = users[0]
 
     success = createListing(title, description, price,
                             user, startDate, endDate)
@@ -91,12 +123,8 @@ def createListing_post():
 
 
 @app.route('/chooseListingUpdate', methods=['GET'])
-def chooseListingUpdate_get():
-
-    # temporary user placeholder while waiting for login/autheticator function
-    # once implemented user will be passed through wrapper function
-    users = User.query.all()
-    user = users[0]
+@authenticate
+def chooseListingUpdate_get(user):
 
     products = Listing.query.filter_by(ownerId=user.id).all()
 
@@ -170,41 +198,6 @@ def updateListing_get(listingId):
 
     return render_template('updateListing.html',
                            message="please input which fields to change")
-                           
-
-# Create Authentication
-def authenticate(inner_function):
-    """
-    :param inner_function: any python function that accepts a user object
-    Wrap any python function and check the current session to see if 
-    the user has logged in. If login, it will call the inner_function
-    with the logged in user object.
-    To wrap a function, we can put a decoration on that function.
-    Example:
-    @authenticate
-    def home_page(user):
-        pass
-    """
-
-    def wrapped_inner():
-
-        # check did we store the key in the session
-        if 'logged_in' in session:
-            email = session['logged_in']
-            try:
-                user = User.query.filter_by(email=email).one_or_none()
-                if user:
-                    # if the user exists, call the inner_function
-                    # with user as parameter
-                    return inner_function(user)
-            except Exception:
-                pass
-        else:
-            # else, redirect to the login page
-            return redirect('/login')
-
-    # return the wrapped version of the inner_function:
-    return wrapped_inner
 
 
 # Create Login Form
@@ -267,108 +260,68 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@app.route('/updateUserProfile/<userId>')
-def updateUserProfile_get(userId):
-    user = User.query.filter_by(id=userId).first()
-    return render_template('updateUserProfile.html', username=user.username)
+@app.route('/updateUser', methods=['GET'])
+@authenticate
+def updateUserProfile_get(user):
+    return render_template('updateUser.html', message="please input which fields to change")
 
 
-@app.route('/updateUsername', methods=['GET'])
-def updateUsername_get():
-    return render_template('updateUsername.html')
+@app.route('/updateUser', methods=['POST'])
+def updateUserProfile_post():
+    id = session['logged_in']
+    user = User.query.filter_by(id=id).first()
 
+    username = request.form.get('username')
+    email = request.form.get('email')
+    billingAddress = request.form.get('billingAddress')
+    postalCode = request.form.get('postalCode')
 
-@app.route('/updateUsername/<userId>', methods=['POST'])
-def updateUsername_post(userId):
-    user = User.query.filter_by(id=userId).first()
-    newUsername = request.form.get('username')
-    msg = []
+    errorMessage = []
+    successMessage = []
 
-    success = update('username', user, newUsername)
-    if not success:
-        msg.append("username is invalid")
-    else:
-        msg.append("username has been changed")
-
-    if msg:
-        return render_template("updateUserProfile.html", message=msg)
-
-
-@app.route('/updateEmail', methods=['GET'])
-def updateEmail_get():
-
-    return render_template('updateEmail.html')
-
-
-@app.route('/updateEmail/<userId>', methods=['POST'])
-def updateEmail_post(userId):
-    user = User.query.filter_by(id=userId).first()
-    newEmail = request.form.get('email')
-    
-    msg = []
-
-    success = update('email', user, newEmail)
-    if not success:
-        msg.append("email is invalid")
-    else:
-        msg.append("email has been changed")
-
-    if msg:
-        return render_template("updateUserProfile.html", message=msg)
-
-
-@app.route('/updatePassword', methods=['GET'])
-def updatePassword_get():
-
-    return render_template('updatePassword.html')
-
-
-@app.route('/updatePassword/<userId>', methods=['POST'])
-def updatePassword_post(userId):
-    user = User.query.filter_by(id=userId).first()
-    newPass = request.form.get('password')
-    confNewPass = request.form.get('confPassword')
-    
-    msg = []
-    
-    success = update('password', user, newPass)
-    if not success:
-        msg.append("password is invalid")
-    else:
-        msg.append("password has been changed")
-
-    if msg:
-        return render_template("updateUserProfile.html", message=msg)
-
-
-@app.route('/updateBillingAddress', methods=['GET'])
-def updateBillingPostal_get():
-
-    return render_template('updateBillingPostal.html')
-
-
-@app.route('/updateBillingAddress/<userId>', methods=['POST'])
-def updateBillingAddress(userId):
-    user = User.query.filter_by(id=userId).first()
-    newPostal = request.form.get('postalCode')
-    newAddress = request.form.get('address')
-    
-    msg = []
-    if newPostal:
-        success = update('postalCode', user, newPostal)
+    if username:
+        success = update('username', user, username)
         if not success:
-            msg.append("postal code is invalid")
+            errorMessage.append("username is invalid")
         else:
-            msg.append("postal code has been changed")
-
-        if msg:
-            return render_template("updateUserProfile.html", message=msg)
-    if newAddress:
-        success = update('billingAddress', user, newPostal)
+            successMessage.append("username has been changed to " + username)
+    if email:
+        success = update('email', user, email)
         if not success:
-            msg.append("billing address is invalid")
+            errorMessage.append("email is invalid")
         else:
-            msg.append("billing address has been changed")
+            successMessage.append("email has been changed to " + email)
+    if billingAddress:
+        success = update('billingAddress', user, billingAddress)
+        if not success:
+            errorMessage.append("billingAddress is invalid")
+        else:
+            successMessage.append("billingAddress has been changed to " + billingAddress)
+    if postalCode:
+        success = update('postalCode', user, postalCode)
+        if not success:
+            errorMessage.append("postalCode is invalid")
+        else:
+            successMessage.append("postalCode has been changed to " + postalCode)
 
-        if msg:
-            return render_template("updateUserProfile.html", message=msg)
+    if errorMessage:
+        msg = ', '.join(x for x in errorMessage if x)
+        if successMessage:
+            msg = msg + ", " + ', '.join(x for x in successMessage if x)
+        return render_template('updateUser.html',
+                               message=msg)
+    else:
+        msg = ', '.join(x for x in successMessage if x)
+        return render_template('home.html', message="Profile has been updated, " + msg)
+
+@app.route('/logout')
+def logout():
+    logoutMsg = None
+    if 'logged_in' not in session:
+        logoutMsg = "You are not currently logged in."
+        return render_template('home.html', message=logoutMsg)
+    else:
+        session.pop('logged_in', None)
+        logoutMsg = "Successfully logged out!"
+        return render_template('home.html', message=logoutMsg)
+

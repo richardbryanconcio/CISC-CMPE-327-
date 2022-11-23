@@ -2,7 +2,7 @@ from seleniumbase import BaseCase
 
 from qbay_test.conftest import base_url
 from unittest.mock import patch
-from qbay.models import User, register
+from qbay.models import User, register, login
 
 from datetime import date, datetime
 import random
@@ -19,6 +19,15 @@ class FrontEndCreateListingTest(BaseCase):
         register("createListingTest", "test@test.com", "!Q1q12345")
     except Exception:
         pass
+
+    def loginWrapper(self):
+        '''
+        A wrapper function to login to the website
+        '''
+        self.open(base_url + '/login')
+        self.type("#email", "createListingTest")
+        self.type("#password", "!Q1q12345")
+        self.click('input[type="submit"]')
 
     def test_r4_1_create_listing(self, *_):
         '''
