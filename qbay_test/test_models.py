@@ -1,6 +1,27 @@
 from datetime import date, datetime
 from qbay.models import register, login, update, createListing, updateListing
 
+def test_create_listing_title():
+    pass
+
+def test_create_listing_description():
+    pass
+
+def test_create_listing_price():
+    pass
+
+def test_create_listing_lastModifiedDate():
+    pass
+
+def test_create_listing_ownerId():
+    pass
+
+def test_create_listing_startDate():
+    pass
+
+def test_create_listing_endDate():
+    pass
+
 
 def test_r1_1_user_register():
     '''
