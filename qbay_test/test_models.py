@@ -1,26 +1,167 @@
 from datetime import date, datetime
 from qbay.models import register, login, update, createListing, updateListing
 
+
 def test_create_listing_title():
-    pass
+    '''
+    SQL injection testing create listing function title parameter.
+    '''
+    # set of valid inputs
+    user = register("SQL injection title", "injection@title.com", "pA$s123!")
+    description = 'test description'
+    price = 10.0
+    startDate = date(2023, 1, 1)
+    endDate = date(2023, 11, 11)
+    errorCausingList = []
+    filename = 'Generic_SQLI.txt'
+
+    x = 0
+    with open(filename, 'r') as payloadFile:
+        for payload in payloadFile:
+            nameSQLTest = (payload.strip())
+            x = x + 1
+            try:
+                createListing(nameSQLTest, description,
+                              price, user, startDate, endDate)
+            except Exception as e:
+                print("Error from title {" + payload + "}: " + str(e))
+                errorCausingList.append(payload)
+
+    assert not errorCausingList
+    payloadFile.close
+
 
 def test_create_listing_description():
-    pass
+    # set of valid inputs
+    user = register("SQL injection description",
+                    "injection@description.com", "pA$s123!")
+    title = 'test inject desc'
+    price = 10.0
+    startDate = date(2023, 1, 1)
+    endDate = date(2023, 11, 11)
+    errorCausingList = []
+    filename = 'Generic_SQLI.txt'
+
+    x = 0
+    with open(filename, 'r') as payloadFile:
+        for payload in payloadFile:
+            nameSQLTest = (payload.strip())
+            x = x + 1
+            try:
+                createListing(title, nameSQLTest, price,
+                              user, startDate, endDate)
+            except Exception as e:
+                print("Error from description {" + payload + "}: " + str(e))
+                errorCausingList.append(payload)
+
+    assert not errorCausingList
+    payloadFile.close
+
 
 def test_create_listing_price():
-    pass
+    # set of valid inputs
+    user = register("SQL injection price", "injection@price.com", "pA$s123!")
+    title = 'test inject price'
+    description = 'test description'
+    startDate = date(2023, 1, 1)
+    endDate = date(2023, 11, 11)
 
-def test_create_listing_lastModifiedDate():
-    pass
+    errorCausingList = []
+    filename = 'Generic_SQLI.txt'
+    x = 0
+    with open(filename, 'r') as payloadFile:
+        for payload in payloadFile:
+            nameSQLTest = (payload.strip())
+            x = x + 1
+            try:
+                createListing(title, description, nameSQLTest,
+                              user, startDate, endDate)
+            except Exception as e:
+                print("Error from price {" + payload + "}: " + str(e))
+                errorCausingList.append(payload)
 
-def test_create_listing_ownerId():
-    pass
+    assert not errorCausingList
+    payloadFile.close
+
+
+def test_create_listing_user():
+    # set of valid inputs
+    title = 'test inject user'
+    description = 'test description'
+    price = 10.0
+    startDate = date(2023, 1, 1)
+    endDate = date(2023, 11, 11)
+
+    errorCausingList = []
+    filename = 'Generic_SQLI.txt'
+    x = 0
+    with open(filename, 'r') as payloadFile:
+        for payload in payloadFile:
+            nameSQLTest = (payload.strip())
+            x = x + 1
+            try:
+                createListing(title, description, price,
+                              nameSQLTest, startDate, endDate)
+            except Exception as e:
+                print("Error from user {" + payload + "}: " + str(e))
+                errorCausingList.append(payload)
+
+    assert not errorCausingList
+    payloadFile.close
+
 
 def test_create_listing_startDate():
-    pass
+    # set of valid inputs
+    user = register("SQL injection startDate",
+                    "injection@startDate.com", "pA$s123!")
+    title = 'test inject startDate'
+    description = 'test description'
+    price = 10.0
+    endDate = date(2023, 11, 11)
+
+    errorCausingList = []
+    filename = 'Generic_SQLI.txt'
+    x = 0
+    with open(filename, 'r') as payloadFile:
+        for payload in payloadFile:
+            nameSQLTest = (payload.strip())
+            x = x + 1
+            try:
+                createListing(title, description, price,
+                              user, nameSQLTest, endDate)
+            except Exception as e:
+                print("Error from start date {" + payload + "}: " + str(e))
+                errorCausingList.append(payload)
+
+    assert not errorCausingList
+    payloadFile.close
+
 
 def test_create_listing_endDate():
-    pass
+    # set of valid inputs
+    user = register("SQL injection endDate",
+                    "injection@endDate.com", "pA$s123!")
+    title = 'test inject endDate'
+    description = 'test description'
+    price = 10.0
+    startDate = date(2023, 1, 1)
+
+    errorCausingList = []
+    filename = 'Generic_SQLI.txt'
+    x = 0
+    with open(filename, 'r') as payloadFile:
+        for payload in payloadFile:
+            nameSQLTest = (payload.strip())
+            x = x + 1
+            try:
+                createListing(title, description, price,
+                              user, startDate, nameSQLTest)
+            except Exception as e:
+                print("Error from end date {" + payload + "}: " + str(e))
+                errorCausingList.append(payload)
+
+    assert not errorCausingList
+    payloadFile.close
 
 
 def test_r1_1_user_register():
