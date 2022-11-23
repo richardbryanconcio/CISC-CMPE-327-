@@ -354,16 +354,17 @@ def test_r4_1_create_listing():
     register('create listing test', 'create@listing.com', 'Ab!23456')
 
     user = login('create@listing.com', 'Ab!23456')
+    userId = user.id
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test1", "this is a description",
-                         60, user, startDate, endDate) is not None
+                         60, userId, startDate, endDate) is not None
     assert createListing("  test2", "this is a description",
-                         60, user, startDate, endDate) is None
+                         60, userId, startDate, endDate) is None
     assert createListing("test3   ", "this is a description",
-                         60, user, startDate, endDate) is None
+                         60, userId, startDate, endDate) is None
     assert createListing("te$t4", "this is a description",
-                         60, user, startDate, endDate) is None
+                         60, userId, startDate, endDate) is None
 
 
 def test_r4_2_create_listing():
@@ -371,15 +372,16 @@ def test_r4_2_create_listing():
     R4-2: The title of the product is no longer than 80 characters.
     '''
     user = login('create@listing.com', 'Ab!23456')
+    userId = user.id
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     newTitle = ""
     while len(newTitle) <= 81:
         newTitle += "a"
     assert createListing("test5", "this is a description",
-                         60, user, startDate, endDate) is not None
+                         60, userId, startDate, endDate) is not None
     assert createListing(newTitle, "this is a description",
-                         60, user, startDate, endDate) is None
+                         60, userId, startDate, endDate) is None
 
 
 def test_r4_3_create_listing():
@@ -388,17 +390,18 @@ def test_r4_3_create_listing():
     with a minimum length of 20 characters and a maximum of 2000 characters.
     '''
     user = login('create@listing.com', 'Ab!23456')
+    userId = user.id
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test7", "this is a description",
-                         60, user, startDate, endDate) is not None
+                         60, userId, startDate, endDate) is not None
     assert createListing("test8", "description", 60,
-                         user, startDate, endDate) is None
+                         userId, startDate, endDate) is None
     veryLongDescription = ""
     while len(veryLongDescription) <= 2000:
         veryLongDescription += "a"
     assert createListing("test9", veryLongDescription, 60,
-                         user, startDate, endDate) is None
+                         userId, startDate, endDate) is None
 
 
 def test_r4_4_create_listing():
@@ -406,12 +409,13 @@ def test_r4_4_create_listing():
     R4-4: Description has to be longer than the product's title.
     '''
     user = login('create@listing.com', 'Ab!23456')
+    userId = user.id
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test10", "this is a description",
-                         60, user, startDate, endDate) is not None
+                         60, userId, startDate, endDate) is not None
     assert createListing("test 11 that is longer than 20 characters",
-                         "this is a description", 60, user, startDate,
+                         "this is a description", 60, userId, startDate,
                          endDate) is None
 
 
@@ -420,14 +424,15 @@ def test_r4_5_create_listing():
     R4-5: Price has to be of range [10, 10000].
     '''
     user = login('create@listing.com', 'Ab!23456')
+    userId = user.id
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test12", "this is a description",
-                         60, user, startDate, endDate) is not None
+                         60, userId, startDate, endDate) is not None
     assert createListing("test13", "this is a description",
-                         1, user, startDate, endDate) is None
+                         1, userId, startDate, endDate) is None
     assert createListing("test14", "this is a description",
-                         20000, user, startDate, endDate) is None
+                         20000, userId, startDate, endDate) is None
 
 
 def test_r4_8_create_listing():
@@ -435,12 +440,13 @@ def test_r4_8_create_listing():
     R4-8: A user cannot create products that have the same title.
     '''
     user = login('create@listing.com', 'Ab!23456')
+    userId = user.id
     startDate = date(2022, 10, 10)
     endDate = date(2023, 10, 10)
     assert createListing("test15", "this is a description",
-                         60, user, startDate, endDate) is not None
+                         60, userId, startDate, endDate) is not None
     assert createListing("test15", "this is a description",
-                         60, user, startDate, endDate) is None
+                         60, userId, startDate, endDate) is None
 
 
 def test_r5_1_update_listing():

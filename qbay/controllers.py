@@ -79,9 +79,10 @@ def createListing_post():
     # once implemented user will be passed through wrapper function
     users = User.query.all()
     user = users[0]
+    userId = user.id
 
     success = createListing(title, description, price,
-                            user, startDate, endDate)
+                            userId, startDate, endDate)
 
     if not success:
         errorMessage = "creating listing failed, please try again"

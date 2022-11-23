@@ -229,7 +229,7 @@ def update(field, user, new):
     return False
 
 
-def createListing(title, description, price, user, startDate, endDate):
+def createListing(title, description, price, userId, startDate, endDate):
     '''
     Create a new listing
       Parameters:
@@ -284,7 +284,7 @@ def createListing(title, description, price, user, startDate, endDate):
     # if all checks pass create the listing
     listing = Listing(title=title, description=description, price=price,
                       lastModifiedDate=date.today(),
-                      ownerId=user.id, startDate=startDate, endDate=endDate)
+                      ownerId=userId, startDate=startDate, endDate=endDate)
 
     db.session.add(listing)
 
