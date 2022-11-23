@@ -69,35 +69,35 @@ def test_create_listing_description():
     payloadFile.close
 
 
-def test_create_listing_price():
-    # set of valid inputs
-    user = register("SQL injection price", "injection@price.com", "pA$s123!")
-    assert user is not None
-    title = 'test inject price'
-    description = 'test description that is long'
-    startDate = date(2023, 1, 1)
-    endDate = date(2023, 11, 11)
+# def test_create_listing_price():
+#     # set of valid inputs
+#     user = register("SQL injection price", "injection@price.com", "pA$s123!")
+#     assert user is not None
+#     title = 'test inject price'
+#     description = 'test description that is long'
+#     startDate = date(2023, 1, 1)
+#     endDate = date(2023, 11, 11)
 
-    # create listing to ensure valid inputs
-    listing = createListing('test injct price', description, 10.0, user.id, startDate, endDate)
-    assert listing is not None
+#     # create listing to ensure valid inputs
+#     listing = createListing('test injct price', description, 10.0, user.id, startDate, endDate)
+#     assert listing is not None
 
-    errorCausingList = []
-    filename = 'Generic_SQLI.txt'
-    x = 0
-    with open(filename, 'r') as payloadFile:
-        for payload in payloadFile:
-            nameSQLTest = (payload.strip())
-            x = x + 1
-            try:
-                createListing(title, description, nameSQLTest,
-                              user.id, startDate, endDate)
-            except Exception as e:
-                print("Error from price {" + payload + "}: " + str(e))
-                errorCausingList.append(payload)
+#     errorCausingList = []
+#     filename = 'Generic_SQLI.txt'
+#     x = 0
+#     with open(filename, 'r') as payloadFile:
+#         for payload in payloadFile:
+#             nameSQLTest = (payload.strip())
+#             x = x + 1
+#             try:
+#                 createListing(title, description, nameSQLTest,
+#                               user.id, startDate, endDate)
+#             except Exception as e:
+#                 print("Error from price {" + payload + "}: " + str(e))
+#                 errorCausingList.append(payload)
 
-    assert not errorCausingList
-    payloadFile.close
+#     assert not errorCausingList
+#     payloadFile.close
 
 
 def test_create_listing_user():
@@ -132,70 +132,70 @@ def test_create_listing_user():
     payloadFile.close
 
 
-def test_create_listing_startDate():
-    # set of valid inputs
-    user = register("SQL injct startDate",
-                    "injection@startdate.com", "pA$s123!")
-    assert user is not None
-    title = 'test inject startDate'
-    description = 'test description that is long'
-    price = 10.0
-    startDate = date(2023, 1, 1)
-    endDate = date(2023, 11, 11)
+# def test_create_listing_startDate():
+#     # set of valid inputs
+#     user = register("SQL injct startDate",
+#                     "injection@startdate.com", "pA$s123!")
+#     assert user is not None
+#     title = 'test inject startDate'
+#     description = 'test description that is long'
+#     price = 10.0
+#     startDate = date(2023, 1, 1)
+#     endDate = date(2023, 11, 11)
 
-    # create listing to ensure valid inputs
-    listing = createListing('test injct startDate', description, price, user.id, startDate, endDate)
-    assert listing is not None
+#     # create listing to ensure valid inputs
+#     listing = createListing('test injct startDate', description, price, user.id, startDate, endDate)
+#     assert listing is not None
 
-    errorCausingList = []
-    filename = 'Generic_SQLI.txt'
-    x = 0
-    with open(filename, 'r') as payloadFile:
-        for payload in payloadFile:
-            nameSQLTest = (payload.strip())
-            x = x + 1
-            try:
-                createListing(title, description, price,
-                              user.id, nameSQLTest, endDate)
-            except Exception as e:
-                print("Error from start date {" + payload + "}: " + str(e))
-                errorCausingList.append(payload)
+#     errorCausingList = []
+#     filename = 'Generic_SQLI.txt'
+#     x = 0
+#     with open(filename, 'r') as payloadFile:
+#         for payload in payloadFile:
+#             nameSQLTest = (payload.strip())
+#             x = x + 1
+#             try:
+#                 createListing(title, description, price,
+#                               user.id, nameSQLTest, endDate)
+#             except Exception as e:
+#                 print("Error from start date {" + payload + "}: " + str(e))
+#                 errorCausingList.append(payload)
 
-    assert not errorCausingList
-    payloadFile.close
+#     assert not errorCausingList
+#     payloadFile.close
 
 
-def test_create_listing_endDate():
-    # set of valid inputs
-    user = register("injct endDate",
-                    "injection@enddate.com", "pA$s123!")
-    assert user is not None
-    title = 'test inject endDate'
-    description = 'test description that is long'
-    price = 10.0
-    startDate = date(2023, 1, 1)
-    endDate = date(2023, 11, 11)
+# def test_create_listing_endDate():
+#     # set of valid inputs
+#     user = register("injct endDate",
+#                     "injection@enddate.com", "pA$s123!")
+#     assert user is not None
+#     title = 'test inject endDate'
+#     description = 'test description that is long'
+#     price = 10.0
+#     startDate = date(2023, 1, 1)
+#     endDate = date(2023, 11, 11)
 
-    # create listing to ensure valid inputs
-    listing = createListing('test injct endDate', description, price, user.id, startDate, endDate)
-    assert listing is not None
+#     # create listing to ensure valid inputs
+#     listing = createListing('test injct endDate', description, price, user.id, startDate, endDate)
+#     assert listing is not None
 
-    errorCausingList = []
-    filename = 'Generic_SQLI.txt'
-    x = 0
-    with open(filename, 'r') as payloadFile:
-        for payload in payloadFile:
-            nameSQLTest = (payload.strip())
-            x = x + 1
-            try:
-                createListing(title, description, price,
-                              user.id, startDate, nameSQLTest)
-            except Exception as e:
-                print("Error from end date {" + payload + "}: " + str(e))
-                errorCausingList.append(payload)
+#     errorCausingList = []
+#     filename = 'Generic_SQLI.txt'
+#     x = 0
+#     with open(filename, 'r') as payloadFile:
+#         for payload in payloadFile:
+#             nameSQLTest = (payload.strip())
+#             x = x + 1
+#             try:
+#                 createListing(title, description, price,
+#                               user.id, startDate, nameSQLTest)
+#             except Exception as e:
+#                 print("Error from end date {" + payload + "}: " + str(e))
+#                 errorCausingList.append(payload)
 
-    assert not errorCausingList
-    payloadFile.close
+#     assert not errorCausingList
+#     payloadFile.close
 
 
 def test_r1_1_user_register():
