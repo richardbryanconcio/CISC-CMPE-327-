@@ -4,7 +4,7 @@ from flask_login import LoginManager
 from qbay.models import (login, register, update, User,
                          createListing, updateListing, Listing, 
                          usernameValidation, checkemail, 
-                         passwordValidation,)
+                         passwordValidation)
 
 from datetime import date, datetime
 
