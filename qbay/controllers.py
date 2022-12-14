@@ -8,6 +8,7 @@ from qbay.models import (login, register, update, User,
 
 from datetime import date, datetime
 
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, EqualTo, Length
@@ -280,19 +281,70 @@ def login_post():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        error_message = None
-        success_message = None
+        # invalidCharStrings = "Invalid number of characters 
+        #       in email or password. Minimum 6 characters."
+        # success_message = "Login was successful!"
+        success_message = "Login successful!"
+        error_message = "Login failed. Please try again. \
+            Invalid email or password. Please try again."
+        minCharPass = "Login failed. Please try again. \
+            Password must be at least 6 characters."
+        incorrectEmail = "Login failed. Please try again. \
+            Email is incorrect."
+        invalidEmail = "Login failed. Please try again. \
+            Email is invalid. Not in proper email format."
+        incorrectPass = "Login failed. Please try again. \
+            Password is incorrect."
+        invalidPass = "Login failed. Please try again. \
+            Password is invalid. Not in proper password format."
+        unregisteredEmail = "Login failed. Please try again. \
+            Email is not registered."
+        unregisteredPass = "Login failed. Please try again. \
+            Password is not registered."
 
         success = login(email, password)
         if success:
             session['logged_in'] = success.id
-            success_message = "Login successful!"
-            return render_template('home.html', message=success_message)
-        
-        if not success:
-            error_message = "Login failed. Please try again."
-            return render_template('login.html', message=error_message)
+            if (checkemail(email) and 
+                    passwordValidation(password)):
+                if email == success.email and password == success.password:
+                    return render_template('home.html', 
+                                           message=success_message)
 
+        if not success:
+            if len(password) < 6:
+                return render_template('login.html', message=minCharPass)
+
+#            elif passwordValidation(password) == False:
+
+            elif not (passwordValidation(password)):
+                return render_template('login.html', message=incorrectPass)
+
+            elif not (checkemail(email)):
+                if email != success.email:
+                    return render_template('login.html', 
+                                           message=unregisteredEmail)
+                else:
+                    return render_template('login.html', 
+                                           message=incorrectEmail)
+
+            elif not (passwordValidation(password)):
+                if password != success.password:
+                    return render_template('login.html', 
+                                           message=unregisteredPass)
+                else:
+                    return render_template('login.html', message=incorrectPass)
+
+            elif not (checkemail(email) and passwordValidation(password)):
+                return render_template('login.html', message=error_message)
+
+            elif (checkemail(email)) and (not (passwordValidation(password))):
+                return render_template('login.html', message=invalidPass)
+
+            elif (passwordValidation(password)) and (not (checkemail(email))):
+                return render_template('login.html', message=invalidEmail)
+            else:
+                return render_template('login.html', message=error_message)
     return redirect('/')
 
 
