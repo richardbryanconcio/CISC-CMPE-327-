@@ -1,0 +1,23 @@
+qbay_test/frontEnd/test_update_listing.py::FrontEndCreateListingTest::test_r5_4_update_listing
+--------------------------------------------------------------------
+Last Page: http://127.0.0.1:8081/updateListing/1
+ Duration: 36.40s
+  Browser: Chrome 108.0.5359.71
+   Driver: chromedriver 108.0.5359.71
+Timestamp: 1670993451  (Unix Timestamp)
+     Date: Tuesday, December 13, 2022
+     Time: 11:50:51 PM  (Eastern Daylight Time, UTC-05:00)
+--------------------------------------------------------------------
+Traceback: File "C:\Users\viola\AppData\Local\Programs\Python\Python310\lib\unittest\case.py", line 591, in run
+    self._callTestMethod(testMethod)
+  File "C:\Users\viola\AppData\Local\Programs\Python\Python310\lib\unittest\case.py", line 549, in _callTestMethod
+    method()
+  File "C:\Users\viola\Documents\GitHub\CISC-CMPE-327-\qbay_test\frontEnd\test_update_listing.py", line 437, in test_r5_4_update_listing
+    test_r4_5(self)
+  File "C:\Users\viola\Documents\GitHub\CISC-CMPE-327-\qbay_test\frontEnd\test_update_listing.py", line 378, in test_r4_5
+    assert self.get_current_url() == base_url + '/listing/' + str(id)
+Exception: assert 'http://127.0...dateListing/1' == 'http://127.0...081/listing/1'
+  - http://127.0.0.1:8081/listing/1
+  ?                       ^
+  + http://127.0.0.1:8081/updateListing/1
+  ?                       ^^^^^^^

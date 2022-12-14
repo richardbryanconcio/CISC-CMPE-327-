@@ -2,7 +2,9 @@ from flask import (render_template, request, session,
                    redirect, Flask, flash)
 from flask_login import LoginManager
 from qbay.models import (login, register, update, User,
-                         createListing, updateListing, Listing)
+                         createListing, updateListing, Listing,
+                         usernameValidation, checkemail,
+                         passwordValidation)
 
 from datetime import date, datetime
 
@@ -18,7 +20,7 @@ def register_get():
     # templates are stored in the templates folder
     return render_template('register.html', message='')
 
-
+ 
 @app.route('/register', methods=['POST'])
 def register_post():
     # get user's email address to register/sign up
@@ -29,14 +31,62 @@ def register_post():
     password = request.form.get('password')
     password2 = request.form.get('password2')
     error_message = None
-
+    upper, lower, special = 0, 0, 0
+    specialChar = ".!@#$%&*"
+ 
     if password != password2:
         error_message = "The passwords do not match"
+   
     else:
         # use backend api to register the user
         success = register(name, email, password)
         if not success:
-            error_message = "Registration failed."
+            # if the user registration failes, the bottom conditional
+            # statements are used to print out the error message
+            error_message = "Registration failed. "
+           
+            password_success = passwordValidation(password)
+            if not password_success:
+                if (len(password) < 6):
+                    error_message = "Registration failed. \
+                        Password is too short."
+                elif (len(password) >= 6):
+                    for i in password:
+                        # Counting uppercase letter
+                        if (i.isupper()):
+                            upper += 1
+                        if (i.islower()):
+                            lower += 1
+                        if (i in specialChar):
+                            special += 1
+                    if not ((upper >= 1 and lower >= 1 and special >= 1)):
+                        error_message = "Registration failed. Password does \
+    not meet the required complexity. A password must have \
+    minimum 1 upper case, 1 lowercase, and 1 special character. "  
+           
+            username_success = usernameValidation(name)
+            if not username_success:
+ 
+                if (len(name) <= 2):
+                    error_message = "Registration failed. Username is \
+too short. It cannot be empty and has to be longer than 2 character"
+                elif (len(name) >= 20):
+                    error_message = "Registration failed. Username is \
+too long. USername cannot be longer than 20 character"
+                elif (name[0] == " " or name[-1] == " "):
+                    error_message = "Registration failed. Username \
+prefeix or suffix cannot be space"
+                elif (not all(i.isalnum() or i.isspace() for i in name)):
+                    error_message = "Registration failed. Username can only \
+be alphanumeric with space allowed(but not at the start or end of a username."
+ 
+            email_success = checkemail(email)
+            if not email_success:
+                if (len(email) <= 4):
+                    error_message = "Registration failed. E-mail is too short."
+                else:
+                    error_message = "Registration failed. E-mail is not valid."
+ 
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
     if error_message:
