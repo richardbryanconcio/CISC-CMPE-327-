@@ -65,7 +65,6 @@
         <thead>
             <tr>
                 <th scope="col">title</th>
-                <th scope="col">price</th>
                 <th scope="col">start date</th>
                 <th scope="col">end date</th>
             </tr>
@@ -73,7 +72,7 @@
         <tfoot id="products">
             {% for booking in bookings %}
             <tr>
-                <td><a href=listing/{{ booking.listingId }}>{{ booking.title }}</a></td>
+                <td><a href=listing/{{ booking.listingId }}>listing number: {{ booking.listingId }}</a></td>
                 <td>{{ booking.startDate }}</td>
                 <td>{{ booking.endDate }}</td>
             </tr>

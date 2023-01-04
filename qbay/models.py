@@ -332,6 +332,7 @@ def bookListing(listingId, userId, startDate, endDate):
     # check if user is the owner of the listing
     if user.id == listing.ownerId:
         print("user is owner")
+        print(user.id)
         return False
 
     # convert startdate to date time

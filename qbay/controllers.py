@@ -101,14 +101,14 @@ def home_get():
     # templates are stored in the templates folder
     products = Listing.query.all()
 
-    if 'username' in session:
-        user = User.query.filter_by(username=session['username']).first()
+    # print(session['logged_in'])
+    user = User.query.filter_by(id=session['logged_in']).first()
+    if session['logged_in'] is not None and user is not None:
         bookings = Booking.query.filter_by(userId=user.id).all()
         return render_template('home.html', products=products,
                                bookings=bookings)
     else:
-        return render_template('login.html',
-                               message='please login to access the site')
+        return redirect('/login')
 
 
 @app.route('/listing/<listingId>')
@@ -135,8 +135,8 @@ def createListing_post():
 
     # temporary user placeholder while waiting for login/autheticator function
     # once implemented user will be passed through wrapper function
-    if 'username' in session:
-        user = User.query.filter_by(username=session['username']).first()
+    if 'logged_in' in session:
+        user = User.query.filter_by(id=session['logged_in']).first()
         userId = user.id
     else:
         users = User.query.all()
@@ -158,8 +158,8 @@ def chooseListingUpdate_get():
 
     # temporary user placeholder while waiting for login/autheticator function
     # once implemented user will be passed through wrapper function
-    if 'username' in session:
-        user = User.query.filter_by(username=session['username']).first()
+    if 'logged_in' in session:
+        user = User.query.filter_by(id=session['logged_in']).first()
         userId = user.id
     else:
         users = User.query.all()
@@ -176,8 +176,8 @@ def updateListing_post(listingId):
     listing = Listing.query.filter_by(id=listingId).first()
     # temporary user placeholder while waiting for login/autheticator function
     # once implemented user will be passed through wrapper function
-    if 'username' in session:
-        user = User.query.filter_by(username=session['username']).first()
+    if 'logged_in' in session:
+        user = User.query.filter_by(id=session['logged_in']).first()
         userId = user.id
     else:
         users = User.query.all()
@@ -242,8 +242,8 @@ def updateListing_get(listingId):
 
     # temporary user placeholder while waiting for login/autheticator function
     # once implemented user will be passed through wrapper function
-    if 'username' in session:
-        user = User.query.filter_by(username=session['username']).first()
+    if 'logged_in' in session:
+        user = User.query.filter_by(id=session['logged_in']).first()
         userId = user.id
     else:
         users = User.query.all()
@@ -310,10 +310,13 @@ def bookListing_post(listingId):
     bookings = Booking.query.filter_by(listingId=listingId).all()
 
     # get the user
-    # use authenticate function to get the user
-    # temporary user placeholder while waiting for login/autheticator function
-    users = User.query.all()
-    user = users[0]
+    if 'logged_in' in session:
+        user = User.query.filter_by(id=session['logged_in']).first()
+        userId = user.id
+    else:
+        users = User.query.all()
+        user = users[0]
+        userId = user.id
 
     # get the dates
     startDate = request.form.get('startDate')
@@ -380,8 +383,7 @@ def login_post():
             if (checkemail(email) and
                     passwordValidation(password)):
                 if email == success.email and password == success.password:
-                    return render_template('home.html',
-                                           message=success_message)
+                    return redirect('/')
 
         if not success:
             if len(password) < 6:
