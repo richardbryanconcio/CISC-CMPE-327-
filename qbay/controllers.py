@@ -4,7 +4,7 @@ from flask_login import LoginManager
 from qbay.models import (login, register, update, User,
                          createListing, updateListing, Listing,
                          usernameValidation, checkemail,
-                         passwordValidation)
+                         passwordValidation, Booking, bookListing)
 
 from datetime import date, datetime
 
@@ -101,7 +101,12 @@ def home_get():
     # templates are stored in the templates folder
     products = Listing.query.all()
 
-    return render_template('home.html', products=products)
+    if 'username' in session:
+        user = User.query.filter_by(username=session['username']).first()
+        bookings = Booking.query.filter_by(userId=user.id).all()
+        return render_template('home.html', products=products, bookings=bookings)
+    else:
+        return render_template('login.html', message='please login to access the site')
 
 
 @app.route('/listing/<listingId>')
@@ -128,9 +133,13 @@ def createListing_post():
 
     # temporary user placeholder while waiting for login/autheticator function
     # once implemented user will be passed through wrapper function
-    users = User.query.all()
-    user = users[0]
-    userId = user.id
+    if 'username' in session:
+        user = User.query.filter_by(username=session['username']).first()
+        userId = user.id
+    else:
+        users = User.query.all()
+        user = users[0]
+        userId = user.id
 
     success = createListing(title, description, price,
                             userId, startDate, endDate)
@@ -147,8 +156,13 @@ def chooseListingUpdate_get():
 
     # temporary user placeholder while waiting for login/autheticator function
     # once implemented user will be passed through wrapper function
-    users = User.query.all()
-    user = users[0]
+    if 'username' in session:
+        user = User.query.filter_by(username=session['username']).first()
+        userId = user.id
+    else:
+        users = User.query.all()
+        user = users[0]
+        userId = user.id
 
     products = Listing.query.filter_by(ownerId=user.id).all()
 
@@ -160,6 +174,13 @@ def updateListing_post(listingId):
     listing = Listing.query.filter_by(id=listingId).first()
     # temporary user placeholder while waiting for login/autheticator function
     # once implemented user will be passed through wrapper function
+    if 'username' in session:
+        user = User.query.filter_by(username=session['username']).first()
+        userId = user.id
+    else:
+        users = User.query.all()
+        user = users[0]
+        userId = user.id
 
     title = request.form.get('title')
     description = request.form.get('description')
@@ -219,6 +240,13 @@ def updateListing_get(listingId):
 
     # temporary user placeholder while waiting for login/autheticator function
     # once implemented user will be passed through wrapper function
+    if 'username' in session:
+        user = User.query.filter_by(username=session['username']).first()
+        userId = user.id
+    else:
+        users = User.query.all()
+        user = users[0]
+        userId = user.id
 
     return render_template('updateListing.html',
                            message="please input which fields to change")
@@ -257,6 +285,43 @@ def authenticate(inner_function):
 
     # return the wrapped version of the inner_function:
     return wrapped_inner
+
+@app.route('/bookListing/<listingId>', methods=['GET'])
+def bookListing_get(listingId):
+    # pass all current bookings for the listing to the template 
+    bookings = Booking.query.filter_by(listingId=listingId).all()
+
+    # pass the listing
+    listing = Listing.query.filter_by(id=listingId).first()
+
+    return render_template('bookListing.html', bookings=bookings, listing=listing)
+
+@app.route('/bookListing/<listingId>', methods=['POST'])
+def bookListing_post(listingId):
+    # get the listing
+    listing = Listing.query.filter_by(id=listingId).first()
+
+    # get bookings in case of error
+    bookings = Booking.query.filter_by(listingId=listingId).all()
+
+    # get the user
+    # use authenticate function to get the user
+    # temporary user placeholder while waiting for login/autheticator function
+    users = User.query.all()
+    user = users[0]
+
+    # get the dates
+    startDate = request.form.get('startDate')
+    endDate = request.form.get('endDate')
+
+    # create the booking
+    success = bookListing(listingId, user.id, startDate, endDate)
+
+    if not success:
+        errorMessage = "booking failed, please try again"
+        return render_template('bookListing.html', listing=listing, bookings=bookings, message=errorMessage)
+    else:
+        return redirect('/')
 
 
 # Create Login Form

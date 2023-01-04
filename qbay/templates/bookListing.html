@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Website</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <main>
+        <h6 id='message'>{{message}}</h6>
+        <h1>{{ listing.title }}</h1>  
+        <h2>{{ listing.description }}</h2>
+        <h3>price: ${{ listing.price }}</h3>
+        <h4>avalible from ({{ listing.startDate }})-({{ listing.endDate }})</h4>
+        <h5>listing was last modified on: {{ listing.lastModifiedDate }}</h5>
+    
+        
+
+        <form method="post">
+            <div class="form-group">
+                <label for="startDate">startDate</label>
+                <input class="form-control" type="date" name="startDate" id="startDate">
+                <label for="endDate">endDate</label>
+                <input class="form-control" type="date" name="endDate" id="endDate">
+                <input class="btn btn-primary" type="submit" value="Book">
+            </div>
+        </form>
+
+        <button><a href="/">back</a></button>
+
+    </main>
+	<script src="index.js"></script>
+  </body>
+
+  <article>
+    <p><table dir="ltr" width="500" border="1" 
+        summary="purpose/structure for speech output">
+    <caption>This listing is currently booked for the following dates
+    </caption>
+    <colgroup width="50%" />
+    <colgroup id="colgroup" class="colgroup" align="center" 
+            valign="middle" title="title" width="1*" 
+            span="2" style="background:#ddd;" />
+    <thead>
+        <tr>
+            <th scope="col">start date</th>
+            <th scope="col">end date</th>
+        </tr>
+    </thead>
+    <tfoot id="products">
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.startDate }}</td>
+            <td>{{ booking.endDate }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table></p>
+</article>
+
+</html>

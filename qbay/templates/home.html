@@ -51,6 +51,37 @@
         </tbody>
     </table></p>
 		</article>
+
+    
+        <article>
+			<p><table dir="ltr" width="500" border="1" 
+                summary="purpose/structure for speech output">
+        <caption>Your Booked listings
+        </caption>
+        <colgroup width="50%" />
+        <colgroup id="colgroup" class="colgroup" align="center" 
+                valign="middle" title="title" width="1*" 
+                span="2" style="background:#ddd;" />
+        <thead>
+            <tr>
+                <th scope="col">title</th>
+                <th scope="col">price</th>
+                <th scope="col">start date</th>
+                <th scope="col">end date</th>
+            </tr>
+        </thead>
+        <tfoot id="products">
+            {% for booking in bookings %}
+            <tr>
+                <td><a href=listing/{{ booking.listingId }}>{{ booking.title }}</a></td>
+                <td>{{ booking.startDate }}</td>
+                <td>{{ booking.endDate }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table></p>
+		</article>
+
 		<footer>
 			<h6>© 2050 Etc.</h6>
 		</footer>

@@ -36,7 +36,6 @@ class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     listingId = db.Column(db.Integer, nullable=False)
     userId = db.Column(db.Integer, nullable=False)
-    listingConfirmed = db.Column(db.Boolean, nullable=False)
     startDate = db.Column(db.Date, nullable=False)
     endDate = db.Column(db.Date, nullable=False)
  
@@ -75,7 +74,6 @@ class Review(db.Model):
  
 # create all tables
 db.create_all()
- 
  
 def register(name, email, password):
     '''
@@ -292,6 +290,90 @@ def createListing(title, description, price, userId, startDate, endDate):
  
     return listing
  
+def bookListing(listingId, userId, startDate, endDate):
+    '''
+    Book a listing
+      Parameters:
+        listingId (int): id of the listing to be booked
+        userId (int): id of the user who is booking the listing
+        startDate (date): starting date of the booking
+        endDate (date): last day of the booking
+      Requirements:
+        A user can book a listing.
+        A user cannot book a listing for his/her listing.
+        A user cannot book a listing that costs more than his/her balance.
+        A user cannot book a listing that is already booked with the overlapped dates.
+        A user cannot book a listing that is before the listing's start date.
+        A user cannot book a listing that is after the listing's end date.
+        A user cannot book a listing that is before today.
+      Returns:
+        True if the booking went through false if operation failed
+    '''
+    # get listing
+    listing = Listing.query.filter_by(id=listingId).first()
+    if listing is None:
+        return False
+
+    # get user
+    user = User.query.filter_by(id=userId).first()
+    if user is None:
+        return False
+
+    # check if user has enough money
+    if user.balance < listing.price:
+        print("not enough money")
+        print(user.balance)
+        print(listing.price)
+        return False
+ 
+    # check if user is the owner of the listing
+    if user.id == listing.ownerId:
+        print("user is owner")
+        return False
+    
+    # convert startdate to date time
+    startDate = datetime.strptime(startDate, '%Y-%m-%d')
+    endDate = datetime.strptime(endDate, '%Y-%m-%d')
+    startDate = datetime.date(startDate)
+    endDate = datetime.date(endDate)
+
+    # check if start date is before today
+    if startDate < datetime.date(datetime.today()):
+        print("start date is before today")
+        return False
+    
+    # check if start date is before listing start date
+    if startDate < listing.startDate:
+        print("start date is before listing start date")
+        return False
+    
+    # check if end date is after listing end date
+    if endDate > listing.endDate:
+        print("end date is after listing end date")
+        return False
+ 
+    # check if listing is already booked
+    booked = Booking.query.filter_by(listingId=listing.id).all()
+    for b in booked:
+        if b.startDate <= startDate and b.endDate >= startDate:
+            return False
+        if b.startDate <= endDate and b.endDate >= endDate:
+            return False
+        if b.startDate >= startDate and b.endDate <= endDate:
+            return False
+    
+    
+    # if all checks pass create the booking
+    booking = Booking(listingId=listing.id, userId=user.id, startDate=startDate,
+                      endDate=endDate)
+    db.session.add(booking)
+
+    # update user balance
+    user.balance -= listing.price
+ 
+    db.session.commit()
+ 
+    return True
  
 def updateListing(field, new, listing):
     '''
