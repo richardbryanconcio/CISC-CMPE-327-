@@ -11,7 +11,7 @@ import random
 This file defines all integration tests for the frontend create listing page.
 """
 
-"""
+
 class FrontEndCreateListingTest(BaseCase):
     # create a user for testing, if it already exists in the db then pass
     # should be replaced with a login once authentication is up and running
@@ -30,8 +30,8 @@ class FrontEndCreateListingTest(BaseCase):
         # a set of valid inputs for creating a listing
         desciption = "This is a test description"
         price = "100"
-        startDate = "01/01/2022"
-        endDate = "01/01/2024"
+        startDate = "002022-01-01/2022"
+        endDate = "002024-01/01"
 
         # p1 = title with a space prefix
         # expected = fail
@@ -98,8 +98,8 @@ class FrontEndCreateListingTest(BaseCase):
         description = ''.join(random.choice(
             'abcdefghijklmnopqrstuvwxyz') for i in range(161))
         price = "100"
-        startDate = "01/01/2022"
-        endDate = "01/01/2024"
+        startDate = "002022-01-01"
+        endDate = "002024-01-01"
 
         # p1 = title is 80 characters long
         # expected = pass
@@ -177,8 +177,8 @@ class FrontEndCreateListingTest(BaseCase):
         # a set of valid inputs for creating a listing
         title = title = "r4 3 1"
         price = "100"
-        startDate = "01/01/2022"
-        endDate = "01/01/2024"
+        startDate = "002022-01-01"
+        endDate = "002024-01-01"
 
         # p1 = description is 20 characters long
         # expected = pass
@@ -267,8 +267,8 @@ class FrontEndCreateListingTest(BaseCase):
         '''
         # a set of valid inputs for creating a listing
         price = "100"
-        startDate = "01/01/2022"
-        endDate = "01/01/2024"
+        startDate = "002022-01-01"
+        endDate = "002024-01-01"
 
         # p1 = title is 20 character long, description is 22 characters long
         # expected = pass
@@ -373,8 +373,8 @@ class FrontEndCreateListingTest(BaseCase):
         title = "r4 5 1"
         description = "This is a test description"
         price = "100"
-        startDate = "01/01/2022"
-        endDate = "01/01/2024"
+        startDate = "002022-01-01"
+        endDate = "002024-01-01"
 
         # p1 = price is 20
         # expected = pass
@@ -467,16 +467,36 @@ class FrontEndCreateListingTest(BaseCase):
     def test_r4_8_create_listing(self, *_):
         '''
         R4-8: A user cannot create products that have the same title.
-
         tested using input partion testing
         '''
-
+       
+        self.open(base_url + '/register')
+        self.type("#email", "booktesting81@gmail.com")
+        self.type("#name", "UserBookTest81")
+        self.type("#password", "Testing01!")
+        self.type("#password2", "Testing01!")
+        self.click('input[type="submit"]')
+ 
+        # Checks that user is redirected to login page
+        # after successful registration
+#        assert self.get_current_url() == base_url + '/login'
+ 
+        # Checks if 'Sign in' header is present
+#        self.assert_text("Sign in", "h2")
+        # Checks if line of text is present
+#        self.assert_text("Enter your email and password", "h4")
+ 
+        # R1-1, R2-1, R3-1
+        # Entered email and password of registered account
+        self.type("#email", "booktesting81@gmail.com")
+        self.type("#password", "Testing01!")
+ 
         # a set of valid inputs for creating a listing
         desciption = "This is a test description"
         price = "100"
-        startDate = "01/01/2022"
-        endDate = "01/01/2024"
-
+        startDate = "002023-01-01"
+        endDate = "002023-02-01"
+ 
         # p1 = create listing with a unique title
         # expected = success
         self.open(base_url + '/createListing')
@@ -488,7 +508,6 @@ class FrontEndCreateListingTest(BaseCase):
         self.click('input[type="submit"]')
         # check we are redirected to home
         assert self.get_current_url() == base_url + "/"
-
         # p2 = create listing identical to p1
         # expected = fail
         self.open(base_url + '/createListing')
@@ -501,19 +520,18 @@ class FrontEndCreateListingTest(BaseCase):
         # check invalid message is shown
         assert self.get_current_url() == base_url + '/createListing'
         self.assert_text(
-            "creating listing failed, please try again", "#message")
-
+            "creating listing failed, please try again", "h4")
+ 
         # p3 = create listing where only the title is the same
         # expected = fail
         self.open(base_url + '/createListing')
         self.type("#title", "unqiue title")
         self.type("#description", "new description that is different")
         self.type("#price", 900)
-        self.type("#startDate", "01/20/2022")
-        self.type("#endDate", "01/20/2024")
+        self.type("#startDate", "002023-01-20")
+        self.type("#endDate", "002023-02-20")
         self.click('input[type="submit"]')
         # check invalid message is shown
         assert self.get_current_url() == base_url + '/createListing'
         self.assert_text(
-            "creating listing failed, please try again", "#message")
-"""
+            "creating listing failed, please try again", "h4")
