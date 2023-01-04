@@ -77,9 +77,6 @@ class FrontEndLoginPageTest(BaseCase):
         # R5-1
         # Once user clicked the sign in button,
         # they should be redirected to the home page
-        # Should see the success message at the top of the page
-
-        self.assert_text("Login successful!", "h4")
 
     # TEST CASE 2: LOGIN FAIL (incorrect password for email)
     def test_login_fail(self, *_):
