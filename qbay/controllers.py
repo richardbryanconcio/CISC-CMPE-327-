@@ -21,7 +21,7 @@ def register_get():
     # templates are stored in the templates folder
     return render_template('register.html', message='')
 
- 
+
 @app.route('/register', methods=['POST'])
 def register_post():
     # get user's email address to register/sign up
@@ -34,10 +34,10 @@ def register_post():
     error_message = None
     upper, lower, special = 0, 0, 0
     specialChar = ".!@#$%&*"
- 
+
     if password != password2:
         error_message = "The passwords do not match"
-   
+
     else:
         # use backend api to register the user
         success = register(name, email, password)
@@ -45,7 +45,7 @@ def register_post():
             # if the user registration failes, the bottom conditional
             # statements are used to print out the error message
             error_message = "Registration failed. "
-           
+
             password_success = passwordValidation(password)
             if not password_success:
                 if (len(password) < 6):
@@ -63,11 +63,11 @@ def register_post():
                     if not ((upper >= 1 and lower >= 1 and special >= 1)):
                         error_message = "Registration failed. Password does \
     not meet the required complexity. A password must have \
-    minimum 1 upper case, 1 lowercase, and 1 special character. "  
-           
+    minimum 1 upper case, 1 lowercase, and 1 special character. "
+
             username_success = usernameValidation(name)
             if not username_success:
- 
+
                 if (len(name) <= 2):
                     error_message = "Registration failed. Username is \
 too short. It cannot be empty and has to be longer than 2 character"
@@ -80,14 +80,14 @@ prefeix or suffix cannot be space"
                 elif (not all(i.isalnum() or i.isspace() for i in name)):
                     error_message = "Registration failed. Username can only \
 be alphanumeric with space allowed(but not at the start or end of a username."
- 
+
             email_success = checkemail(email)
             if not email_success:
                 if (len(email) <= 4):
                     error_message = "Registration failed. E-mail is too short."
                 else:
                     error_message = "Registration failed. E-mail is not valid."
- 
+
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
     if error_message:
@@ -104,9 +104,11 @@ def home_get():
     if 'username' in session:
         user = User.query.filter_by(username=session['username']).first()
         bookings = Booking.query.filter_by(userId=user.id).all()
-        return render_template('home.html', products=products, bookings=bookings)
+        return render_template('home.html', products=products,
+                               bookings=bookings)
     else:
-        return render_template('login.html', message='please login to access the site')
+        return render_template('login.html',
+                               message='please login to access the site')
 
 
 @app.route('/listing/<listingId>')
@@ -250,7 +252,7 @@ def updateListing_get(listingId):
 
     return render_template('updateListing.html',
                            message="please input which fields to change")
-                           
+
 
 # Create Authentication
 def authenticate(inner_function):
@@ -286,15 +288,18 @@ def authenticate(inner_function):
     # return the wrapped version of the inner_function:
     return wrapped_inner
 
+
 @app.route('/bookListing/<listingId>', methods=['GET'])
 def bookListing_get(listingId):
-    # pass all current bookings for the listing to the template 
+    # pass all current bookings for the listing to the template
     bookings = Booking.query.filter_by(listingId=listingId).all()
 
     # pass the listing
     listing = Listing.query.filter_by(id=listingId).first()
 
-    return render_template('bookListing.html', bookings=bookings, listing=listing)
+    return render_template('bookListing.html', bookings=bookings,
+                           listing=listing)
+
 
 @app.route('/bookListing/<listingId>', methods=['POST'])
 def bookListing_post(listingId):
@@ -319,7 +324,9 @@ def bookListing_post(listingId):
 
     if not success:
         errorMessage = "booking failed, please try again"
-        return render_template('bookListing.html', listing=listing, bookings=bookings, message=errorMessage)
+        return render_template('bookListing.html',
+                               listing=listing,
+                               bookings=bookings, message=errorMessage)
     else:
         return redirect('/')
 
@@ -336,7 +343,7 @@ class LoginForm(FlaskForm):
 @app.route('/login', methods=['GET'])
 def login_get():
     # return back to the login template
-    return render_template('login.html', 
+    return render_template('login.html',
                            message='Enter your email and password')
 
 
@@ -346,7 +353,7 @@ def login_post():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        # invalidCharStrings = "Invalid number of characters 
+        # invalidCharStrings = "Invalid number of characters
         #       in email or password. Minimum 6 characters."
         # success_message = "Login was successful!"
         success_message = "Login successful!"
@@ -370,10 +377,10 @@ def login_post():
         success = login(email, password)
         if success:
             session['logged_in'] = success.id
-            if (checkemail(email) and 
+            if (checkemail(email) and
                     passwordValidation(password)):
                 if email == success.email and password == success.password:
-                    return render_template('home.html', 
+                    return render_template('home.html',
                                            message=success_message)
 
         if not success:
@@ -387,15 +394,15 @@ def login_post():
 
             elif not (checkemail(email)):
                 if email != success.email:
-                    return render_template('login.html', 
+                    return render_template('login.html',
                                            message=unregisteredEmail)
                 else:
-                    return render_template('login.html', 
+                    return render_template('login.html',
                                            message=incorrectEmail)
 
             elif not (passwordValidation(password)):
                 if password != success.password:
-                    return render_template('login.html', 
+                    return render_template('login.html',
                                            message=unregisteredPass)
                 else:
                     return render_template('login.html', message=incorrectPass)
@@ -472,7 +479,7 @@ def updateEmail_get():
 def updateEmail_post(userId):
     user = User.query.filter_by(id=userId).first()
     newEmail = request.form.get('email')
-    
+
     msg = []
 
     success = update('email', user, newEmail)
@@ -496,9 +503,9 @@ def updatePassword_post(userId):
     user = User.query.filter_by(id=userId).first()
     newPass = request.form.get('password')
     confNewPass = request.form.get('confPassword')
-    
+
     msg = []
-    
+
     success = update('password', user, newPass)
     if not success:
         msg.append("password is invalid")
@@ -520,7 +527,7 @@ def updateBillingAddress(userId):
     user = User.query.filter_by(id=userId).first()
     newPostal = request.form.get('postalCode')
     newAddress = request.form.get('address')
-    
+
     msg = []
     if newPostal:
         success = update('postalCode', user, newPostal)

@@ -3,17 +3,17 @@ from flask_sqlalchemy import SQLAlchemy
 import re
 from email_validator import validate_email, EmailNotValidError
 from datetime import date, datetime
- 
+
 from flask_login import UserMixin
- 
+
 '''
 This file defines data models and related business logics
 '''
- 
- 
+
+
 db = SQLAlchemy(app)
- 
- 
+
+
 # User defines listings of the time it is available and also the price
 # of listings for the day.
 class Listing(db.Model):
@@ -26,11 +26,11 @@ class Listing(db.Model):
     # describes from which dates the property is avalible
     startDate = db.Column(db.Date, nullable=False)
     endDate = db.Column(db.Date, nullable=False)
- 
+
     def __repr__(self):
         return '<Listing Title %r>' % self.title
- 
- 
+
+
 # Allows users to book existing listings.
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -38,11 +38,11 @@ class Booking(db.Model):
     userId = db.Column(db.Integer, nullable=False)
     startDate = db.Column(db.Date, nullable=False)
     endDate = db.Column(db.Date, nullable=False)
- 
+
     def __repr__(self):
         return '<Booking ID %r>' % self.id
- 
- 
+
+
 # Within the database model - it contains an id, username, and email column
 # Therefore, the model has access to id, username, and email databases
 class User(db.Model, UserMixin):
@@ -53,11 +53,11 @@ class User(db.Model, UserMixin):
     billingAddress = db.Column(db.String)
     postalCode = db.Column(db.String)
     balance = db.Column(db.Float, nullable=False)
- 
+
     def __repr__(self):
         return '<User %r>' % self.username
- 
- 
+
+
 # Setting up a Review data model to allow verified
 # guest to the listing to leave a review of their stay at the property.
 class Review(db.Model):
@@ -67,14 +67,15 @@ class Review(db.Model):
     dateReviewed = db.Column(db.String(30), nullable=False)
     userId = db.Column(db.Integer, nullable=False)
     listingId = db.Column(db.Integer, nullable=False)
- 
+
     def __repr__(self):
         return '<Review ID %r>' % self.id
- 
- 
+
+
 # create all tables
 db.create_all()
- 
+
+
 def register(name, email, password):
     '''
     Register a new user
@@ -89,16 +90,16 @@ def register(name, email, password):
     existed = User.query.filter_by(email=email).all()
     if len(existed) > 0:
         return None
- 
+
     if len(email) == 0 or (checkemail(email) is False):
         return None
- 
+
     if len(password) == 0 or (passwordValidation(password) is False):
         return None
- 
+
     if usernameValidation(name) is False:
         return None
- 
+
     # R1-8: Shipping address is empty at the time of registration.
     # name.billingAddress = None
     # R1-9: Postal code is empty at the time of registration.
@@ -106,18 +107,18 @@ def register(name, email, password):
     # R1-10: Balance should be initialized as 100 at the time
     # of registration. (free $100 dollar signup bonus).
     # name.balance = 100
- 
+
     # create a new user
     user = User(email=email, password=password, username=name,
                 billingAddress=None, postalCode=None, balance=100)
- 
+
     # add it to the current database session
     db.session.add(user)
     # actually save the user object
     db.session.commit()
     return user
- 
- 
+
+
 def login(email, password):
     '''
     Check login information
@@ -131,11 +132,11 @@ def login(email, password):
     if len(email) == 0:
         return None
         print("Email is empty")
- 
+
     if len(password) == 0:
         return None
         print("Password is empty")
- 
+
     # Tests if it has an uppercase, lowercase, contains a digit,
     # or if string length is above 6
     if (any(x.isupper() for x in password) and
@@ -143,15 +144,15 @@ def login(email, password):
         any(x.isdigit() for x in password) and
             len(password) >= 6) is False:
         return None
- 
+
     # Validating the data of emails and passwords from the database
     validatedAccounts = User.query.filter_by(
         email=email, password=password).all()
     if len(validatedAccounts) != 1:
         return None
     return validatedAccounts[0]
- 
- 
+
+
 def update(field, user, new):
     '''
     Update login information
@@ -161,69 +162,69 @@ def update(field, user, new):
       Returns:
         True if the change went through false if operation failed
     '''
- 
+
     if field == 'username':
         if len(new) <= 0 or len(new) > 80:
             return False
         if new[0] == ' ' or new[len(new) - 1] == ' ':
             return False
- 
+
         temp = new.replace(' ', '')
         if not temp.isalnum():
             return False
- 
+
         existed = User.query.filter_by(username=new).all()
         if len(existed) > 0:
             return False
- 
+
         user.username = new
         db.session.commit()
         return True
- 
+
     elif field == 'email':
         if len(new) <= 0 or len(new) > 120:
             return False
         if new[0] == ' ' or new[len(new) - 1] == ' ':
             return False
- 
+
         existed = User.query.filter_by(email=new).all()
         if len(existed) > 0:
             return False
- 
+
         if not checkemail(new):
             return False
- 
+
         user.email = new
         db.session.commit()
         return True
- 
+
     elif field == "billingAddress":
         if new[0] == ' ' or new[len(new) - 1] == ' ':
             return False
         if len(new) <= 0:
             return False
- 
+
         user.billingAddress = new
         db.session.commit()
         return True
- 
+
     elif field == "postalCode":
         if len(new) <= 0 or len(new) > 7:
             return False
         if new[0] == ' ' or new[len(new) - 1] == ' ':
             return False
- 
+
         if not checkpostal(new):
             return False
- 
+
         existed = User.query.filter_by(postalCode=new).all()
         if len(existed) > 0:
             return False
- 
+
         user.postalCode = new
         db.session.commit()
         return True
- 
+
     return False
 
 
@@ -247,49 +248,50 @@ def createListing(title, description, price, userId, startDate, endDate):
     existed = Listing.query.filter_by(title=title).all()
     if len(existed) > 0:
         return None
- 
+
     # check if title has leading or trailing white space
     # option avalible trim title in the future
     # instead of not creating the listing
     if title[0] == ' ' or title[len(title) - 1] == ' ':
         return None
- 
+
     # check if title is alphanumeric excluding spaces
     tempTitle = title.replace(' ', '')
     if not tempTitle.isalnum():
         return None
- 
+
     # check if title is proper length
     if len(title) > 80 or title == '':
         return None
- 
+
     # check if description is proper length
     if len(description) > 2000 or len(description) < 20:
         return None
- 
+
     # check if description is shorter then title
     if len(description) <= len(title):
         return None
- 
+
     # check if price is within proper range
     if price < 10 or price > 10000:
         return None
- 
+
     # check if end date is after start date
     if endDate < startDate:
         return None
- 
+
     # if all checks pass create the listing
     listing = Listing(title=title, description=description, price=price,
                       lastModifiedDate=date.today(),
                       ownerId=userId, startDate=startDate, endDate=endDate)
 
     db.session.add(listing)
- 
+
     db.session.commit()
- 
+
     return listing
- 
+
+
 def bookListing(listingId, userId, startDate, endDate):
     '''
     Book a listing
@@ -302,7 +304,8 @@ def bookListing(listingId, userId, startDate, endDate):
         A user can book a listing.
         A user cannot book a listing for his/her listing.
         A user cannot book a listing that costs more than his/her balance.
-        A user cannot book a listing that is already booked with the overlapped dates.
+        A user cannot book a listing that is already booked 
+            with the overlapped dates.
         A user cannot book a listing that is before the listing's start date.
         A user cannot book a listing that is after the listing's end date.
         A user cannot book a listing that is before today.
@@ -325,12 +328,12 @@ def bookListing(listingId, userId, startDate, endDate):
         print(user.balance)
         print(listing.price)
         return False
- 
+
     # check if user is the owner of the listing
     if user.id == listing.ownerId:
         print("user is owner")
         return False
-    
+
     # convert startdate to date time
     startDate = datetime.strptime(startDate, '%Y-%m-%d')
     endDate = datetime.strptime(endDate, '%Y-%m-%d')
@@ -341,17 +344,17 @@ def bookListing(listingId, userId, startDate, endDate):
     if startDate < datetime.date(datetime.today()):
         print("start date is before today")
         return False
-    
+
     # check if start date is before listing start date
     if startDate < listing.startDate:
         print("start date is before listing start date")
         return False
-    
+
     # check if end date is after listing end date
     if endDate > listing.endDate:
         print("end date is after listing end date")
         return False
- 
+
     # check if listing is already booked
     booked = Booking.query.filter_by(listingId=listing.id).all()
     for b in booked:
@@ -361,20 +364,20 @@ def bookListing(listingId, userId, startDate, endDate):
             return False
         if b.startDate >= startDate and b.endDate <= endDate:
             return False
-    
-    
+
     # if all checks pass create the booking
-    booking = Booking(listingId=listing.id, userId=user.id, startDate=startDate,
-                      endDate=endDate)
+    booking = Booking(listingId=listing.id, userId=user.id,
+                      startDate=startDate, endDate=endDate)
     db.session.add(booking)
 
     # update user balance
     user.balance -= listing.price
- 
+
     db.session.commit()
- 
+
     return True
- 
+
+
 def updateListing(field, new, listing):
     '''
     Update an existing listing
@@ -406,7 +409,7 @@ def updateListing(field, new, listing):
         # length of title can not be longer then description
         if len(new) > len(listing.description):
             return False
- 
+
         listing.title = new
         listing.lastModifiedDate = date.today()
         db.session.commit()
@@ -416,7 +419,7 @@ def updateListing(field, new, listing):
         # must contain more characters then the title
         if len(new) < 20 or len(new) > 2000 or len(new) <= len(listing.title):
             return False
- 
+
         listing.description = new
         listing.lastModifiedDate = date.today()
         db.session.commit()
@@ -425,7 +428,7 @@ def updateListing(field, new, listing):
         # price can not be reduced, price can not be above 10000
         if new > 10000 or new < listing.price:
             return False
- 
+
         listing.price = new
         listing.lastModifiedDate = date.today()
         db.session.commit()
@@ -435,7 +438,7 @@ def updateListing(field, new, listing):
         new = datetime.date(new)
         if new < date.today() or new > listing.endDate:
             return False
- 
+
         listing.startDate = new
         listing.lastModifiedDate = date.today()
         db.session.commit()
@@ -445,31 +448,31 @@ def updateListing(field, new, listing):
         new = datetime.date(new)
         if new < listing.startDate:
             return False
- 
+
         listing.endDate = new
         listing.lastModifiedDate = date.today()
         db.session.commit()
         return True
     else:
         return False
- 
- 
+
+
 def checkpass(password):
     regexpass = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\W_]{6,}$"
     if re.fullmatch(regexpass, password):
         return True
     else:
         return False
- 
- 
+
+
 def checkpostal(postal):
     regexpostal = r"^[a-zA-Z][0-9][a-zA-Z] ?[0-9][a-zA-Z][0-9]"
     if re.fullmatch(regexpostal, postal):
         return True
     else:
         return False
- 
- 
+
+
 def checkemail(email):
     try:
         v = validate_email(email)
@@ -477,13 +480,13 @@ def checkemail(email):
         return True
     except EmailNotValidError as e:
         return False
- 
+
 # R1-5: User name has to be non-empty, alphanumeric-only, and space
 # allowed only if it is not as the prefix or suffix.
 # R1-6: User name has to be longer than 2 characters and
 # less than 20 characters.
- 
- 
+
+
 def usernameValidation(username: str):
     if len(username) <= 2:
         print("username is too short. \
@@ -501,13 +504,13 @@ def usernameValidation(username: str):
         return False
     else:
         return True
- 
+
 # R1-3: The email has to follow addr-spec defined in RFC 5322
 # (see https://en.wikipedia.org/wiki/Email_address for a human-friendly
 # explanation). You can use external libraries/imports.
 # Check if input email is valid based on the given regular expression.
- 
- 
+
+
 def emailValidation(email):
     regex = re.compile(r'([A-Za-z0-9]+[.-_+])*[A-Za-z0-9]+@'
                        r'[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
@@ -517,8 +520,8 @@ def emailValidation(email):
     else:
         print("This is an invalid email")
         return False
- 
- 
+
+
 # R1-4: Password has to meet the required complexity: minimum length 6,
 # at least one upper case, at least one lower case,
 # and at least one special character.
