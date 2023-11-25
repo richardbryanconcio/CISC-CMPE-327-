@@ -9,7 +9,8 @@
 - A verified guest can review listings made by other users.
 - User payment is directly through their balance on the online application.
 - A user can add money to their account through online banking (transfer directly from their own banking account).
-- The program is built using Qt Studio and C++.
+- The program is built using Python, HTML, and CSS.
+- Deployed using Docker.
 
 🚀 This project incorporates the SCRUM method with daily scrum meetings and updates and sprints.
 
