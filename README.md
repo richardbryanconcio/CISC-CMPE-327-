@@ -13,13 +13,14 @@
 🚀 This project incorporates the SCRUM method with daily scrum meetings and updates and sprints.
 
 ## Project Division Leads
+SCRUM Master - Anton Gudonis
 Backend Development Lead - Anton Gudonis, Richard Bryan Concio
 Frontend Development Lead - Richard Bryan Concio, Anjali Patel
 
 | Lead | Feature |
 | ----------- | ----------- |
 | Richard Bryan Concio | Login Function, Integration Testing, Docker, Security/Deployment |
-| Anton Gudonis | SCRUM Master | Create Listings, Integration Testing, Security/Deployment |
+| Anton Gudonis | Create Listings, Integration Testing, Security/Deployment |
 | Anjali Patel | Register Function, Integration Testing, Security/Deployment |
 | Isaac Schneider | Update Listings, Integration Testing |
 
