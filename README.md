@@ -1,8 +1,9 @@
 # Pocket Rentals • A website to manage and create listings (via C2C) for available apartments/housing.
-![Pocket Rentals Logo](https://github.com/richardbryanconcio/Pocket-Rentals/assets/101062026/4935be7c-e495-4530-a179-a568a45e32a5)
-(Logo created by Richard Bryan Concio)
 > Richard Bryan Concio • Anton Gudonis • Anjali Patel • Isaac Schneider
+![Pocket Rentals Logo](https://github.com/richardbryanconcio/Pocket-Rentals/assets/101062026/4935be7c-e495-4530-a179-a568a45e32a5)
+> (Logo created by Richard Bryan Concio)
 
+# What is Pocket Rentals?
 - Consists of a sign in page with email and passwords to an existing account.
 - Users are able to create and book listings for housing/apartment rentals through an online application.
 - A verified guest can review listings made by other users.
