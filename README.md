@@ -13,9 +13,9 @@
 🚀 This project incorporates the SCRUM method with daily scrum meetings and updates and sprints.
 
 ## Project Division Leads
-SCRUM Master - Anton Gudonis
-Backend Development Lead - Anton Gudonis, Richard Bryan Concio
-Frontend Development Lead - Richard Bryan Concio, Anjali Patel
+- SCRUM Master - Anton Gudonis
+- Backend Development Lead - Anton Gudonis, Richard Bryan Concio
+- Frontend Development Lead - Richard Bryan Concio, Anjali Patel
 
 | Lead | Feature |
 | ----------- | ----------- |
